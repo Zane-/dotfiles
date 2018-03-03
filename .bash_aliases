@@ -26,3 +26,6 @@ alias ccp="cd /mnt/c/Users/Zane/Documents/Projects/cryptobot && source venv/bin/
 alias gpom="git push -u origin master"
 alias sshcs="ssh zb7aa@labunix01.cs.virginia.edu"
 alias a="./a.out"
+alias clang++="clang++-5.0"
+alias cpp="clang++-5.0"
+alias cdb="clang++-5.0 -Wall -g"

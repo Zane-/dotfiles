@@ -40,6 +40,7 @@ zstyle ':prezto:load' pmodule \
   'python' \
   'syntax-highlighting' \
   'history-substring-search' \
+  'autosuggestions' \
   'prompt'
 
 # Set the prompt theme to load.

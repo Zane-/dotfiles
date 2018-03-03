@@ -25,20 +25,22 @@ Plugin 'bronson/vim-trailing-whitespace'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
-set directory=~/.vim/backup/tmp " where swp files go
+
 set ignorecase " ignore case when searching
 set number
 " show existing tab with 4 spaces width
 set tabstop=4
 " when indenting with '>', use 4 spaces width
 set shiftwidth=4
+set cursorline
 
-:imap jk <Esc>
+" Remaps
+imap jk <Esc>
 
 " Colors
 syntax on
-set background=dark
-colorscheme Dark
+"set background=dark
+"colorscheme Dark
 
 " Status bar
 let g:airline_theme='minimalist'

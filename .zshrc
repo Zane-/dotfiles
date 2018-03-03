@@ -93,4 +93,4 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 source ~/.bash_aliases # port alises
-sources ~/.utilfuncs # functions for stuff
+source ~/.utilfuncs # functions for stuff

@@ -22,7 +22,6 @@ Plugin 'octol/vim-cpp-enhanced-highlight' "additional cpp syntax support
 Plugin 'rstacruz/sparkup' "html expander
 Plugin 'airblade/vim-gitgutter' "show added/deleted lines in gutter
 Plugin 'bronson/vim-trailing-whitespace' "show trailing whitespace as red bg
-
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -37,6 +36,10 @@ set shiftwidth=4       " make indents correspond to one tab
 set cursorline         " underline current line
 set smartindent        " indent after brackets
 set clipboard+=unnamed " use systemwide clipboard
+set foldmethod=indent
+set foldminlines=5
+set foldlevelstart=1
+set vb
 
 " Remaps
 let mapleader   = "," " remap leader to ,
@@ -50,9 +53,6 @@ map <Right> :tabnext<CR>
 map <leader>tq :tabclose<CR>
 " delete trailing whitespace
 nmap <leader>dw :%s/\s\+$//<CR>
-set foldmethod=indent
-set foldminlines=5
-set foldlevelstart=1
 " move lines with Shift + Up/Down
 nnoremap <S-Up> :m-2<CR>
 nnoremap <S-Down> :m+<CR>

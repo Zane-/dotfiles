@@ -15,10 +15,13 @@ Plugin 'vim-airline/vim-airline-themes'
 Plugin 'valloric/youcompleteme' "autocompletion engine, must compile
 Plugin 'easymotion/vim-easymotion' "jump to any word with ease
 Plugin 'tpope/vim-surround'
-Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'ctrlpvim/ctrlp.vim' " fuzzyfinder
 
 Plugin 'flazz/vim-colorschemes' " a bunch of colorschemes
 Plugin 'octol/vim-cpp-enhanced-highlight' "additional cpp syntax support
+Plugin 'w0rp/ale' " linting
+Plugin 'pangloss/vim-javascript' " javascript support
+Plugin 'mxw/vim-jsx' " react support
 Plugin 'rstacruz/sparkup' "html expander
 Plugin 'airblade/vim-gitgutter' "show added/deleted lines in gutter
 Plugin 'bronson/vim-trailing-whitespace' "show trailing whitespace as red bg
@@ -37,7 +40,8 @@ set cursorline         " underline current line
 set smartindent        " indent after brackets
 set clipboard+=unnamed " use systemwide clipboard
 set foldmethod=indent
-set foldminlines=4     " number of lines before vim considers a block foldable
+set nofoldenable
+set foldminlines=5     " number of lines before vim considers a block foldable
 set foldlevelstart=1
 set vb                 " visual bell
 
@@ -104,3 +108,4 @@ let NERDTreeShowHidden=1
 
 " CtrlP
 let g:ctrlp_show_hidden = 1
+

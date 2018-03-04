@@ -14,6 +14,8 @@ Plugin 'vim-airline/vim-airline-themes'
 
 Plugin 'valloric/youcompleteme' "autocompletion engine, must compile
 Plugin 'easymotion/vim-easymotion' "jump to any word with ease
+Plugin 'tpope/vim-surround'
+Plugin 'ctrlpvim/ctrlp.vim'
 
 Plugin 'flazz/vim-colorschemes' " a bunch of colorschemes
 Plugin 'octol/vim-cpp-enhanced-highlight' "additional cpp syntax support
@@ -29,6 +31,7 @@ filetype plugin indent on    " required
 set ignorecase         " ignore case when searching
 set smartcase          " override ignore case if pattern contains uppercase letters
 set number             " line numbers
+set relativenumber     " hybrid numbering
 set tabstop=4          " make tabs 4-spaces wide
 set shiftwidth=4       " make indents correspond to one tab
 set cursorline         " underline current line
@@ -99,3 +102,5 @@ autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 map <C-n> :NERDTreeToggle<CR>
 let NERDTreeShowHidden=1
 
+" CtrlP
+let g:ctrlp_show_hidden = 1

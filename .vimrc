@@ -41,7 +41,7 @@ set smartindent        " indent after brackets
 set clipboard+=unnamed " use systemwide clipboard
 set foldmethod=indent
 set foldminlines=5     " number of lines before vim considers a block foldable
-set foldlevelstart=1
+set foldlevelstart=99
 set vb                 " visual bell
 
 " Remaps

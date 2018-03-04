@@ -40,7 +40,6 @@ set cursorline         " underline current line
 set smartindent        " indent after brackets
 set clipboard+=unnamed " use systemwide clipboard
 set foldmethod=indent
-set nofoldenable
 set foldminlines=5     " number of lines before vim considers a block foldable
 set foldlevelstart=1
 set vb                 " visual bell

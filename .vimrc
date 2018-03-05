@@ -107,4 +107,4 @@ let NERDTreeShowHidden=1
 
 " CtrlP
 let g:ctrlp_show_hidden = 1
-
+let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist)|(\.(swp|ico|git|svn))$'

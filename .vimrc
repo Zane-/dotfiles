@@ -49,11 +49,21 @@ let mapleader   = "," " remap leader to ,
 let g:mapleader = ","
 imap jk <Esc>
 imap kj <Esc>
-" Tabs
+nmap <leader>w :w!<CR>
+nmap <leader>q :q<CR>
+map <leader>bd :bd<CR>
+ " Window navigation
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C->l
+ " Search
+nmap <space> /
+ " Tabs
 nnoremap <C-t> :tabnew<CR>
 map <Left> :tabprevious<CR>
 map <Right> :tabnext<CR>
-map <leader>tq :tabclose<CR>
+map <leader>tc :tabclose<CR>
 " delete trailing whitespace
 nmap <leader>dw :%s/\s\+$//<CR>
 " move lines with Shift + Up/Down
@@ -62,10 +72,10 @@ nnoremap <S-Down> :m+<CR>
 inoremap <S-Up> <Esc>:m-2<CR>i
 inoremap <S-Down> <Esc>:m+<CR>i
 
-" TComment
+ " TComment
 noremap <leader>cc :TComment<CR>
 
-" Folding
+ " Folding
 function Fold()
 	if foldlevel('.') == 0
 		normal! 1

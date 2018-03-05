@@ -94,7 +94,7 @@ hi Folded ctermbg=0
 
 " Colors
 syntax on
-"set background=dark
+hi Visual ctermfg=NONE ctermbg=241 cterm=NONE guifg=NONE guibg=#44475a gui=NONE
 "colorscheme Dark
 
 " Airline
@@ -117,4 +117,5 @@ let NERDTreeShowHidden=1
 
 " CtrlP
 let g:ctrlp_show_hidden = 1
+" ignore node_modules et al
 let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist)|(\.(swp|ico|git|svn))$'

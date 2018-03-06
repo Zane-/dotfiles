@@ -1,9 +1,0 @@
-alias cdcs="cd /mnt/c/Users/Zane/Documents/CS2150"
-alias cdd="cd /mnt/c/Users/Zane/Downloads && ls"
-alias cddd="cd /mnt/c/Users/Zane/Documents/ && ls"
-alias cdp="cd /mnt/c/Users/Zane/Documents/Projects"
-alias cdcsl="cd /mnt/c/Users/Zane/Documents/CS2150/Labsalias cdcr="cd /mnt/c/Users/Zane/Documents/Projects/cryptobot && source venv/bin/activate && cd cryptobot"
-
-alias ccp="cd /mnt/c/Users/Zane/Documents/Projects/cryptobot && source venv/bin/activate && cd cryptobot && python check_balance.py"
-
-alias sshcs="sshpass -f ~/.ssh/cspw.txt ssh zb7aa@labunix01.cs.virginia.edu"

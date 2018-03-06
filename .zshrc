@@ -1,5 +1,6 @@
-source ~/dotfiles/.aliases # port alises
-source ~/dotfiles/.utilfuncs # functions for stuff
+export EDITOR=vim # set default editor to vim
+
+source ~/dotfiles/.aliases # copy alises
 source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 
 # Defer initialization of nvm until nvm, node or a node-dependent command is

@@ -15,7 +15,6 @@ alias ...="cd ../.."
 alias ....="cd ../../.."
 
 # package manager
-alias ag="sudo apt-get"
 alias agi="sudo apt-get install"
 alias agu="sudo apt-get update"
 alias agup="sudo apt-get upgrade"

@@ -25,6 +25,9 @@ if [ ! -d ~/.vim/bundle/Vundle.vim ]; then
 	fi
 fi
 
+# make vim undodir
+mkdir -p ~/.vim/undodir
+
 # link ycm config
 if [ -f ~/.vim/.ycm_extra_conf.py ]; then
 	mv ~/.vim/.ycm_extra_conf.py ~/dotfiles/backups

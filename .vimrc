@@ -81,6 +81,7 @@ set visualbell            " visual bell
 "--------------------------------"
 let mapleader   = "," " remap leader to ,
 let g:mapleader = ","
+" easy normal mode
 imap jk <Esc>
 imap kj <Esc>
 " easy command input
@@ -116,10 +117,10 @@ nmap <space> /
 nmap <silent> <leader><space> :nohlsearch<cr>
 
 " Tabs
-nnoremap <C-t> :tabnew<cr>
+nnoremap <silent> <C-t> :tabnew<cr>
 map <silent> <Left> :tabprevious<cr>
 map <silent> <Right> :tabnext<cr>
-map  <leader>tc :tabclose<cr>
+map <silent> <leader>tc :tabclose<cr>
 
 " delete trailing whitespace
 nmap <silent> <leader>dw :%s/\s\+$//<cr>
@@ -232,13 +233,13 @@ let NERDTreeShowHidden=1
 "           Startify             "
 "--------------------------------"
 let g:startify_custom_header = [
-\ '             ___      ___ ___  _____ ______',
-\ '            |\  \    /  /|\  \|\   _ \  _   \ ',
-\ '            \ \  \  /  / | \  \ \  \\\__\ \  \ ',
-\ '             \ \  \/  / / \ \  \ \  \\|__| \  \ ',
-\ '              \ \    / /   \ \  \ \  \    \ \  \',
-\ '               \ \__/ /     \ \__\ \__\    \ \__\',
-\ '                \|__|/       \|__|\|__|     \|__|',
+\ '   ___      ___ ___  _____ ______',
+\ '  |\  \    /  /|\  \|\   _ \  _   \ ',
+\ '  \ \  \  /  / | \  \ \  \\\__\ \  \ ',
+\ '   \ \  \/  / / \ \  \ \  \\|__| \  \ ',
+\ '    \ \    / /   \ \  \ \  \    \ \  \',
+\ '     \ \__/ /     \ \__\ \__\    \ \__\',
+\ '      \|__|/       \|__|\|__|     \|__|',
 \ ]
 
 "--------------------------------"

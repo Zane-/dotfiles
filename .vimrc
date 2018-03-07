@@ -1,39 +1,42 @@
-set nocompatible " be iMproved, required
-filetype off     " required
-
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-
 """""""""""""""""""""""""""""""""""
 "            Plugins              "
 """""""""""""""""""""""""""""""""""
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'scrooloose/nerdtree' "filetree
-Plugin 'tomtom/tcomment_vim' "comment toggler
-Plugin 'easymotion/vim-easymotion' "jump to any word with ease
-Plugin 'ctrlpvim/ctrlp.vim' " fuzzyfinder
-Plugin 'mileszs/ack.vim' " search files for a pattern recursively
-Plugin 'vim-airline/vim-airline' "status line and tab bar
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'flazz/vim-colorschemes' " a bunch of colorschemes
+call plug#begin('~/.vim/plugged')
 
-Plugin 'octol/vim-cpp-enhanced-highlight' "additional cpp syntax support
-Plugin 'valloric/youcompleteme' "autocompletion engine, must compile
-Plugin 'w0rp/ale' " linting
-Plugin 'tpope/vim-surround'
-Plugin 'pangloss/vim-javascript' " javascript support
-Plugin 'mxw/vim-jsx' " react support
-Plugin 'rstacruz/sparkup' "html expander
-Plugin 'airblade/vim-gitgutter' "show added/deleted lines in gutter
-Plugin 'bronson/vim-trailing-whitespace' "show trailing whitespace as red bg
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
+Plug 'VundleVim/Vundle.vim'
+Plug 'scrooloose/nerdtree' "filetree
+Plug 'tomtom/tcomment_vim' "comment toggler
+Plug 'easymotion/vim-easymotion' "jump to any word with ease
+Plug 'ctrlpvim/ctrlp.vim' " fuzzyfinder
+Plug 'mileszs/ack.vim' " search files for a pattern recursively
+Plug 'vim-airline/vim-airline' "status line and tab bar
+Plug 'vim-airline/vim-airline-themes'
+Plug 'flazz/vim-colorschemes' " a bunch of colorschemes
+
+Plug 'octol/vim-cpp-enhanced-highlight' "additional cpp syntax support
+
+" Install and build YouCompleteMe
+function! BuildYCM(info)
+	if a:info.status == 'installed' || a:info.force
+		!./install.py --clang-completer
+	endif
+endfunction
+Plug 'valloric/youcompleteme', { 'do': function('BuildYCM') }
+
+Plug 'w0rp/ale' " linting
+Plug 'tpope/vim-surround'
+Plug 'pangloss/vim-javascript' " javascript support
+Plug 'mxw/vim-jsx' " react support
+Plug 'rstacruz/sparkup' "html expander
+Plug 'airblade/vim-gitgutter' "show added/deleted lines in gutter
+Plug 'bronson/vim-trailing-whitespace' "show trailing whitespace as red bg
+
+call plug#end()
 
 """""""""""""""""""""""""""""""""""
 "         General Config          "
 """""""""""""""""""""""""""""""""""
+filetype plugin indent on
 set hidden                " buffers can be in the bg without having to be saved
 set autoread              " autoreload changed files
 set nobackup
@@ -46,8 +49,8 @@ set cursorline            " underline current line
 set nowrap                " don't wrap lines
 
 set hlsearch              " highlight search hits
-set ignorecase            " ignore case when searching
 set incsearch             " show search hits as you type
+set ignorecase            " ignore case when searching
 set smartcase             " override ignore case if uppercase letters in pattern
 
 set tabstop=4             " make tabs 4-spaces wide
@@ -76,6 +79,9 @@ let g:mapleader = ","
 imap jk <Esc>
 imap kj <Esc>
 nnoremap ; :
+
+nmap <Up> <nop>
+nmap <Down> <nop>
 
 nmap <leader>w :w!<CR>
 nmap <leader>q :q<CR>

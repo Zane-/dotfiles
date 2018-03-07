@@ -3,8 +3,8 @@
 """""""""""""""""""""""""""""""""""
 call plug#begin('~/.vim/plugged')
 
-Plug 'VundleVim/Vundle.vim'
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' } " filetree
+Plug 'mhinz/vim-startify' " fancy start page
+Plug 'scrooloose/nerdtree' " filetree
 Plug 'tomtom/tcomment_vim' " comment toggler
 Plug 'easymotion/vim-easymotion' " jump to any word with ease
 Plug 'ctrlpvim/ctrlp.vim' " fuzzyfinder
@@ -166,6 +166,13 @@ autocmd filetype python nnoremap <F4> :w<cr> :!python %<cr>
 " Ruby
 autocmd filetype ruby nnoremap <F4> :w<cr> :!ruby %<cr>
 
+""""""""""""""""""""""""""""""""""
+"              ack               "
+""""""""""""""""""""""""""""""""""
+if executable('ag')
+	let g:ackprg = 'ag --vimgrep -U'
+endif
+
 """""""""""""""""""""""""""""""""""
 "            Airline              "
 """""""""""""""""""""""""""""""""""
@@ -174,21 +181,10 @@ let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 
 """""""""""""""""""""""""""""""""""
-"          YouCompleteMe          "
+"              ale                "
 """""""""""""""""""""""""""""""""""
-" let g:ycm_server_python_interpreter = '/usr/bin/python'
-" let g:ycm_python_binary_path = '/usr/bin/python3'
-" let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
-" set completeopt-=preview
-" highlight Pmenu ctermbg=0 ctermfg=5
-
-"""""""""""""""""""""""""""""""""""
-"            NERDTree             "
-"""""""""""""""""""""""""""""""""""
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-map <silent> <C-n> :NERDTreeToggle<cr>
-let NERDTreeShowHidden=1
+let g:ale_fixers = {'javascript': ['eslint']}
+let g:ale_fix_on_save = 1
 
 """""""""""""""""""""""""""""""""""
 "             CtrlP               "
@@ -199,18 +195,7 @@ let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
 " ignore node_modules et al
 let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist)|(\.(swp|ico|git|svn))$'
 
-"""""""""""""""""""""""""""""""""""
-"              ale                "
-"""""""""""""""""""""""""""""""""""
-let g:ale_fixers = {'javascript': ['eslint']}
-let g:ale_fix_on_save = 1
 
-""""""""""""""""""""""""""""""""""
-"              ack               "
-""""""""""""""""""""""""""""""""""
-if executable('ag')
-	let g:ackprg = 'ag --vimgrep -U'
-endif
 
 """"""""""""""""""""""""""""""""""
 "           easytags             "
@@ -222,6 +207,37 @@ let g:easytags_async = 1
 let g:easytags_auto_highlight = 0
 let g:easytags_include_members = 1
 let g:easytags_events = ['BufWritePost']
+
+"""""""""""""""""""""""""""""""""""
+"            NERDTree             "
+"""""""""""""""""""""""""""""""""""
+autocmd StdinReadPre * let s:std_in=1
+" start NERDTree if vim is opened with no arguments
+" autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+map <silent> <C-n> :NERDTreeToggle<cr>
+let NERDTreeShowHidden=1
+
+""""""""""""""""""""""""""""""""""
+"           Startify             "
+""""""""""""""""""""""""""""""""""
+let g:startify_custom_header = [
+\ '             ___      ___ ___  _____ ______',
+\ '            |\  \    /  /|\  \|\   _ \  _   \ ',
+\ '            \ \  \  /  / | \  \ \  \\\__\ \  \ ',
+\ '             \ \  \/  / / \ \  \ \  \\|__| \  \ ',
+\ '              \ \    / /   \ \  \ \  \    \ \  \',
+\ '               \ \__/ /     \ \__\ \__\    \ \__\',
+\ '                \|__|/       \|__|\|__|     \|__|',
+\ ]
+
+"""""""""""""""""""""""""""""""""""
+"          YouCompleteMe          "
+"""""""""""""""""""""""""""""""""""
+" let g:ycm_server_python_interpreter = '/usr/bin/python'
+" let g:ycm_python_binary_path = '/usr/bin/python3'
+" let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
+" set completeopt-=preview
+" highlight Pmenu ctermbg=0 ctermfg=5
 
 """"""""""""""""""""""""""""""""""
 "           Functions            "

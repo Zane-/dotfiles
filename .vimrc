@@ -116,6 +116,10 @@ map <C-l> <C-w>l
 nmap <space> /
 nmap <silent> <leader><space> :nohlsearch<cr>
 
+" Replace
+nmap <leader>rg :%s/
+nmap <leader>rl :s/
+
 " Tabs
 nnoremap <silent> <C-t> :tabnew<cr>
 map <silent> <Left> :tabprevious<cr>
@@ -149,7 +153,7 @@ nnoremap <silent> <leader>rnc :read ~/dotfiles/templates/component.js<cr>
 
 " Plugin Mappings
 noremap <silent> <leader>cc :TComment<cr>
-map <leader>g :Ack! 
+map <leader>gf :Ack! 
 " close quickfix window
 map <silent> <leader>gq :ccl<cr>
 

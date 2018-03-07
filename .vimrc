@@ -13,8 +13,6 @@ Plug 'vim-airline/vim-airline' "status line and tab bar
 Plug 'vim-airline/vim-airline-themes'
 Plug 'flazz/vim-colorschemes' " a bunch of colorschemes
 
-Plug 'octol/vim-cpp-enhanced-highlight' "additional cpp syntax support
-
 " Install and build YouCompleteMe
 function! BuildYCM(info)
 	if a:info.status == 'installed' || a:info.force
@@ -25,6 +23,7 @@ Plug 'valloric/youcompleteme', { 'do': function('BuildYCM') }
 
 Plug 'w0rp/ale' " linting
 Plug 'tpope/vim-surround'
+Plug 'octol/vim-cpp-enhanced-highlight' "additional cpp syntax support
 Plug 'pangloss/vim-javascript' " javascript support
 Plug 'mxw/vim-jsx' " react support
 Plug 'rstacruz/sparkup' "html expander
@@ -86,13 +85,15 @@ nmap <Up> <nop>
 nmap <Down> <nop>
 
 " Quick Save/Quit
-nmap <leader>w :w!<CR>
-nmap <leader>q :q<CR>
+nmap <leader>w :w!<cr>
+nmap <leader>wq :wq!<cr>
+nmap <leader>q :q<cr>
+nmap <leader>qq :q!<cr>
 
 " Buffer navigation
-map <leader>bd :bd<CR>
-map <leader>bn :bn<CR>
-map <leader>bp :bp<CR>
+map <leader>bd :bd<cr>
+map <leader>bn :bn<cr>
+map <leader>bb :bb<cr>
 
 " Line navigation
 nnoremap B ^
@@ -106,37 +107,40 @@ map <C-l> <C-w>l
 
 " Search
 nmap <space> /
-nmap <silent> <leader><space> :nohlsearch<CR>
+nmap <silent> <leader><space> :nohlsearch<cr>
 
 " Tabs
-nnoremap <C-t> :tabnew<CR>
-map <silent> <Left> :tabprevious<CR>
-map <silent> <Right> :tabnext<CR>
-map  <leader>tc :tabclose<CR>
+nnoremap <C-t> :tabnew<cr>
+map <silent> <Left> :tabprevious<cr>
+map <silent> <Right> :tabnext<cr>
+map  <leader>tc :tabclose<cr>
 
 " delete trailing whitespace
-nmap <silent> <leader>dw :%s/\s\+$//<CR>
+nmap <silent> <leader>dw :%s/\s\+$//<cr>
 
 " move lines with Shift + Up/Down
-nnoremap <silent> <S-Up> :m-2<CR>
-nnoremap <silent> <S-Down> :m+<CR>
-inoremap <silent> <S-Up> <Esc>:m-2<CR>i
-inoremap <silent> <S-Down> <Esc>:m+<CR>i
+nnoremap <silent> <S-Up> :m-2<cr>
+nnoremap <silent> <S-Down> :m+<cr>
+inoremap <silent> <S-Up> <Esc>:m-2<cr>i
+inoremap <silent> <S-Down> <Esc>:m+<cr>i
 
 " toggle line number type
-nnoremap <silent> <F3> :call ToggleNumber()<CR>
+nnoremap <silent> <F3> :call ToggleNumber()<cr>
 
 " toggle folding
-nnoremap <silent> <leader>f :call ToggleFold()<CR>
+nnoremap <silent> <leader>f :call ToggleFold()<cr>
 
 " use w!! to save as sudo
 cmap w!! w !sudo tee % >/dev/nulli
 
+" copy component template into current file at cursor
+nnoremap <silent> <leader>rnc :read ~/dotfiles/templates/component.js<cr>
+
 " Plugin Mappings
-noremap <silent> <leader>cc :TComment<CR>
+noremap <silent> <leader>cc :TComment<cr>
 map <leader>g :Ack! 
 " close quickfix window
-map <leader>gq :ccl<CR>
+map <silent> <leader>gq :ccl<cr>
 
 """""""""""""""""""""""""""""""""""
 "             Colors              "
@@ -146,6 +150,20 @@ syntax on
 hi Visual ctermfg=NONE ctermbg=241 cterm=NONE guifg=NONE guibg=#44475a gui=NONE
 hi Folded ctermbg=0
 hi Search ctermfg=NONE ctermbg=241 cterm=NONE guibg=#44475a gui=NONE
+
+"""""""""""""""""""""""""""""""""""
+"      Compilation/Execution      "
+"""""""""""""""""""""""""""""""""""
+" C++
+autocmd filetype cpp nnoremap <F4> :w<cr> :!clang++-5.0 -std=c++11 -Wall -g *.cpp && ./a.out<cr>
+" Java
+autocmd filetype java nnoremap <F4> :w<cr> :!javac %<cr>
+" Rust
+autocmd filetype rust nnoremap <F4> :w<cr> :!rustc % && ./%:r
+" Python
+autocmd filetype python nnoremap <F4> :w<cr> :!python %<cr>
+" Ruby
+autocmd filetype ruby nnoremap <F4> :w<cr> :!ruby %<cr>
 
 """""""""""""""""""""""""""""""""""
 "            Airline              "
@@ -168,7 +186,7 @@ highlight Pmenu ctermbg=0 ctermfg=5
 """""""""""""""""""""""""""""""""""
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-map <silent> <C-n> :NERDTreeToggle<CR>
+map <silent> <C-n> :NERDTreeToggle<cr>
 let NERDTreeShowHidden=1
 
 """""""""""""""""""""""""""""""""""

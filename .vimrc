@@ -4,28 +4,24 @@
 call plug#begin('~/.vim/plugged')
 
 Plug 'VundleVim/Vundle.vim'
-Plug 'scrooloose/nerdtree' "filetree
-Plug 'tomtom/tcomment_vim' "comment toggler
-Plug 'easymotion/vim-easymotion' "jump to any word with ease
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' } " filetree
+Plug 'tomtom/tcomment_vim' " comment toggler
+Plug 'easymotion/vim-easymotion' " jump to any word with ease
 Plug 'ctrlpvim/ctrlp.vim' " fuzzyfinder
 Plug 'mileszs/ack.vim' " search files for a pattern recursively
 Plug 'vim-airline/vim-airline' "status line and tab bar
 Plug 'vim-airline/vim-airline-themes'
 Plug 'flazz/vim-colorschemes' " a bunch of colorschemes
 
-" Install and build YouCompleteMe
-function! BuildYCM(info)
-	if a:info.status == 'installed' || a:info.force
-		!./install.py --clang-completer
-	endif
-endfunction
-Plug 'valloric/youcompleteme', { 'do': function('BuildYCM') }
-
+" build and install autocompleter
+Plug 'valloric/youcompleteme', { 'do': './install.py --clang-completer' }
 Plug 'w0rp/ale' " linting
-Plug 'tpope/vim-surround'
+Plug 'xolox/vim-misc' " dependency for vim-easytags
+Plug 'xolox/vim-easytags' " easy tag generation for jumping to definitions
+Plug 'tpope/vim-surround' " easily change surrounding brackets, quotes, etc.
 Plug 'octol/vim-cpp-enhanced-highlight' "additional cpp syntax support
-Plug 'pangloss/vim-javascript' " javascript support
-Plug 'mxw/vim-jsx' " react support
+Plug 'pangloss/vim-javascript' " javascript syntax support
+Plug 'mxw/vim-jsx' " jsx syntax support for react
 Plug 'rstacruz/sparkup' "html expander
 Plug 'airblade/vim-gitgutter' "show added/deleted lines in gutter
 Plug 'bronson/vim-trailing-whitespace' "show trailing whitespace as red bg
@@ -140,7 +136,9 @@ nnoremap <silent> <leader>rnc :read ~/dotfiles/templates/component.js<cr>
 noremap <silent> <leader>cc :TComment<cr>
 map <leader>g :Ack! 
 " close quickfix window
-map <silent> <leader>gq :ccl<cr>
+map <silent> <leader>gc :ccl<cr>
+" generate tags for current directory
+map <silent> <leader>ut :UpdateTags -R .<cr>
 
 """""""""""""""""""""""""""""""""""
 "             Colors              "

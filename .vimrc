@@ -7,9 +7,9 @@
 "      exuberant-ctags: for easytags plugin      "
 "================================================"
 
-"""""""""""""""""""""""""""""""""""
+"---------------------------------"
 "            Plugins              "
-"""""""""""""""""""""""""""""""""""
+"---------------------------------"
 call plug#begin('~/.vim/plugged')
 
 Plug 'mhinz/vim-startify' " fancy start page
@@ -38,9 +38,9 @@ Plug 'bronson/vim-trailing-whitespace' "show trailing whitespace as red bg
 
 call plug#end()
 
-"""""""""""""""""""""""""""""""""""
-"         General Config          "
-"""""""""""""""""""""""""""""""""""
+"--------------------------------"
+"         General Config         "
+"--------------------------------"
 filetype plugin indent on
 set hidden                " buffers can be in the bg without having to be saved
 set autoread              " autoreload changed files
@@ -76,9 +76,9 @@ set shellpipe=>           " hide ack searches from stdout
 
 set visualbell            " visual bell
 
-"""""""""""""""""""""""""""""""""""
-"            Mappings             "
-"""""""""""""""""""""""""""""""""""
+"--------------------------------"
+"            Mappings            "
+"--------------------------------"
 let mapleader   = "," " remap leader to ,
 let g:mapleader = ","
 imap jk <Esc>
@@ -152,18 +152,18 @@ map <leader>g :Ack!
 " close quickfix window
 map <silent> <leader>gq :ccl<cr>
 
-"""""""""""""""""""""""""""""""""""
-"             Colors              "
-"""""""""""""""""""""""""""""""""""
+"--------------------------------"
+"             Colors             "
+"--------------------------------"
 syntax on
 "colorscheme Dark
 hi Visual ctermfg=NONE ctermbg=241 cterm=NONE guifg=NONE guibg=#44475a gui=NONE
 hi Folded ctermbg=0
 hi Search ctermfg=NONE ctermbg=241 cterm=NONE guibg=#44475a gui=NONE
 
-"""""""""""""""""""""""""""""""""""
-"      Compilation/Execution      "
-"""""""""""""""""""""""""""""""""""
+"--------------------------------"
+"      Compilation/Execution     "
+"--------------------------------"
 " C++
 autocmd filetype cpp nnoremap <F4> :w<cr> :!clang++-5.0 -std=c++11 -Wall -g *.cpp && ./a.out<cr>
 " Java
@@ -179,38 +179,38 @@ autocmd filetype ruby nnoremap <F4> :w<cr> :!ruby %<cr>
 "                 Plugin Config                  "
 "================================================"
 
-""""""""""""""""""""""""""""""""""
+"--------------------------------"
 "              ack               "
-""""""""""""""""""""""""""""""""""
+"--------------------------------"
 if executable('ag')
 	let g:ackprg = 'ag --vimgrep -U'
 endif
 
-"""""""""""""""""""""""""""""""""""
-"            Airline              "
-"""""""""""""""""""""""""""""""""""
+"--------------------------------"
+"            Airline             "
+"--------------------------------"
 let g:airline_theme='deus'
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 
-"""""""""""""""""""""""""""""""""""
-"              ale                "
-"""""""""""""""""""""""""""""""""""
+"--------------------------------"
+"              ale               "
+"--------------------------------"
 let g:ale_fixers = {'javascript': ['eslint']}
 let g:ale_fix_on_save = 1
 
-"""""""""""""""""""""""""""""""""""
-"             CtrlP               "
-"""""""""""""""""""""""""""""""""""
+"--------------------------------"
+"             CtrlP              "
+"--------------------------------"
 let g:ctrlp_show_hidden = 1
 " use ag
 let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
 " ignore node_modules et al
 let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist)|(\.(swp|ico|git|svn))$'
 
-""""""""""""""""""""""""""""""""""
-"           easytags             "
-""""""""""""""""""""""""""""""""""
+"--------------------------------"
+"            easytags            "
+"--------------------------------"
 " store tags per project, do not use global
 set tags=./tags;
 let g:easytags_dynamic_files = 2
@@ -219,18 +219,18 @@ let g:easytags_auto_highlight = 0
 let g:easytags_include_members = 1
 let g:easytags_events = ['BufWritePost']
 
-"""""""""""""""""""""""""""""""""""
-"            NERDTree             "
-"""""""""""""""""""""""""""""""""""
+"--------------------------------"
+"            NERDTree            "
+"--------------------------------"
 autocmd StdinReadPre * let s:std_in=1
 " start NERDTree if vim is opened with no arguments
 " autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 map <silent> <C-n> :NERDTreeToggle<cr>
 let NERDTreeShowHidden=1
 
-""""""""""""""""""""""""""""""""""
+"--------------------------------"
 "           Startify             "
-""""""""""""""""""""""""""""""""""
+"--------------------------------"
 let g:startify_custom_header = [
 \ '             ___      ___ ___  _____ ______',
 \ '            |\  \    /  /|\  \|\   _ \  _   \ ',
@@ -241,18 +241,18 @@ let g:startify_custom_header = [
 \ '                \|__|/       \|__|\|__|     \|__|',
 \ ]
 
-"""""""""""""""""""""""""""""""""""
-"          YouCompleteMe          "
-"""""""""""""""""""""""""""""""""""
+"--------------------------------"
+"          YouCompleteMe         "
+"--------------------------------"
 " let g:ycm_server_python_interpreter = '/usr/bin/python'
 " let g:ycm_python_binary_path = '/usr/bin/python3'
 " let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
 " set completeopt-=preview
 " highlight Pmenu ctermbg=0 ctermfg=5
 
-""""""""""""""""""""""""""""""""""
+"--------------------------------"
 "           Functions            "
-""""""""""""""""""""""""""""""""""
+"--------------------------------"
 function ToggleFold()
 	if foldlevel('.') == 0
 		normal! 1

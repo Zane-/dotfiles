@@ -78,14 +78,21 @@ let mapleader   = "," " remap leader to ,
 let g:mapleader = ","
 imap jk <Esc>
 imap kj <Esc>
+" easy command input
 nnoremap ; :
 
+" Disable navigation with up/down
 nmap <Up> <nop>
 nmap <Down> <nop>
 
+" Quick Save/Quit
 nmap <leader>w :w!<CR>
 nmap <leader>q :q<CR>
+
+" Buffer navigation
 map <leader>bd :bd<CR>
+map <leader>bn :bn<CR>
+map <leader>bp :bp<CR>
 
 " Line navigation
 nnoremap B ^
@@ -95,8 +102,8 @@ nnoremap E $
 map <C-j> <C-w>j
 map <C-k> <C-w>k
 map <C-h> <C-w>h
-
 map <C-l> <C-w>l
+
 " Search
 nmap <space> /
 nmap <silent> <leader><space> :nohlsearch<CR>
@@ -118,6 +125,7 @@ inoremap <silent> <S-Down> <Esc>:m+<CR>i
 
 " toggle line number type
 nnoremap <silent> <F3> :call ToggleNumber()<CR>
+
 " toggle folding
 nnoremap <silent> <leader>f :call ToggleFold()<CR>
 

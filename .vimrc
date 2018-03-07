@@ -1,3 +1,12 @@
+"================================================"
+"                  Vim Config                    "
+"              author: Zane Bilous               "
+"           Last Modified: 03/07/2018            "
+"                 Dependencies                   "
+"      silverserver-ag: for the ack plugin       "
+"      exuberant-ctags: for easytags plugin      "
+"================================================"
+
 """""""""""""""""""""""""""""""""""
 "            Plugins              "
 """""""""""""""""""""""""""""""""""
@@ -166,6 +175,10 @@ autocmd filetype python nnoremap <F4> :w<cr> :!python %<cr>
 " Ruby
 autocmd filetype ruby nnoremap <F4> :w<cr> :!ruby %<cr>
 
+"================================================"
+"                 Plugin Config                  "
+"================================================"
+
 """"""""""""""""""""""""""""""""""
 "              ack               "
 """"""""""""""""""""""""""""""""""
@@ -194,8 +207,6 @@ let g:ctrlp_show_hidden = 1
 let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
 " ignore node_modules et al
 let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist)|(\.(swp|ico|git|svn))$'
-
-
 
 """"""""""""""""""""""""""""""""""
 "           easytags             "

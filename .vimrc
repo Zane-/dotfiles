@@ -130,6 +130,10 @@ nnoremap <silent> <leader>f :call ToggleFold()<cr>
 " use w!! to save as sudo
 cmap w!! w !sudo tee % >/dev/nulli
 
+" shifting in visual mode doesn't unselect
+vnoremap < <gv
+vnoremap > >gv
+
 " copy component template into current file at cursor
 nnoremap <silent> <leader>rnc :read ~/dotfiles/templates/component.js<cr>
 

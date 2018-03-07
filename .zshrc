@@ -1,7 +1,12 @@
-export EDITOR=vim # set default editor to vim
+# Source aliases
+source ~/dotfiles/.aliases
 
-source ~/dotfiles/.aliases # copy alises
-source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+# Source prezto
+if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+	source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+fi
+
+export EDITOR=vim # set default editor to vim
 
 # Defer initialization of nvm until nvm, node or a node-dependent command is
 # run. Ensure this block is only run once if .bashrc gets sourced multiple times

@@ -26,10 +26,10 @@ vim +PlugInstall +qall
 mkdir -p ~/.vim/undodir
 
 # link ycm config
-if [ -f ~/.vim/.ycm_extra_conf.py ]; then
-	mv --backup=t ~/.vim/.ycm_extra_conf.py ~/dotfiles/backups
-fi
-ln -s ~/dotfiles/.ycm_extra_conf.py ~/.vim
+# if [ -f ~/.vim/.ycm_extra_conf.py ]; then
+# 	mv --backup=t ~/.vim/.ycm_extra_conf.py ~/dotfiles/backups
+# fi
+# ln -s ~/dotfiles/.ycm_extra_conf.py ~/.vim
 
 # install prezto
 if  [ ! -d ~/.zprezto ]; then
@@ -50,3 +50,4 @@ for dotfile in zlogin zlogout zprofile zshenv; do
 done
 
 echo "[+] Dotfiles installed. Your old dotfiles have been placed in ~/dotfiles/backups"
+echo "run sudo apt-get install silversearcher-ag exuberant-ctags to install dependencies for vim plugins" 

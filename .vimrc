@@ -14,7 +14,8 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'flazz/vim-colorschemes' " a bunch of colorschemes
 
 " build and install autocompleter
-Plug 'valloric/youcompleteme', { 'do': './install.py --clang-completer' }
+"Plug 'valloric/youcompleteme', { 'do': './install.py --clang-completer' }
+Plug 'ervandew/supertab' " tab for omnicompletion
 Plug 'w0rp/ale' " linting
 Plug 'xolox/vim-misc' " dependency for vim-easytags
 Plug 'xolox/vim-easytags' " easy tag generation for jumping to definitions
@@ -136,9 +137,7 @@ nnoremap <silent> <leader>rnc :read ~/dotfiles/templates/component.js<cr>
 noremap <silent> <leader>cc :TComment<cr>
 map <leader>g :Ack! 
 " close quickfix window
-map <silent> <leader>gc :ccl<cr>
-" generate tags for current directory
-map <silent> <leader>ut :UpdateTags -R .<cr>
+map <silent> <leader>gq :ccl<cr>
 
 """""""""""""""""""""""""""""""""""
 "             Colors              "
@@ -208,6 +207,17 @@ let g:ale_fix_on_save = 1
 if executable('ag')
 	let g:ackprg = 'ag --vimgrep -U'
 endif
+
+""""""""""""""""""""""""""""""""""
+"           easytags             "
+""""""""""""""""""""""""""""""""""
+" store tags per project, do not use global
+set tags=./tags;
+let g:easytags_dynamic_files = 2
+let g:easytags_async = 1
+let g:easytags_auto_highlight = 0
+let g:easytags_include_members = 1
+let g:easytags_events = ['BufWritePost']
 
 """"""""""""""""""""""""""""""""""
 "           Functions            "

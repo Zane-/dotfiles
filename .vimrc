@@ -103,9 +103,9 @@ nmap <leader>q :q<cr>
 nmap <leader>qq :q!<cr>
 
 " Buffer navigation
-map <leader>bd :bd<cr>
-map <leader>bn :bn<cr>
-map <leader>bb :bb<cr>
+map <silent> <leader>bd :bd<cr>
+map <silent> <leader>bn :bn<cr>
+map <silent> <leader>bb :bp<cr>
 
 " Line navigation
 nnoremap B ^

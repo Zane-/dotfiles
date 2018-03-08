@@ -2,10 +2,12 @@
 
 # make backup directory
 mkdir -p ~/dotfiles/backups
+# make directory for global packages (for user)
+mkdir -p ~/dotfiles/npm-packages
 
 # create symbolic links
 echo "[+] Creating symbolic links, moving current dotfiles to ~/dotfiles/backups"
-for dotfile in .vimrc .zshrc .zpreztorc .zshenv; do
+for dotfile in .npmrc .vimrc .zshrc .zpreztorc .zshenv; do
 	if [ -f ~/$dotfile ]; then
 		mv --backup=t ~/$dotfile ~/dotfiles/backups
 	fi

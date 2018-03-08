@@ -29,6 +29,7 @@ Plug 'w0rp/ale' " linting
 Plug 'xolox/vim-misc' " dependency for vim-easytags
 Plug 'xolox/vim-easytags' " easy tag generation for jumping to definitions
 Plug 'tpope/vim-surround' " easily change surrounding brackets, quotes, etc.
+Plug 'terryma/vim-expand-region' " highlight increasingly larger regions of text
 Plug 'octol/vim-cpp-enhanced-highlight' "additional cpp syntax support
 Plug 'pangloss/vim-javascript' " javascript syntax support
 Plug 'mxw/vim-jsx' " jsx syntax support for react
@@ -155,6 +156,9 @@ nnoremap <silent> <leader>ts :put =strftime(\"%d %b %Y, %H:%M:%S %z\")<cr>
 nnoremap Q @q
 vnoremap Q :norm @q<cr>
 
+" move split to new tab
+nnoremap <silent> <leader>st <C-w><s-t>gT
+
 " toggle line number type
 nnoremap <silent> <leader>tn :call ToggleNumber()<cr>
 
@@ -243,7 +247,7 @@ let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist)|(\.(swp|ico|git|sv
 "            easytags            "
 "--------------------------------"
 " store tags per project, do not use global
-set tags=./tags;
+set tags=./.tags;
 let g:easytags_dynamic_files = 2
 let g:easytags_async = 1
 let g:easytags_auto_highlight = 0
@@ -263,14 +267,14 @@ let NERDTreeShowHidden=1
 "           Startify             "
 "--------------------------------"
 let g:startify_custom_header = [
-			\ '   ___      ___ ___  _____ ______',
-			\ '  |\  \    /  /|\  \|\   _ \  _   \ ',
-			\ '  \ \  \  /  / | \  \ \  \\\__\ \  \ ',
-			\ '   \ \  \/  / / \ \  \ \  \\|__| \  \ ',
-			\ '    \ \    / /   \ \  \ \  \    \ \  \',
-			\ '     \ \__/ /     \ \__\ \__\    \ \__\',
-			\ '      \|__|/       \|__|\|__|     \|__|',
-			\ ]
+\ '   ___      ___ ___  _____ ______',
+\ '  |\  \    /  /|\  \|\   _ \  _   \ ',
+\ '  \ \  \  /  / | \  \ \  \\\__\ \  \ ',
+\ '   \ \  \/  / / \ \  \ \  \\|__| \  \ ',
+\ '    \ \    / /   \ \  \ \  \    \ \  \',
+\ '     \ \__/ /     \ \__\ \__\    \ \__\',
+\ '      \|__|/       \|__|\|__|     \|__|',
+\ ]
 
 "--------------------------------"
 "          YouCompleteMe         "

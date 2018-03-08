@@ -1,8 +1,8 @@
 "================================================"
 "                  Vim Config                    "
-"              author: Zane Bilous               "
-"           Last Modified: 03/07/2018            "
-"                 Dependencies                   "
+"              Author: Zane Bilous               "
+"           Last Modified: 03/08/2018            "
+"                 Dependencies:                  "
 "      silverserver-ag: for the ack plugin       "
 "      exuberant-ctags: for easytags plugin      "
 "================================================"
@@ -69,8 +69,8 @@ set foldlevelstart=12     " don't autofold unless there are 12 indents
 set undodir=~/.vim/undodir
 set undofile              " persistent undo
 
-set pastetoggle=<F2>      " switch to paste mode to paste easily
-set clipboard=unnamedplus " use system clipboard
+set pastetoggle=<F3>      " switch to paste mode to paste easily
+set clipboard=unnamed     " use system clipboard
 
 set shellpipe=>           " hide ack searches from stdout
 
@@ -86,6 +86,10 @@ imap jk <Esc>
 imap kj <Esc>
 " easy command input
 nnoremap ; :
+
+" Use Perl-compatible regular expressions for searching
+nnoremap / /\v
+vnoremap / /\v
 
 " Disable navigation with up/down
 nmap <Up> <nop>
@@ -129,20 +133,36 @@ map <silent> <leader>tc :tabclose<cr>
 " delete trailing whitespace
 nmap <silent> <leader>dw :%s/\s\+$//<cr>
 
+" align paragraph
+noremap <leader>al =ip
+
+" reformat entire file
+nnoremap <leader>fm gg=G``
+
 " move lines with Shift + Up/Down
 nnoremap <silent> <S-Up> :m-2<cr>
 nnoremap <silent> <S-Down> :m+<cr>
 inoremap <silent> <S-Up> <Esc>:m-2<cr>i
 inoremap <silent> <S-Down> <Esc>:m+<cr>i
 
+" copy and paste paragraph below
+noremap cp yap>S-}>p
+
+" insert timestamp
+nnoremap <silent> <leader>ts :put =strftime(\"%d %b %Y, %H:%M:%S %z\")<cr>
+
+" use macros with Q (and in visual mode)
+nnoremap Q @q
+vnoremap Q :norm @q<cr>
+
 " toggle line number type
-nnoremap <silent> <F3> :call ToggleNumber()<cr>
+nnoremap <silent> <leader>tn :call ToggleNumber()<cr>
 
 " toggle folding
-nnoremap <silent> <leader>f :call ToggleFold()<cr>
+nnoremap <silent> <leader>tf :call ToggleFold()<cr>
 
 " use w!! to save as sudo
-cmap w!! w !sudo tee % >/dev/nulli
+cmap w!! w !sudo tee >/dev/null %
 
 " shifting in visual mode doesn't unselect
 vnoremap < <gv
@@ -150,6 +170,10 @@ vnoremap > >gv
 
 " copy component template into current file at cursor
 nnoremap <silent> <leader>rnc :read ~/dotfiles/templates/component.js<cr>
+
+" cycle through location list
+nnoremap <silent> <F1> :call LNext(0)<cr>
+nnoremap <silent> <F2> :call LNext(1)<cr>
 
 " Plugin Mappings
 noremap <silent> <leader>cc :TComment<cr>
@@ -201,8 +225,10 @@ let g:airline#extensions#tabline#enabled = 1
 "--------------------------------"
 "              ale               "
 "--------------------------------"
-let g:ale_fixers = {'javascript': ['eslint']}
+let g:ale_fixers = {'javascript': ['eslint'], 'python': ['autopep8']}
 let g:ale_fix_on_save = 1
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_enter = 0
 
 "--------------------------------"
 "             CtrlP              "
@@ -237,14 +263,14 @@ let NERDTreeShowHidden=1
 "           Startify             "
 "--------------------------------"
 let g:startify_custom_header = [
-\ '   ___      ___ ___  _____ ______',
-\ '  |\  \    /  /|\  \|\   _ \  _   \ ',
-\ '  \ \  \  /  / | \  \ \  \\\__\ \  \ ',
-\ '   \ \  \/  / / \ \  \ \  \\|__| \  \ ',
-\ '    \ \    / /   \ \  \ \  \    \ \  \',
-\ '     \ \__/ /     \ \__\ \__\    \ \__\',
-\ '      \|__|/       \|__|\|__|     \|__|',
-\ ]
+			\ '   ___      ___ ___  _____ ______',
+			\ '  |\  \    /  /|\  \|\   _ \  _   \ ',
+			\ '  \ \  \  /  / | \  \ \  \\\__\ \  \ ',
+			\ '   \ \  \/  / / \ \  \ \  \\|__| \  \ ',
+			\ '    \ \    / /   \ \  \ \  \    \ \  \',
+			\ '     \ \__/ /     \ \__\ \__\    \ \__\',
+			\ '      \|__|/       \|__|\|__|     \|__|',
+			\ ]
 
 "--------------------------------"
 "          YouCompleteMe         "
@@ -258,6 +284,7 @@ let g:startify_custom_header = [
 "--------------------------------"
 "           Functions            "
 "--------------------------------"
+" Toggles folding
 function ToggleFold()
 	if foldlevel('.') == 0
 		normal! 1
@@ -271,11 +298,26 @@ function ToggleFold()
 	echo
 endfunction
 
+" Toggles hybrid numbering
 function ToggleNumber()
-    if (&relativenumber == 1)
-        set norelativenumber
-        set number
-    else
-        set relativenumber
-    endif
+	if (&relativenumber == 1)
+		set norelativenumber
+		set number
+	else
+		set relativenumber
+	endif
 endfunction
+
+" Cycle through location lists
+function LNext(prev)
+	try
+		try
+			if a:prev | lprev | else | lnext | endif
+		catch /^Vim\%((\a\+)\)\=:E553/
+			if a:prev | llast | else | lfirst | endif
+		catch /^Vim\%((\a\+)\)\=:E776/
+		endtry
+	catch /^Vim\%((\a\+)\)\=:E42/
+	endtry
+endfunction
+

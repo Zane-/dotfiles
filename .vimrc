@@ -20,7 +20,6 @@ Plug 'ctrlpvim/ctrlp.vim' " fuzzyfinder
 Plug 'mileszs/ack.vim' " search files for a pattern recursively
 Plug 'vim-airline/vim-airline' " status line and tab bar
 Plug 'vim-airline/vim-airline-themes'
-Plug 'flazz/vim-colorschemes' " a bunch of colorschemes
 
 " build and install autocompleter
 "Plug 'valloric/youcompleteme', { 'do': './install.py --clang-completer' }
@@ -52,6 +51,7 @@ set noswapfile            " I hate swp files sometimes, use at your own risk
 set number                " line numbers
 set relativenumber        " hybrid numbering
 
+set scrolloff=10          " keep 5 lines above/below cursor line
 set cursorline            " underline current line
 set nowrap                " don't wrap lines
 
@@ -75,6 +75,11 @@ set pastetoggle=<F3>      " switch to paste mode to paste easily
 set clipboard=unnamed     " use system clipboard
 
 set shellpipe=>           " hide ack searches from stdout
+
+set re=1                  " use old regex engine (faster)
+set ttyfast               " optimizations
+set lazyredraw
+set cul!
 
 set visualbell            " visual bell
 
@@ -198,16 +203,19 @@ hi Search ctermfg=NONE ctermbg=241 cterm=NONE guibg=#44475a gui=NONE
 "--------------------------------"
 "      Compilation/Execution     "
 "--------------------------------"
-" C++
-autocmd filetype cpp nnoremap <F4> :w<cr> :!clang++-5.0 -std=c++11 -Wall -g *.cpp && ./a.out<cr>
-" Java
-autocmd filetype java nnoremap <F4> :w<cr> :!javac %<cr>
-" Rust
-autocmd filetype rust nnoremap <F4> :w<cr> :!rustc % && ./%:r
-" Python
-autocmd filetype python nnoremap <F4> :w<cr> :!python %<cr>
-" Ruby
-autocmd filetype ruby nnoremap <F4> :w<cr> :!ruby %<cr>
+augroup exe
+	autocmd!
+	" C++
+	autocmd filetype cpp nnoremap <F4> :w<cr> :!clang++-5.0 -std=c++11 -Wall -g *.cpp && ./a.out<cr>
+	" Java
+	autocmd filetype java nnoremap <F4> :w<cr> :!javac %<cr>
+	" Rust
+	autocmd filetype rust nnoremap <F4> :w<cr> :!rustc % && ./%:r
+	" Python
+	autocmd filetype python nnoremap <F4> :w<cr> :!python %<cr>
+	" Ruby
+	autocmd filetype ruby nnoremap <F4> :w<cr> :!ruby %<cr>
+augroup end
 
 "================================================"
 "                 Plugin Config                  "

@@ -18,7 +18,7 @@ Plug 'tomtom/tcomment_vim' " comment toggler
 Plug 'easymotion/vim-easymotion' " jump to any word with ease
 Plug 'ctrlpvim/ctrlp.vim' " fuzzyfinder
 Plug 'mileszs/ack.vim' " search files for a pattern recursively
-Plug 'vim-airline/vim-airline' "status line and tab bar
+Plug 'vim-airline/vim-airline' " status line and tab bar
 Plug 'vim-airline/vim-airline-themes'
 Plug 'flazz/vim-colorschemes' " a bunch of colorschemes
 
@@ -28,14 +28,15 @@ Plug 'ervandew/supertab' " tab for omnicompletion
 Plug 'w0rp/ale' " linting
 Plug 'xolox/vim-misc' " dependency for vim-easytags
 Plug 'xolox/vim-easytags' " easy tag generation for jumping to definitions
+Plug 'jiangmiao/auto-pairs' " automatically insert matching pair ([{ etc
 Plug 'tpope/vim-surround' " easily change surrounding brackets, quotes, etc.
 Plug 'terryma/vim-expand-region' " highlight increasingly larger regions of text
-Plug 'octol/vim-cpp-enhanced-highlight' "additional cpp syntax support
+Plug 'octol/vim-cpp-enhanced-highlight' " additional cpp syntax support
 Plug 'pangloss/vim-javascript' " javascript syntax support
 Plug 'mxw/vim-jsx' " jsx syntax support for react
-Plug 'rstacruz/sparkup' "html expander
-Plug 'airblade/vim-gitgutter' "show added/deleted lines in gutter
-Plug 'bronson/vim-trailing-whitespace' "show trailing whitespace as red bg
+Plug 'rstacruz/sparkup' " html expander
+Plug 'airblade/vim-gitgutter' " show added/deleted lines in gutter
+Plug 'bronson/vim-trailing-whitespace' " show trailing whitespace as red bg
 
 call plug#end()
 
@@ -324,4 +325,3 @@ function LNext(prev)
 	catch /^Vim\%((\a\+)\)\=:E42/
 	endtry
 endfunction
-

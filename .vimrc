@@ -52,7 +52,7 @@ set number                " line numbers
 set relativenumber        " hybrid numbering
 
 set scrolloff=10          " keep 5 lines above/below cursor line
-set cursorline            " underline current line
+"set cursorline            " underline current line
 set nowrap                " don't wrap lines
 
 set hlsearch              " highlight search hits
@@ -79,7 +79,6 @@ set shellpipe=>           " hide ack searches from stdout
 set re=1                  " use old regex engine (faster)
 set ttyfast               " optimizations
 set lazyredraw
-set cul!
 
 set visualbell            " visual bell
 

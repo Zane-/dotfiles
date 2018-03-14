@@ -29,9 +29,6 @@ alias py="python -m IPython"
 alias ac="source venv/bin/activate"
 alias de="deactivate"
 
-alias clang++="clang++-5.0"
-alias cpp="clang++-5.0"
-alias cdb="clang++-5.0 -Wall -g"
 alias a="./a.out"
 
 # git

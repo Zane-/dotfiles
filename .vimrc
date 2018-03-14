@@ -29,6 +29,7 @@ Plug 'xolox/vim-misc' " dependency for vim-easytags
 Plug 'xolox/vim-easytags' " easy tag generation for jumping to definitions
 Plug 'jiangmiao/auto-pairs' " automatically insert matching pair ([{ etc
 Plug 'tpope/vim-surround' " easily change surrounding brackets, quotes, etc.
+Plug 'alvan/vim-closetag' " auto close tags for html and jsx
 Plug 'terryma/vim-expand-region' " highlight increasingly larger regions of text
 Plug 'octol/vim-cpp-enhanced-highlight' " additional cpp syntax support
 Plug 'pangloss/vim-javascript' " javascript syntax support
@@ -241,6 +242,11 @@ let g:ale_fixers = {'javascript': ['eslint'], 'python': ['autopep8']}
 let g:ale_fix_on_save = 1
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_enter = 0
+
+"--------------------------------"
+"            Closetag            "
+"--------------------------------"
+let g:closetag_filenames = '*.html, *.js'
 
 "--------------------------------"
 "             CtrlP              "

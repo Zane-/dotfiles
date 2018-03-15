@@ -138,7 +138,7 @@ map <silent> <Right> :tabnext<cr>
 map <silent> <leader>tc :tabclose<cr>
 
 " delete trailing whitespace
-nmap <silent> <leader>dw :%s/\s\+$//<cr>
+nmap <silent> <leader>dw :%s/\s\+$//<cr>:nohlsearch<cr>
 
 " align paragraph
 noremap <leader>al =ip
@@ -187,7 +187,7 @@ nnoremap <silent> <F2> :call LNext(1)<cr>
 
 " Plugin Mappings
 noremap <silent> <leader>cc :TComment<cr>
-map <leader>gf :Ack! 
+map <leader>gf :Ack!
 " close quickfix window
 map <silent> <leader>gq :ccl<cr>
 

@@ -7,50 +7,17 @@
 "      exuberant-ctags: for tagbar               "
 "================================================"
 
-"---------------------------------"
-"            Plugins              "
-"---------------------------------"
-call plug#begin('~/.vim/plugged')
-
-Plug 'mhinz/vim-startify' " fancy start page
-Plug 'scrooloose/nerdtree' " filetree
-Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'} " easy browsing of tags
-Plug 'tomtom/tcomment_vim' " comment toggler
-Plug 'easymotion/vim-easymotion' " jump to any word with ease
-Plug 'ctrlpvim/ctrlp.vim' " fuzzyfinder
-Plug 'mileszs/ack.vim' " search files for a pattern recursively
-Plug 'vim-airline/vim-airline' " status line and tab bar
-Plug 'vim-airline/vim-airline-themes'
-
-" build and install autocompleter
-"Plug 'valloric/youcompleteme', { 'do': './install.py --clang-completer' }
-
-Plug 'ervandew/supertab' " tab for omnicompletion
-Plug 'w0rp/ale' " linting
-Plug 'jiangmiao/auto-pairs' " automatically insert matching pair ([{ etc
-Plug 'tpope/vim-surround' " easily change surrounding brackets, quotes, etc.
-Plug 'alvan/vim-closetag' " auto close tags for html and jsx
-Plug 'octol/vim-cpp-enhanced-highlight' " additional cpp syntax support
-Plug 'pangloss/vim-javascript' " javascript syntax support
-Plug 'mxw/vim-jsx' " jsx syntax support for react
-Plug 'airblade/vim-gitgutter' " show added/deleted lines in gutter
-Plug 'bronson/vim-trailing-whitespace' " show trailing whitespace as red bg
-
-call plug#end()
-
 "--------------------------------"
 "         General Config         "
 "--------------------------------"
 filetype plugin indent on
 set hidden                " buffers can be in the bg without having to be saved
 set autoread              " autoreload changed files
-set nobackup
-set noswapfile            " I hate swp files sometimes, use at your own risk
 
 set number                " line numbers
 set relativenumber        " hybrid numbering
 
-set scrolloff=10          " keep 5 lines above/below cursor line
+set scrolloff=15          " keep 5 lines above/below cursor line
 set cursorline            " underline current line
 set nowrap                " don't wrap lines
 
@@ -134,6 +101,9 @@ map <silent> <Left> :tabprevious<cr>
 map <silent> <Right> :tabnext<cr>
 map <silent> tq :tabclose<cr>
 
+" vertical split
+nnoremap <silent> <C-v> :vsp<cr>
+
 " delete trailing whitespace
 nmap <silent> <leader>dw :%s/\s\+$//<cr>:nohlsearch<cr>
 
@@ -187,7 +157,8 @@ nnoremap <silent> <leader>rnc :read ~/dotfiles/templates/component.js<cr>
 
 
 " Plugin Mappings
-noremap <silent> <leader>cc :TComment<cr>
+map <silent> <C-n> :NERDTreeToggle<cr>
+map <silent> <leader>cc :TComment<cr>
 map <leader>gf :Ack! 
 " close quickfix window
 map <silent> <leader>gq :ccl<cr>
@@ -220,6 +191,37 @@ augroup exe
 	autocmd filetype ruby nnoremap <F4> :w<cr> :!ruby %<cr>
 augroup end
 
+"---------------------------------"
+"            Plugins              "
+"---------------------------------"
+call plug#begin('~/.vim/plugged')
+
+Plug 'mhinz/vim-startify' " fancy start page
+Plug 'scrooloose/nerdtree' " filetree
+Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'} " easy browsing of tags
+Plug 'ctrlpvim/ctrlp.vim' " fuzzyfinder
+Plug 'mileszs/ack.vim' " search files for a pattern recursively
+Plug 'easymotion/vim-easymotion' " jump to any word with ease
+Plug 'tomtom/tcomment_vim' " comment toggler
+Plug 'vim-airline/vim-airline' " status line and tab bar
+Plug 'vim-airline/vim-airline-themes'
+Plug 'tpope/vim-fugitive' " git wrapper
+
+" build and install autocompleter
+"Plug 'valloric/youcompleteme', { 'do': './install.py --clang-completer' }
+
+Plug 'ervandew/supertab' " tab for omnicompletion
+Plug 'w0rp/ale' " linting
+Plug 'jiangmiao/auto-pairs' " automatically insert matching pair ([{ etc
+Plug 'tpope/vim-surround' " easily change surrounding brackets, quotes, etc.
+Plug 'alvan/vim-closetag' " auto close tags for html and jsx
+Plug 'bronson/vim-trailing-whitespace' " show trailing whitespace as red bg
+Plug 'airblade/vim-gitgutter' " show added/deleted lines in gutter
+Plug 'octol/vim-cpp-enhanced-highlight' " additional cpp syntax support
+Plug 'pangloss/vim-javascript' " javascript syntax support
+Plug 'mxw/vim-jsx' " jsx syntax support for react
+
+call plug#end()
 "================================================"
 "                 Plugin Config                  "
 "================================================"
@@ -269,11 +271,10 @@ let g:gitgutter_enabled = 0
 "--------------------------------"
 "            NERDTree            "
 "--------------------------------"
-autocmd StdinReadPre * let s:std_in=1
-" start NERDTree if vim is opened with no arguments
-" autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-map <silent> <C-n> :NERDTreeToggle<cr>
-let NERDTreeShowHidden=1
+let g:NERDTreeShowHidden=1
+let g:NERDTreeQuitOnOpen = 1
+let g:NERDTreeMapOpenInTab = '<C-t>'
+let g:NERDTreeMapOpenVSplit = '<C-v>'
 
 "--------------------------------"
 "           Startify             "
@@ -294,6 +295,8 @@ let g:startify_custom_header = [
 let g:tagbar_left = 1
 let g:tagbar_autofocus = 1
 let g:tagbar_width = 25
+let g:tagbar_compact = 1
+let g:tagbar_iconchars = ['▸', '▾']
 
 "--------------------------------"
 "         YouCompleteMe          "

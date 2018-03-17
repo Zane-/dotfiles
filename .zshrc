@@ -1,5 +1,16 @@
+PROFILE_STARTUP=false
+if [[ "$PROFILE_STARTUP" == true  ]]; then
+	zmodload zsh/zprof # Output load-time statistics
+	# http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
+	PS4=$'%D{%M%S%.} %N:%i> '
+	exec 3>&2 2>"${XDG_CACHE_HOME:-$HOME/tmp}/zsh_statup.$$"
+	setopt xtrace prompt_subst
+fi
+
 # Source aliases
 source ~/dotfiles/.aliases
+source ~/dotfiles/.p_aliases
+source ~/dotfiles/.funcs
 
 # Source prezto
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
@@ -8,18 +19,8 @@ fi
 
 export EDITOR=vim # set default editor to vim
 
-# Defer initialization of nvm until nvm, node or a node-dependent command is
-# run. Ensure this block is only run once if .bashrc gets sourced multiple times
-# by checking whether __init_nvm is a function.
-if [ -s "$HOME/.nvm/nvm.sh" ] && [ ! "$(whence -w __init_nvm)" = function ]; then
-  export NVM_DIR="$HOME/.nvm"
-  [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
-  declare -a __node_commands=('nvm' 'node' 'npm' 'yarn' 'gulp' 'grunt' 'webpack')
-  function __init_nvm() {
-    for i in "${__node_commands[@]}"; do unalias $i; done
-    . "$NVM_DIR"/nvm.sh
-    unset __node_commands
-    unset -f __init_nvm
-  }
-  for i in "${__node_commands[@]}"; do alias $i='__init_nvm && '$i; done
+if [[ "$PROFILE_STARTUP" == true  ]]; then
+    zprof
+	unsetopt xtrace
+	exec 2>&3 3>&-
 fi

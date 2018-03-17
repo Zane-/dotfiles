@@ -4,6 +4,7 @@
 "           Last Modified: 03/17/2018            "
 "                 Dependencies:                  "
 "      silverserver-ag: for the ack plugin       "
+"      exuberant-ctags: for tagbar               "
 "================================================"
 
 "---------------------------------"
@@ -25,7 +26,7 @@ Plug 'vim-airline/vim-airline-themes'
 
 Plug 'ervandew/supertab' " tab for omnicompletion
 Plug 'w0rp/ale' " linting
-Plug 'ludovicchabant/vim-gutentags' " autogenerate tag files
+Plug 'majutsushi/tagbar' " easy browsing of tags
 Plug 'jiangmiao/auto-pairs' " automatically insert matching pair ([{ etc
 Plug 'tpope/vim-surround' " easily change surrounding brackets, quotes, etc.
 Plug 'alvan/vim-closetag' " auto close tags for html and jsx
@@ -50,7 +51,7 @@ set number                " line numbers
 set relativenumber        " hybrid numbering
 
 set scrolloff=10          " keep 5 lines above/below cursor line
-set cursorline            " underline current line
+" set cursorline            " underline current line
 set nowrap                " don't wrap lines
 
 set hlsearch              " highlight search hits
@@ -188,6 +189,7 @@ map <leader>gf :Ack!
 " close quickfix window
 map <silent> <leader>gq :ccl<cr>
 map <silent> <leader>gg :GitGutterToggle<cr>
+map <silent> <F5> :TagbarToggle<cr>
 
 "--------------------------------"
 "             Colors             "

@@ -1,10 +1,9 @@
 "================================================"
 "                  Vim Config                    "
 "              Author: Zane Bilous               "
-"           Last Modified: 03/08/2018            "
+"           Last Modified: 03/17/2018            "
 "                 Dependencies:                  "
 "      silverserver-ag: for the ack plugin       "
-"      exuberant-ctags: for easytags plugin      "
 "================================================"
 
 "---------------------------------"
@@ -23,10 +22,10 @@ Plug 'vim-airline/vim-airline-themes'
 
 " build and install autocompleter
 "Plug 'valloric/youcompleteme', { 'do': './install.py --clang-completer' }
+
 Plug 'ervandew/supertab' " tab for omnicompletion
 Plug 'w0rp/ale' " linting
-" Plug 'xolox/vim-misc' " dependency for easy-tags
-" Plug 'xolox/vim-easytags' " easy tag generation
+Plug 'ludovicchabant/vim-gutentags' " autogenerate tag files
 Plug 'jiangmiao/auto-pairs' " automatically insert matching pair ([{ etc
 Plug 'tpope/vim-surround' " easily change surrounding brackets, quotes, etc.
 Plug 'alvan/vim-closetag' " auto close tags for html and jsx
@@ -51,7 +50,7 @@ set number                " line numbers
 set relativenumber        " hybrid numbering
 
 set scrolloff=10          " keep 5 lines above/below cursor line
-"set cursorline            " underline current line
+set cursorline            " underline current line
 set nowrap                " don't wrap lines
 
 set hlsearch              " highlight search hits
@@ -107,9 +106,9 @@ nmap <leader>q :q<cr>
 nmap <leader>qq :q!<cr>
 
 " Buffer navigation
-map <silent> <leader>bd :bd<cr>
-map <silent> <leader>bn :bn<cr>
-map <silent> <leader>bb :bp<cr>
+map <silent> bd :bd<cr>
+map <silent> bn :bn<cr>
+map <silent> bb :bp<cr>
 
 " Line navigation
 nnoremap B ^
@@ -126,14 +125,14 @@ nmap <space> /
 nmap <silent> <leader><space> :nohlsearch<cr>
 
 " Replace
-nmap <leader>rg :%s/
-nmap <leader>rl :s/
+nmap rg :%s/
+nmap rl :s/
 
 " Tabs
 nnoremap <silent> <C-t> :tabnew<cr>
 map <silent> <Left> :tabprevious<cr>
 map <silent> <Right> :tabnext<cr>
-map <silent> <leader>tc :tabclose<cr>
+map <silent> tq :tabclose<cr>
 
 " delete trailing whitespace
 nmap <silent> <leader>dw :%s/\s\+$//<cr>:nohlsearch<cr>
@@ -164,10 +163,10 @@ vnoremap Q :norm @q<cr>
 nnoremap <silent> <leader>st <C-w><s-t>gT
 
 " toggle line number type
-nnoremap <silent> <leader>tn :call ToggleNumber()<cr>
+nnoremap <silent> tn :call ToggleNumber()<cr>
 
 " toggle folding
-nnoremap <silent> <leader>tf :call ToggleFold()<cr>
+nnoremap <silent> tf :call ToggleFold()<cr>
 
 " use w!! to save as sudo
 cmap w!! w !sudo tee >/dev/null %
@@ -176,16 +175,16 @@ cmap w!! w !sudo tee >/dev/null %
 vnoremap < <gv
 vnoremap > >gv
 
-" copy component template into current file at cursor
-nnoremap <silent> <leader>rnc :read ~/dotfiles/templates/component.js<cr>
-
 " cycle through location list
 nnoremap <silent> <F1> :call LNext(0)<cr>
 nnoremap <silent> <F2> :call LNext(1)<cr>
 
+" copy component template into current file at cursor
+nnoremap <silent> <leader>rnc :read ~/dotfiles/templates/component.js<cr>
+
 " Plugin Mappings
 noremap <silent> <leader>cc :TComment<cr>
-map <leader>gf :Ack!
+map <leader>gf :Ack! 
 " close quickfix window
 map <silent> <leader>gq :ccl<cr>
 map <silent> <leader>gg :GitGutterToggle<cr>
@@ -255,17 +254,6 @@ let g:ctrlp_show_hidden = 1
 let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
 " ignore node_modules et al
 let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist)|(\.(swp|ico|git|svn))$'
-
-"--------------------------------"
-"            easytags            "
-"--------------------------------"
-" store tags per project, do not use global
-set tags=./.tags;
-let g:easytags_dynamic_files = 2
-let g:easytags_async = 1
-let g:easytags_auto_highlight = 0
-let g:easytags_include_members = 1
-let g:easytags_events = ['BufWritePost']
 
 "--------------------------------"
 "           gitgutter            "

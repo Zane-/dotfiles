@@ -14,6 +14,7 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'mhinz/vim-startify' " fancy start page
 Plug 'scrooloose/nerdtree' " filetree
+Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'} " easy browsing of tags
 Plug 'tomtom/tcomment_vim' " comment toggler
 Plug 'easymotion/vim-easymotion' " jump to any word with ease
 Plug 'ctrlpvim/ctrlp.vim' " fuzzyfinder
@@ -26,7 +27,6 @@ Plug 'vim-airline/vim-airline-themes'
 
 Plug 'ervandew/supertab' " tab for omnicompletion
 Plug 'w0rp/ale' " linting
-Plug 'majutsushi/tagbar' " easy browsing of tags
 Plug 'jiangmiao/auto-pairs' " automatically insert matching pair ([{ etc
 Plug 'tpope/vim-surround' " easily change surrounding brackets, quotes, etc.
 Plug 'alvan/vim-closetag' " auto close tags for html and jsx
@@ -51,7 +51,7 @@ set number                " line numbers
 set relativenumber        " hybrid numbering
 
 set scrolloff=10          " keep 5 lines above/below cursor line
-" set cursorline            " underline current line
+set cursorline            " underline current line
 set nowrap                " don't wrap lines
 
 set hlsearch              " highlight search hits
@@ -88,7 +88,6 @@ let mapleader   = "," " remap leader to ,
 let g:mapleader = ","
 " easy normal mode
 imap jk <Esc>
-imap kj <Esc>
 " easy command input
 nnoremap ; :
 
@@ -145,10 +144,10 @@ noremap <leader>al =ip
 nnoremap <leader>fm gg=G``
 
 " move lines with Shift + Up/Down
-nnoremap <silent> <S-Up> :m-2<cr>
-nnoremap <silent> <S-Down> :m+<cr>
-inoremap <silent> <S-Up> <Esc>:m-2<cr>i
-inoremap <silent> <S-Down> <Esc>:m+<cr>i
+nnoremap <silent> <S-k> :m-2<cr>
+nnoremap <silent> <S-j> :m+<cr>
+inoremap <silent> <S-k> <Esc>:m-2<cr>i
+inoremap <silent> <S-j> <Esc>:m+<cr>i
 
 " copy and paste paragraph below
 noremap cp yap>S-}>p
@@ -180,8 +179,12 @@ vnoremap > >gv
 nnoremap <silent> <F1> :call LNext(0)<cr>
 nnoremap <silent> <F2> :call LNext(1)<cr>
 
+" generate tags for directory
+nmap <silent> <leader>ct :!ctags *<cr>
+
 " copy component template into current file at cursor
 nnoremap <silent> <leader>rnc :read ~/dotfiles/templates/component.js<cr>
+
 
 " Plugin Mappings
 noremap <silent> <leader>cc :TComment<cr>
@@ -286,7 +289,14 @@ let g:startify_custom_header = [
 \ ]
 
 "--------------------------------"
-"          YouCompleteMe         "
+"             Tagbar             "
+"--------------------------------"
+let g:tagbar_left = 1
+let g:tagbar_autofocus = 1
+let g:tagbar_width = 25
+
+"--------------------------------"
+"         YouCompleteMe          "
 "--------------------------------"
 " let g:ycm_server_python_interpreter = '/usr/bin/python'
 " let g:ycm_python_binary_path = '/usr/bin/python3'

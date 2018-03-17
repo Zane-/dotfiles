@@ -25,16 +25,14 @@ Plug 'vim-airline/vim-airline-themes'
 "Plug 'valloric/youcompleteme', { 'do': './install.py --clang-completer' }
 Plug 'ervandew/supertab' " tab for omnicompletion
 Plug 'w0rp/ale' " linting
-Plug 'xolox/vim-misc' " dependency for vim-easytags
-Plug 'xolox/vim-easytags' " easy tag generation for jumping to definitions
+" Plug 'xolox/vim-misc' " dependency for easy-tags
+" Plug 'xolox/vim-easytags' " easy tag generation
 Plug 'jiangmiao/auto-pairs' " automatically insert matching pair ([{ etc
 Plug 'tpope/vim-surround' " easily change surrounding brackets, quotes, etc.
 Plug 'alvan/vim-closetag' " auto close tags for html and jsx
-Plug 'terryma/vim-expand-region' " highlight increasingly larger regions of text
 Plug 'octol/vim-cpp-enhanced-highlight' " additional cpp syntax support
 Plug 'pangloss/vim-javascript' " javascript syntax support
 Plug 'mxw/vim-jsx' " jsx syntax support for react
-Plug 'rstacruz/sparkup' " html expander
 Plug 'airblade/vim-gitgutter' " show added/deleted lines in gutter
 Plug 'bronson/vim-trailing-whitespace' " show trailing whitespace as red bg
 
@@ -190,6 +188,7 @@ noremap <silent> <leader>cc :TComment<cr>
 map <leader>gf :Ack!
 " close quickfix window
 map <silent> <leader>gq :ccl<cr>
+map <silent> <leader>gg :GitGutterToggle<cr>
 
 "--------------------------------"
 "             Colors             "
@@ -267,6 +266,12 @@ let g:easytags_async = 1
 let g:easytags_auto_highlight = 0
 let g:easytags_include_members = 1
 let g:easytags_events = ['BufWritePost']
+
+"--------------------------------"
+"           gitgutter            "
+"--------------------------------"
+" disable on startup because it slows vim down
+let g:gitgutter_enabled = 0
 
 "--------------------------------"
 "            NERDTree            "

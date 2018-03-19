@@ -34,6 +34,9 @@ set foldmethod=indent
 set foldminlines=5        " min num of lines before a block is foldable
 set foldlevelstart=12     " don't autofold unless there are 12 indents
 
+" dont store backups and swapfile in working directory
+set backupdir=~/.vim/backups
+set directory=~/.vim/swapfiles
 set undodir=~/.vim/undodir
 set undofile              " persistent undo
 
@@ -119,6 +122,16 @@ nnoremap <silent> <S-j> :m+<cr>
 inoremap <silent> <S-k> <Esc>:m-2<cr>i
 inoremap <silent> <S-j> <Esc>:m+<cr>i
 
+" insert blank line below with enter
+noremap <cr> o<Esc>
+
+" ensure <cr> isn't remapped during cmd enter and quickfix
+augroup cr
+	autocmd!
+	autocmd CmdwinEnter * nnoremap <cr> <cr>
+	autocmd BufReadPost quickfix nnoremap <cr> <cr>
+augroup end
+
 " copy and paste paragraph below
 noremap cp yap>S-}>p
 
@@ -145,6 +158,13 @@ cmap w!! w !sudo tee >/dev/null %
 vnoremap < <gv
 vnoremap > >gv
 
+" insert blank line with enter and shift+enter
+nmap <S-Enter> O<Esc>
+nmap <cr> o<Esc>
+
+" close quickfix window
+map <silent> <leader>gq :ccl<cr>
+
 " cycle through location list
 nnoremap <silent> <F1> :call LNext(0)<cr>
 nnoremap <silent> <F2> :call LNext(1)<cr>
@@ -155,13 +175,10 @@ nmap <silent> <leader>ct :!ctags *<cr>
 " copy component template into current file at cursor
 nnoremap <silent> <leader>rnc :read ~/dotfiles/templates/component.js<cr>
 
-
 " Plugin Mappings
 map <silent> <C-n> :NERDTreeToggle<cr>
 map <silent> <leader>cc :TComment<cr>
 map <leader>gf :Ack! 
-" close quickfix window
-map <silent> <leader>gq :ccl<cr>
 map <silent> <leader>gg :GitGutterToggle<cr>
 map <silent> <F5> :TagbarToggle<cr>
 
@@ -169,7 +186,7 @@ map <silent> <F5> :TagbarToggle<cr>
 "             Colors             "
 "--------------------------------"
 syntax on
-"colorscheme Dark
+"colorscheme onedark
 hi Visual ctermfg=NONE ctermbg=241 cterm=NONE guifg=NONE guibg=#44475a gui=NONE
 hi Folded ctermbg=0
 hi Search ctermfg=NONE ctermbg=241 cterm=NONE guibg=#44475a gui=NONE
@@ -257,7 +274,7 @@ let g:closetag_filenames = '*.html, *.js'
 "             CtrlP              "
 "--------------------------------"
 let g:ctrlp_show_hidden = 1
-" use ag
+" use silversearcher
 let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
 " ignore node_modules et al
 let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist)|(\.(swp|ico|git|svn))$'

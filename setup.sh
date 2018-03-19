@@ -24,7 +24,9 @@ fi
 # install vim plugins
 vim +PlugInstall +qall
 
-# make vim undodir
+# make vim directoris
+mkdir -p ~/.vim/backups
+mkdir -p ~/.vim/swapfiles
 mkdir -p ~/.vim/undodir
 
 # link ycm config

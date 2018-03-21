@@ -10,13 +10,20 @@ if [[ ( "$SHLVL" -eq 1 && ! -o LOGIN ) && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; t
   source "${ZDOTDIR:-$HOME}/.zprofile"
 fi
 
-# Add pyenv shim to PATH
+# Add pyenv to PATH
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 
-# if command -v pyenv 1>/dev/null 2>&1; then
-#   eval "$(pyenv init -)"
-# fi
+# Lazy load pyenv
+if type pyenv &> /dev/null; then
+    local PYENV_SHIMS="${PYENV_ROOT:-${HOME}/.pyenv}/shims"
+    export PATH="${PYENV_SHIMS}:${PATH}"
+    function pyenv() {
+        unset pyenv
+        eval "$(command pyenv init -)"
+        pyenv $@
+    }
+fi
 
 # Add global yarn packages to PATH
 export PATH="$(yarn global bin):$PATH"

@@ -9,8 +9,6 @@ fi
 
 # Source aliases
 source ~/dotfiles/.aliases
-source ~/dotfiles/.p_aliases
-source ~/dotfiles/.funcs
 
 # Source prezto
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then

@@ -54,14 +54,14 @@ for dotfile in zlogin zlogout zprofile; do
 done
 
 # install pyenv
-if  [ ! -d ~/.pyenv ]; then
-	echo "[+] Installing pyenv"
-	if [ -x "$(command -v git)" ]; then
-		git clone https://github.com/pyenv/pyenv.git ~/.pyenv
-	else
-		echo "[-] Git is not installed, install with sudo apt-get install git"
-	fi
-fi
+# if  [ ! -d ~/.pyenv ]; then
+# 	echo "[+] Installing pyenv"
+# 	if [ -x "$(command -v git)" ]; then
+# 		git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+# 	else
+# 		echo "[-] Git is not installed, install with sudo apt-get install git"
+# 	fi
+# fi
 
 echo "[+] dotfiles installed. Your old dotfiles have been placed in ~/dotfiles/backups"
 echo "run sudo apt-get install silversearcher-ag exuberant-ctags to install dependencies for vim plugins" 

@@ -25,10 +25,10 @@ alias aar="sudo add-apt-repository"
 # programming
 alias rb="ruby"
 alias irbs="irb --simple-prompt"
-alias py="python -m IPython"
+alias py="ipython"
+alias venv"python3.6 -m venv"
 alias ac="source venv/bin/activate"
 alias de="deactivate"
-
 alias a="./a.out"
 
 # git

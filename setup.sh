@@ -63,5 +63,25 @@ done
 # 	fi
 # fi
 
+# Optional package installation (for vim and python)
+read -p "[+] Install dependencies and build tools? (y/n): " opt
+if [ $opt == "y" ]; then
+	sudo apt-get update
+	sudo apt-get install -y build-essential libssl-dev libreadline-dev libsqlite3-dev silversearcher-ag exuberant-ctags
+fi
+
+# Optional Python 3.6.4 installation
+read -p "[+] Install Python 3.6.4 from source (will take a while)? (y/n): " py
+if [ $py == "y" ]; then
+	wget https://www.python.org/ftp/python/3.6.4/Python-3.6.4.tgz
+	tar -xvf Python-3.6.4.tgz
+	cd Python-3.6.4
+	./configure
+	make
+	sudo make install
+	cd ..
+	echo "[+] Deleting source code..."
+	rm -rf Python-3.6.4
+fi
+
 echo "[+] dotfiles installed. Your old dotfiles have been placed in ~/dotfiles/backups"
-echo "run sudo apt-get install silversearcher-ag exuberant-ctags to install dependencies for vim plugins" 

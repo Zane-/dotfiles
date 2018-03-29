@@ -19,7 +19,9 @@ set relativenumber        " hybrid numbering
 
 set scrolloff=15          " keep 5 lines above/below cursor line
 set cursorline            " underline current line
-set nowrap                " don't wrap lines
+set linebreak             " break lines
+" show ↪ on wrapped lines
+let &showbreak=nr2char(8618).' '
 
 set hlsearch              " highlight search hits
 set incsearch             " show search hits as you type
@@ -30,15 +32,20 @@ set tabstop=4             " make tabs 4-spaces wide
 set shiftwidth=4          " make indents correspond to one tab
 set smartindent           " indent after brackets
 
+set splitbelow            " split splits below
+set splitright            " vertical split splits right
+
 set foldmethod=indent
 set foldminlines=5        " min num of lines before a block is foldable
 set foldlevelstart=12     " don't autofold unless there are 12 indents
 
 " dont store backups and swapfile in working directory
+set backup
 set backupdir=~/.vim/backups
 set directory=~/.vim/swapfiles
 set undodir=~/.vim/undodir
 set undofile              " persistent undo
+set undolevels=1000       " keep lots of undo history
 
 set pastetoggle=<F3>      " switch to paste mode to paste easily
 set clipboard=unnamed     " use system clipboard
@@ -215,7 +222,7 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'mhinz/vim-startify' " fancy start page
 Plug 'scrooloose/nerdtree' " filetree
-Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'} " easy browsing of tags
+" Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'} " easy browsing of tags
 Plug 'ctrlpvim/ctrlp.vim' " fuzzyfinder
 Plug 'mileszs/ack.vim' " search files for a pattern recursively
 Plug 'easymotion/vim-easymotion' " jump to any word with ease

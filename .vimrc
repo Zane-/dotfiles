@@ -11,13 +11,14 @@
 "         General Config         "
 "--------------------------------"
 filetype plugin indent on
+set encoding=utf8         " set utf8 as standard encoding
 set hidden                " buffers can be in the bg without having to be saved
 set autoread              " autoreload changed files
 
 set number                " line numbers
 set relativenumber        " hybrid numbering
 
-set scrolloff=15          " keep 5 lines above/below cursor line
+set scrolloff=15          " keep 15 lines above/below cursor line
 set cursorline            " underline current line
 set linebreak             " break lines
 " show ↪ on wrapped lines
@@ -90,6 +91,9 @@ map <silent> bb :bp<cr>
 " Line navigation
 nnoremap B ^
 nnoremap E $
+" move up and down by display rather than line number
+nnoremap j gj
+nnoremap k gk
 
 " Window navigation
 map <C-j> <C-w>j
@@ -116,6 +120,8 @@ nnoremap <silent> <C-v> :vsp<cr>
 
 " delete trailing whitespace
 nmap <silent> <leader>dw :%s/\s\+$//<cr>:nohlsearch<cr>
+" delete ^M
+nmap <silent> <leader>dm :%s/^M//g<cr>
 
 " align paragraph
 noremap <leader>al =ip
@@ -187,7 +193,7 @@ map <silent> <C-n> :NERDTreeToggle<cr>
 map <silent> <leader>cc :TComment<cr>
 map <leader>gf :Ack! 
 map <silent> <leader>gg :GitGutterToggle<cr>
-map <silent> <F5> :TagbarToggle<cr>
+"map <silent> <F5> :TagbarToggle<cr>
 
 "--------------------------------"
 "             Colors             "

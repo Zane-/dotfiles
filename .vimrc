@@ -132,8 +132,6 @@ nnoremap <leader>fm gg=G``
 " move lines with Shift + Up/Down
 nnoremap <silent> <S-k> :m-2<cr>
 nnoremap <silent> <S-j> :m+<cr>
-inoremap <silent> <S-k> <Esc>:m-2<cr>i
-inoremap <silent> <S-j> <Esc>:m+<cr>i
 
 " insert blank line below with enter
 noremap <cr> o<Esc>
@@ -235,8 +233,8 @@ Plug 'easymotion/vim-easymotion' " jump to any word with ease
 Plug 'tomtom/tcomment_vim' " comment toggler
 Plug 'vim-airline/vim-airline' " status line and tab bar
 Plug 'vim-airline/vim-airline-themes'
+Plug 'fredkschott/covim' " collab editing server
 Plug 'tpope/vim-fugitive' " git wrapper
-
 " build and install autocompleter
 "Plug 'valloric/youcompleteme', { 'do': './install.py --clang-completer' }
 

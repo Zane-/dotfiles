@@ -9,13 +9,17 @@ fi
 
 # Source aliases
 source ~/dotfiles/.aliases
+source ~/dotfiles/.p_aliases
+source ~/dotfiles/.funcs
 
 # Source prezto
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 	source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
+export DOCKER_HOST=tcp://0.0.0.0:2375 # use docker for windows daemon
 export EDITOR=vim # set default editor to vim
+
 
 if [[ "$PROFILE_STARTUP" == true  ]]; then
     zprof

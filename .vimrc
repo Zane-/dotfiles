@@ -191,13 +191,13 @@ map <silent> <C-n> :NERDTreeToggle<cr>
 map <silent> <leader>cc :TComment<cr>
 map <leader>gf :Ack! 
 map <silent> <leader>gg :GitGutterToggle<cr>
+map <silent> <leader>ll :LLPStartPreview<cr>
 "map <silent> <F5> :TagbarToggle<cr>
 
 "--------------------------------"
 "             Colors             "
 "--------------------------------"
 syntax on
-"colorscheme onedark
 hi Visual ctermfg=NONE ctermbg=241 cterm=NONE guifg=NONE guibg=#44475a gui=NONE
 hi Folded ctermbg=0
 hi Search ctermfg=NONE ctermbg=241 cterm=NONE guibg=#44475a gui=NONE
@@ -248,7 +248,8 @@ Plug 'airblade/vim-gitgutter' " show added/deleted lines in gutter
 Plug 'octol/vim-cpp-enhanced-highlight' " additional cpp syntax support
 Plug 'pangloss/vim-javascript' " javascript syntax support
 Plug 'mxw/vim-jsx' " jsx syntax support for react
-
+Plug 'vim-latex/vim-latex'
+Plug 'xuhdev/vim-latex-live-preview'
 call plug#end()
 "================================================"
 "                 Plugin Config                  "

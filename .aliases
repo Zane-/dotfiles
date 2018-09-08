@@ -13,6 +13,7 @@ alias cd..="cd .."
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
+alias fm="nautilus ."
 
 # package manager
 alias agi="sudo apt-get install"
@@ -25,7 +26,7 @@ alias aar="sudo add-apt-repository"
 # programming
 alias rb="ruby"
 alias irbs="irb --simple-prompt"
-alias py2="ipython"
+alias py="ipython3"
 alias venv="python3 -m venv"
 alias ac="source venv/bin/activate"
 alias acd="source ~/dotfiles/venv/bin/activate"

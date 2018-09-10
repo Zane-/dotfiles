@@ -40,7 +40,6 @@ if  [ ! -d ~/.zprezto ]; then
 	echo "[+] Installing prezto"
 	if [ -x "$(command -v git)" ]; then
 		git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
-	else
 		echo "[-] Git is not installed, install with sudo apt-get install git"
 	fi
 fi
@@ -62,6 +61,33 @@ done
 # 		echo "[-] Git is not installed, install with sudo apt-get install git"
 # 	fi
 # fi
+
+read -p "[+] Install i3 config? (y/n): " opt
+if [ "$opt" != "${opt#[Yy]}" ] ;then
+	for i3config in config i3blocks.conf; do
+		if [ -f ~/.config/i3/$i3config ]; then
+			mv --backup=t ~/.config/i3/$i3config ~/dotfiles/backups
+		fi
+		ln -s ~/dotfiles/.config/i3/$i3config ~/.config/i3/$i3config
+		echo "[+] Created $i3config"
+	done
+
+	for polybar in config launch.sh ; do
+		if [ -f ~/.config/polybar/$polybar ]; then
+			mv --backup=t ~/.config/polybar/$polybar ~/dotfiles/backups
+		fi
+		ln -s ~/dotfiles/.config/polybar/$polybar ~/.config/polybar/$polybar
+		echo "[+] Created $polybar"
+	done
+
+	for font in fontawesome-webfont.ttf SystemSanFranciscoDisplayBold.ttf SystemSanFranciscoDisplayRegular.ttf SystemSanFranciscoDisplayThin.ttf SystemSanFranciscoDisplayUltralight.ttf ; do
+		if [ -f ~/.fonts/$font ]; then
+			mv --backup=t ~/.fonts/$font ~/dotfiles/backups
+		fi
+		ln -s ~/dotfiles/.fonts/$font ~/.fonts/$font
+	done
+	echo "[+] Installed fonts"
+fi
 
 # Optional package installation (for vim and python)
 read -p "[+] Install dependencies and build tools? (y/n): " opt

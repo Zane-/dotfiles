@@ -17,6 +17,17 @@ set $base0D #97bbf7
 set $base0E #c0b7f9
 set $base0F #fcc09e
 
+set $ws1 "1:"
+set $ws2 "2:"
+set $ws3 "3:"
+set $ws4 "4:"
+set $ws5 "5:"
+set $ws6 "6:"
+set $ws7 "7:"
+set $ws8 "8:"
+set $ws9 "9:"
+set $ws10 "10:"
+
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
 #font pango:monospace 8
@@ -24,8 +35,8 @@ font pango:SystemSanFranciscoDisplay 12
 
 # no title bar
 new_window none
-gaps inner 10
-gaps outer 5
+gaps inner 15
+gaps outer 10
 smart_border on
 
 # Use Mouse+$mod to drag floating windows to their wanted position
@@ -39,7 +50,7 @@ bindsym $mod+w kill
 
 # start dmenu (a program launcher)
 #bindsym $mod+d exec dmenu_run
-bindsym $mod+d exec rofi -show drun -theme arc-red-dark -display-drun ">" dpi 120
+bindsym $mod+d exec rofi -show drun -dpi 200
 
 # change focus
 bindsym $mod+h focus left
@@ -66,7 +77,7 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
-bindsym $mod+h split h
+bindsym $mod+Shift+v split h
 
 # split in vertical orientation
 bindsym $mod+v split v
@@ -87,34 +98,29 @@ bindsym $mod+space focus mode_toggle
 # focus the parent container
 bindsym $mod+a focus parent
 
-# Startup Programs
-  #exec --no-startup-id spotify
-  #exec --no-startup-id google-chrome
-  #exec --no-startup-id dunst
-
 # switch to workspace
-bindsym $mod+1 workspace $workspace1
-bindsym $mod+2 workspace $workspace2
-bindsym $mod+3 workspace $workspace3
-bindsym $mod+4 workspace $workspace4
-bindsym $mod+5 workspace $workspace5
-bindsym $mod+6 workspace $workspace6
-bindsym $mod+7 workspace $workspace7
-bindsym $mod+8 workspace $workspace8
-bindsym $mod+9 workspace $workspace9
-bindsym $mod+0 workspace $workspace10
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws10
 
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace $workspace1
-bindsym $mod+Shift+2 move container to workspace $workspace2
-bindsym $mod+Shift+3 move container to workspace $workspace3
-bindsym $mod+Shift+4 move container to workspace $workspace4
-bindsym $mod+Shift+5 move container to workspace $workspace5
-bindsym $mod+Shift+6 move container to workspace $workspace6
-bindsym $mod+Shift+7 move container to workspace $workspace7
-bindsym $mod+Shift+8 move container to workspace $workspace8
-bindsym $mod+Shift+9 move container to workspace $workspace9
-bindsym $mod+Shift+0 move container to workspace $workspace10
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws10
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -162,8 +168,23 @@ exec --no-startup-id feh --bg-fill ~/Pictures/Wallpapers/NoodleBar.jpg
   client.unfocused        $base02 $base02    $base03 $base0F
   client.urgent           $base02 $base08    $base00 $base0F
 
+# Startup Apps
+assign [class="Chrome"] $ws1
+assign [class="Hyper"] $ws2
+assign [class="Mailspring"] $ws3
+exec --no-startup-id google-chrome
+exec --no-startup-id hyper
+exec --no-startup-id mailspring
+
 # Polybar
 exec_always --no-startup-id ~/.config/polybar/launch.sh
+
+# Dunst
+exec_always --no-startup-id "dunst -config $HOME/.config/dunst/dunstrc"
+
+# Compton
+exec_always --no-startup-id "compton --blur-background --blur-strength 5 --inactive-opacity 0.9"
+for_window [class="^.*"] border pixel 3
 
 # Audio keybinds
 bindsym F9 exec /home/zane/linux-samus/scripts/setup/audio/volume-down.sh
@@ -177,5 +198,3 @@ bindsym F7 exec --no-startup-id sudo /home/zane/linux-samus/scripts/setup/bright
 # Keyboard brightness keybinds
 bindsym $mod+F6 exec --no-startup-id sudo /home/zane/linux-samus/scripts/setup/brightness/keyboard_led --decrease
 bindsym $mod+F7 exec --no-startup-id sudo /home/zane/linux-samus/scripts/setup/brightness/keyboard_led --increase
-
-exec_always compton -f

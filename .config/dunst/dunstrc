@@ -9,7 +9,7 @@
     show_age_threshold = 60
     word_wrap = yes
     ignore_newline = no
-    geometry = "200x5-6+30"
+	geometry = "540x40-10+56"
     transparency = 0
     idle_threshold = 120
     monitor = 0
@@ -36,16 +36,16 @@
     context = ctrl+shift+period
 
 [urgency_low]
-    background = "#181818"
-    foreground = "#E3C7AF"
+    background = "#282C34"
+    foreground = "#ABB2BF"
     timeout = 5
 
 [urgency_normal]
-    background = "#181818"
-    foreground = "#E3C7AF"
+    background = "#282C34"
+    foreground = "#ABB2BF"
     timeout = 20
 
 [urgency_critical]
-    background = "#181818"
-    foreground = "#E3C7AF"
+    background = "#282C34"
+    foreground = "#ABB2BF"
     timeout = 0

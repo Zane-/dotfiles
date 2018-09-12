@@ -81,7 +81,7 @@ ws-icon-5 = "6:;"
 ws-icon-6 = "7:;"
 ws-icon-7 = "8:;"
 ws-icon-8 = "9:;"
-ws-icon-9 = "10:"
+ws-icon-9 = "10:;"
 
 format = <label-state>
 format-padding-right = 0
@@ -113,6 +113,11 @@ bar-progress-width = 10
 bar-progress-indicator = |
 bar-progress-fill = ─
 bar-progress-empty = ─
+
+[module/powermenu]
+type = custom/text
+content = 
+click-left = ~/dotfiles/scripts/powermenu.sh
 
 [module/battery]
 type = internal/battery
@@ -190,36 +195,28 @@ type = custom/script
 interval = 5
 format-underline = ${xrdb:color10}
 exec = ~/dotfiles/.config/polybar/bluetooth.sh
+click-left = ~/dotfiles/scripts/toggle_bluetooth.sh
+label = %output%
+label-foreground = ${colors.foreground-alt}
 
 [module/volume]
-type = internal/alsa
-
-label-volume = ""
-format-volume = <label-volume> <bar-volume>
-label-volume-foreground = ${colors.foreground-alt}
-
-format-muted-prefix = ""
-format-muted-foreground = ${colors.foreground-alt}
-label-muted = sound muted
-
+type = internal/volume
+format-volume = <ramp-volume> <bar-volume>
+format-volume-margin = 1
+label-muted =  ╍╍╍╍╍╍╍╍╍╍
+label-muted-foreground = ${colors.foreground-alt}
+format-muted-margin = 1
+ramp-volume-0 = 
+ramp-volume-1 = 
+ramp-volume-2 = 
+ramp-volume-foreground = ${xrdb:color2}
 bar-volume-width = 10
-bar-volume-foreground-0 = ${xrdb:color1}
-bar-volume-foreground-1 = ${xrdb:color1}
-bar-volume-foreground-2 = ${xrdb:color2}
-bar-volume-foreground-3 = ${xrdb:color2}
-bar-volume-foreground-4 = ${xrdb:color2}
-bar-volume-foreground-5 = ${xrdb:color6}
-bar-volume-foreground-6 = ${xrdb:color6}
-bar-volume-gradient = false
-bar-volume-indicator = ━
-bar-volume-fill = ━
-bar-volume-empty = ━
+bar-volume-indicator = ╍
+bar-volume-fill = ╍
+bar-volume-empty = ╍
+bar-volume-foreground-0 = ${xrdb:color2}
+bar-volume-indicator-foreground = ${xrdb:color2}
 bar-volume-empty-foreground = ${colors.foreground-alt}
-
-ramp-0 = 
-ramp-1 = 
-ramp-2 = 
-ramp-foreground = ${colors.foreground-alt}
 
 [settings]
 screenchange-reload = true

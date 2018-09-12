@@ -43,7 +43,11 @@ smart_border on
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+t exec hyper
+bindsym $mod+t exec rxvt
+
+# start chrome
+assign [class="Google-chrome"] $ws1
+bindsym $mod+c exec google-chrome
 
 # kill focused window
 bindsym $mod+w kill
@@ -138,10 +142,10 @@ mode "resize" {
         # Pressing right will grow the window’s width.
         # Pressing up will shrink the window’s height.
         # Pressing down will grow the window’s height.
-        bindsym h resize shrink width 10 px or 10 ppt
-        bindsym j resize grow height 10 px or 10 ppt
-        bindsym k resize shrink height 10 px or 10 ppt
-        bindsym l resize grow width 10 px or 10 ppt
+        bindsym h resize shrink width 5 px or 5 ppt
+        bindsym j resize grow height 5 px or 5 ppt
+        bindsym k resize shrink height 5 px or 5 ppt
+        bindsym l resize grow width 5 px or 5 ppt
 
         bindsym Left resize shrink width 10 px or 10 ppt
         bindsym Down resize grow height 10 px or 10 ppt
@@ -155,29 +159,14 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
-
-# Wallpaper
-exec --no-startup-id feh --bg-fill ~/Pictures/Wallpapers/NoodleBar.jpg
-
-# Window Colors
-#                         border  background text    indicator
-  client.focused          $base01 $base01    $base07 $base0F
-  client.focused_inactive $base02 $base02    $base03 $base0F
-  client.unfocused        $base02 $base02    $base03 $base0F
-  client.urgent           $base02 $base08    $base00 $base0F
+# Startup
+exec --no-startup-id feh --bg-fill ~/Pictures/Wallpapers/red.jpg
+exec --no-startup-id mopidy
 
 # Startup Apps
-assign [class="Chrome"] $ws1
-assign [class="Hyper"] $ws2
 assign [class="Mailspring"] $ws3
-exec --no-startup-id google-chrome
-exec --no-startup-id hyper
+exec --no-startup-id i3-msg 'workspace 2:; exec rxvt; workspace 4:; exec rxvt -e ncmpcpp; workspace 2:'
 exec --no-startup-id mailspring
-
-# Polybar
-exec_always --no-startup-id ~/.config/polybar/launch.sh
 
 # Dunst
 exec_always --no-startup-id "dunst -config $HOME/.config/dunst/dunstrc"
@@ -186,15 +175,28 @@ exec_always --no-startup-id "dunst -config $HOME/.config/dunst/dunstrc"
 exec_always --no-startup-id "compton --blur-background --blur-strength 5 --inactive-opacity 0.9"
 for_window [class="^.*"] border pixel 3
 
+# Polybar
+exec_always --no-startup-id ~/.config/polybar/launch.sh
+
+# Bluetooth toggle
+bindsym $mod+Shift+b exec /home/zane/dotfiles/scripts/toggle_bluetooth.sh
+
 # Audio keybinds
-bindsym F9 exec /home/zane/linux-samus/scripts/setup/audio/volume-down.sh
-bindsym F10 exec /home/zane/linux-samus/scripts/setup/audio/volume-up.sh
-bindsym F8 exec /home/zane/linux-samus/scripts/setup/audio/mute-toggle.sh
+bindsym F9 exec ~/linux-samus/scripts/setup/audio/volume-down.sh
+bindsym F10 exec ~/linux-samus/scripts/setup/audio/volume-up.sh
+bindsym F8 exec ~/linux-samus/scripts/setup/audio/mute-toggle.sh
 
 # Screen brightness keybinds
-bindsym F6 exec --no-startup-id sudo /home/zane/linux-samus/scripts/setup/brightness/brightness --decrease
-bindsym F7 exec --no-startup-id sudo /home/zane/linux-samus/scripts/setup/brightness/brightness --increase
+bindsym F6 exec --no-startup-id sudo ~/linux-samus/scripts/setup/brightness/brightness --decrease
+bindsym F7 exec --no-startup-id sudo ~/linux-samus/scripts/setup/brightness/brightness --increase
 
 # Keyboard brightness keybinds
-bindsym $mod+F6 exec --no-startup-id sudo /home/zane/linux-samus/scripts/setup/brightness/keyboard_led --decrease
-bindsym $mod+F7 exec --no-startup-id sudo /home/zane/linux-samus/scripts/setup/brightness/keyboard_led --increase
+bindsym $mod+F6 exec --no-startup-id sudo ~/linux-samus/scripts/setup/brightness/keyboard_led --decrease
+bindsym $mod+F7 exec --no-startup-id sudo ~/linux-samus/scripts/setup/brightness/keyboard_led --increase
+
+# Window Colors
+#                         border  background text    indicator
+  client.focused          $base01 $base01    $base07 $base0F
+  client.focused_inactive $base02 $base02    $base03 $base0F
+  client.unfocused        $base02 $base02    $base03 $base0F
+  client.urgent           $base02 $base08    $base00 $base0F

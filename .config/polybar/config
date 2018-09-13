@@ -38,7 +38,7 @@ font-2 = MaterialIcons:size=11;2
 
 modules-left = i3
 modules-center = mpd
-modules-right = volume memory cpu date bluetooth wlan battery powermenu
+modules-right = volume memory cpu date wlan bluetooth battery powermenu
 
 tray-position = left
 tray-padding = 2
@@ -49,7 +49,7 @@ interface = wlp1s0
 interval = 3.0
 
 format-connected = <ramp-signal> <label-connected>
-format-connected-underline = ${xrdb:color4}
+format-connected-underline = ${xrdb:color10}
 label-connected = %essid%
 
 format-disconnected =
@@ -117,6 +117,7 @@ bar-progress-empty = ─
 [module/powermenu]
 type = custom/text
 content = 
+format-underline = ${xrdb:color11}
 click-left = ~/dotfiles/scripts/powermenu.sh
 
 [module/battery]
@@ -181,8 +182,8 @@ interval = 5
 date =
 date-alt = " %Y-%m-%d"
 
-time = %I:%M
-time-alt = %H:%M:%S
+time = "%m-%d %I:%M"
+time-alt = %I:%M
 
 format-prefix = ""
 format-prefix-foreground = ${colors.foreground-alt}
@@ -193,11 +194,16 @@ label = %date% %time%
 [module/bluetooth]
 type = custom/script
 interval = 5
-format-underline = ${xrdb:color10}
-exec = ~/dotfiles/.config/polybar/bluetooth.sh
+format-underline = ${xrdb:color4}
+exec = ~/dotfiles/.config/polybar/scripts/bluetooth.sh
 click-left = ~/dotfiles/scripts/toggle_bluetooth.sh
 label = %output%
 label-foreground = ${colors.foreground-alt}
+
+[module/todo]
+type = custom/script
+exec = ~/dotfiles/.config/polybar/scripts/todo.sh
+interval = 60
 
 [module/volume]
 type = internal/volume

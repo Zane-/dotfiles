@@ -7,6 +7,7 @@ secondary = #e60053
 alert = #bd2c40
 
 [bar/bar]
+monitor = eDP-1
 dpi = 180
 width = 100%
 height = 52
@@ -33,36 +34,15 @@ module-margin-left = 1
 module-margin-right = 0
 
 font-0 = Roboto Mono for Powerline:style=semibold:antialias=true:pixelsize=10;1
-font-1 = Material Design Icons:size=11;2
-font-2 = MaterialIcons:size=11;2
+font-1 = Noto Sans:size=11;2
+font-2 = Material Design Icons:size=11;2
+font-3 = Material Icons:size=11;2
 
 modules-left = i3
-modules-center = mpd
-modules-right = volume memory cpu date wlan bluetooth battery powermenu
+modules-right = mpd volume memory cpu date wlan bluetooth battery powermenu
 
-tray-position = left
+tray-position =
 tray-padding = 2
-
-[module/wlan]
-type = internal/network
-interface = wlp1s0
-interval = 3.0
-
-format-connected = <ramp-signal> <label-connected>
-format-connected-underline = ${xrdb:color10}
-label-connected = %essid%
-
-format-disconnected = <label-disconnected>
-format-disconnected-underline = ${self.format-connected-underline}
-label-disconnected =  no signal
-label-disconnected-foreground = ${colors.foreground-alt}
-
-ramp-signal-0 = 
-ramp-signal-1 = 
-ramp-signal-2 = 
-ramp-signal-3 = 
-ramp-signal-4 = 
-ramp-signal-foreground = ${colors.foreground-alt}
 
 [module/i3]
 type = internal/i3
@@ -106,57 +86,27 @@ icon-pause = 
 icon-stop = stop
 
 label-song-maxlen = 25
+label-song =  %title%
 label-song-ellipsis = true
 
-bar-progress-width = 10
-bar-progress-indicator = |
-bar-progress-fill = ─
-bar-progress-empty = ─
-
-[module/powermenu]
-type = custom/text
-content = 
-format-underline = ${xrdb:color11}
-click-left = ~/dotfiles/scripts/powermenu.sh
-
-[module/battery]
-type = internal/battery
-battery = BAT0
-adapter = AC
-full-at = 98
-
-format-charging = <animation-charging> <label-charging>
-format-charging-underline = ${xrdb:color2}
-
-animation-charging-0 = 
-animation-charging-1 = 
-animation-charging-2 = 
-animation-charging-3 = 
-animation-charging-4 = 
-
-format-discharging = <ramp-capacity> <label-discharging>
-label-discharging = %percentage:2%%
-format-full = <label-full>
-
-ramp-capacity-0 = 
-ramp-capacity-0-foreground = ${xrdb:color9}
-ramp-capacity-1 = 
-ramp-capacity-2 = 
-ramp-capacity-2-foreground = $(xrdb:color3)
-ramp-capacity-3 = 
-ramp-capacity-4 = 
-ramp-capacity-4-foreground = ${xrdb:color2:#00ff00}
-
-format-discharging-underline = ${xrdb:color5}
-
-format-full-prefix = ""
-format-full-prefix-foreground = ${xrdb:color2}
-format-full-underline = ${self.format-charging-underline}
-
-ramp-capacity-foreground = ${colors.foreground-alt}
-
-animation-charging-foreground = ${colors.foreground}
-animation-charging-framerate = 500
+[module/volume]
+type = internal/volume
+format-volume = <ramp-volume> <bar-volume>
+format-volume-margin = 1
+label-muted =  ╍╍╍╍╍╍╍╍╍╍
+label-muted-foreground = ${colors.foreground-alt}
+format-muted-margin = 1
+ramp-volume-0 = 
+ramp-volume-1 = 
+ramp-volume-2 = 
+ramp-volume-foreground = ${xrdb:color2}
+bar-volume-width = 10
+bar-volume-indicator = ╍
+bar-volume-fill = ╍
+bar-volume-empty = ╍
+bar-volume-foreground-0 = ${xrdb:color2}
+bar-volume-indicator-foreground = ${xrdb:color2}
+bar-volume-empty-foreground = ${colors.foreground-alt}
 
 [module/cpu]
 type = internal/cpu
@@ -189,6 +139,33 @@ format-prefix-foreground = ${colors.foreground-alt}
 format-underline = ${xrdb:color3}
 
 label = %date% %time%
+[module/powermenu]
+
+type = custom/text
+content = 
+format-underline = ${xrdb:color11}
+click-left = ~/dotfiles/scripts/powermenu.sh
+
+[module/wlan]
+type = internal/network
+interface = wlp1s0
+interval = 3.0
+
+format-connected = <ramp-signal> <label-connected>
+format-connected-underline = ${xrdb:color10}
+label-connected = %essid%
+
+format-disconnected = <label-disconnected>
+format-disconnected-underline = ${self.format-connected-underline}
+label-disconnected =  no signal
+label-disconnected-foreground = ${colors.foreground-alt}
+
+ramp-signal-0 = 
+ramp-signal-1 = 
+ramp-signal-2 = 
+ramp-signal-3 = 
+ramp-signal-4 = 
+ramp-signal-foreground = ${colors.foreground-alt}
 
 [module/bluetooth]
 type = custom/script
@@ -199,29 +176,48 @@ click-left = ~/dotfiles/scripts/toggle_bluetooth.sh
 label = %output%
 label-foreground = ${colors.foreground-alt}
 
+[module/battery]
+type = internal/battery
+battery = BAT0
+adapter = AC
+full-at = 98
+
+format-charging = <animation-charging> <label-charging>
+format-charging-underline = ${xrdb:color2}
+animation-charging-0 = 
+animation-charging-1 = 
+animation-charging-2 = 
+animation-charging-3 = 
+animation-charging-4 = 
+
+format-discharging = <ramp-capacity> <label-discharging>
+label-discharging = %percentage:2%%
+format-full = <label-full>
+
+ramp-capacity-0 = 
+ramp-capacity-0-foreground = ${xrdb:color9}
+ramp-capacity-1 = 
+ramp-capacity-2 = 
+ramp-capacity-2-foreground = $(xrdb:color3)
+ramp-capacity-3 = 
+ramp-capacity-4 = 
+ramp-capacity-4-foreground = ${xrdb:color2:#00ff00}
+
+format-discharging-underline = ${xrdb:color5}
+
+format-full-prefix = ""
+format-full-prefix-foreground = ${xrdb:color2}
+format-full-underline = ${self.format-charging-underline}
+
+ramp-capacity-foreground = ${colors.foreground-alt}
+
+animation-charging-foreground = ${colors.foreground}
+animation-charging-framerate = 500
+
 [module/todo]
 type = custom/script
 exec = ~/dotfiles/.config/polybar/scripts/todo.sh
 interval = 60
-
-[module/volume]
-type = internal/volume
-format-volume = <ramp-volume> <bar-volume>
-format-volume-margin = 1
-label-muted =  ╍╍╍╍╍╍╍╍╍╍
-label-muted-foreground = ${colors.foreground-alt}
-format-muted-margin = 1
-ramp-volume-0 = 
-ramp-volume-1 = 
-ramp-volume-2 = 
-ramp-volume-foreground = ${xrdb:color2}
-bar-volume-width = 10
-bar-volume-indicator = ╍
-bar-volume-fill = ╍
-bar-volume-empty = ╍
-bar-volume-foreground-0 = ${xrdb:color2}
-bar-volume-indicator-foreground = ${xrdb:color2}
-bar-volume-empty-foreground = ${colors.foreground-alt}
 
 [settings]
 screenchange-reload = true

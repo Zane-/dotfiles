@@ -38,8 +38,8 @@ font-1 = Noto Sans:size=11;2
 font-2 = Material Design Icons:size=11;2
 font-3 = Material Icons:size=11;2
 
-modules-left = i3 tasks
-modules-right = mpd volume memory cpu date wlan bluetooth battery powermenu
+modules-left = i3
+modules-right = mpd volume memory cpu date wlan bluetooth battery tasks powermenu
 
 tray-position =
 tray-padding = 2
@@ -139,12 +139,11 @@ format-prefix-foreground = ${colors.foreground-alt}
 format-underline = ${xrdb:color3}
 
 label = %date% %time%
-[module/powermenu]
 
+[module/powermenu]
 type = custom/text
 content = 
-format-underline = ${xrdb:color11}
-click-left = ~/dotfiles/scripts/powermenu.sh
+click-left = ~/dotfiles/.config/polybar/scripts/powermenu.sh
 
 [module/wlan]
 type = internal/network

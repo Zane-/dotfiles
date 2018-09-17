@@ -38,7 +38,7 @@ font-1 = Noto Sans:size=11;2
 font-2 = Material Design Icons:size=11;2
 font-3 = Material Icons:size=11;2
 
-modules-left = i3
+modules-left = i3 tasks
 modules-right = mpd volume memory cpu date wlan bluetooth battery powermenu
 
 tray-position =
@@ -214,10 +214,12 @@ ramp-capacity-foreground = ${colors.foreground-alt}
 animation-charging-foreground = ${colors.foreground}
 animation-charging-framerate = 500
 
-[module/todo]
+[module/tasks]
 type = custom/script
-exec = ~/dotfiles/.config/polybar/scripts/todo.sh
-interval = 60
+exec = ~/dotfiles/.config/polybar/scripts/task.sh
+label =  %output%
+click-left = ~/dotfiles/.config/polybar/scripts/show_tasks.sh
+interval = 5
 
 [settings]
 screenchange-reload = true

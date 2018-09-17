@@ -171,8 +171,6 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-bindsym $mod+e exec ~/dotfiles/.config/polybar/scripts/show_tasks.sh
-bindsym $mod+Shift+m exec mopidy &
 
 # Startup
 exec --no-startup-id gnome-settings-daemon
@@ -197,7 +195,13 @@ for_window [class="^.*"] border pixel 3
 
 # Bluetooth
 bindsym $mod+Shift+b exec ~/dotfiles/scripts/toggle_bluetooth.sh
-bindsym $mod+Shift+s exec ~/dotfiles/scripts/connect_to_bose.sh
+bindsym $mod+Shift+m exec ~/dotfiles/scripts/connect_to_bose.sh
+
+# Tasks menu
+bindsym $mod+e exec ~/dotfiles/.config/polybar/scripts/show_tasks.sh
+
+# Lightbar menu
+bindsym $mod+Shift+x exec ~/dotfiles/scripts/start_lightbar.sh
 
 # Audio keybinds
 bindsym F9 exec ~/linux-samus/scripts/setup/audio/volume-down.sh

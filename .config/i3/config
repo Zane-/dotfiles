@@ -52,8 +52,11 @@ bindsym $mod+t exec rxvt
 assign [class="Google-chrome"] $ws1
 bindsym $mod+c exec google-chrome
 
+# show powermenu
+bindsym $mod+p exec ~/dotfiles/.config/polybar/scripts/powermenu.sh
+
 # kill focused window
-bindsym $mod+w kill
+bindsym $mod+q kill
 
 # start dmenu (a program launcher)
 #bindsym $mod+d exec dmenu_run

@@ -5,7 +5,8 @@ rofi=`echo -e "$(task list | awk '{if(NR>3)print}' | head -n -2)" | rofi -dmenu 
 echo $rofi
 
 first="$(echo $rofi | head -c 2)"
-re='^[0-9]+ '
+echo $first
+re='^[0-9]+'
 if ! [[ $first =~ $re ]]; then
 	task add $rofi
 else

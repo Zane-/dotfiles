@@ -1,6 +1,6 @@
 set $mod Mod4
-
 set $base00 #101218
+
 set $base01 #1f222d
 set $base02 #252936
 set $base03 #7780a1
@@ -39,6 +39,9 @@ gaps inner 15
 gaps outer 10
 smart_border on
 
+workspace 1 gaps inner 0
+workspace 1 gaps outer 0
+
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
@@ -55,6 +58,9 @@ bindsym $mod+w kill
 # start dmenu (a program launcher)
 #bindsym $mod+d exec dmenu_run
 bindsym $mod+d exec rofi -show drun -dpi 200
+
+# start htop
+bindsym $mod+z exec htop
 
 # change focus
 bindsym $mod+h focus left
@@ -101,6 +107,10 @@ bindsym $mod+space focus mode_toggle
 
 # focus the parent container
 bindsym $mod+a focus parent
+
+# cycle windows
+bindsym $mod+Tab focus right
+bindsym $mod+Shift+Tab focus left
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
@@ -156,9 +166,17 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
+bindsym $mod+e exec ~/dotfiles/.config/polybar/scripts/show_tasks.sh
+bindsym $mod+Shift+m exec mopidy &
+
 # Startup
-exec --no-startup-id feh --bg-fill ~/Pictures/Wallpapers/red.jpg
+exec --no-startup-id gnome-settings-daemon
+# switch to random wallpaper
+exec_always --no-startup-id feh --randomize --bg-fill ~/Pictures/Wallpapers/
 ;exec --no-startup-id mopidy
+
+# Polybar
+exec_always --no-startup-id ~/dotfiles/.config/polybar/launch.sh
 
 # Startup Apps
 assign [class="Mailspring"] $ws3
@@ -172,12 +190,9 @@ exec_always --no-startup-id "dunst -config $HOME/.config/dunst/dunstrc"
 exec_always --no-startup-id "compton --blur-background --blur-strength 5 --inactive-opacity 0.9"
 for_window [class="^.*"] border pixel 3
 
-# Polybar
-exec_always --no-startup-id ~/.config/polybar/launch.sh
-
 # Bluetooth
 bindsym $mod+Shift+b exec ~/dotfiles/scripts/toggle_bluetooth.sh
-bindsym $mod+Shift+m exec ~/dotfiles/scripts/connect_to_bose.sh
+bindsym $mod+Shift+s exec ~/dotfiles/scripts/connect_to_bose.sh
 
 # Audio keybinds
 bindsym F9 exec ~/linux-samus/scripts/setup/audio/volume-down.sh

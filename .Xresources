@@ -1,4 +1,4 @@
-Xft.dpi:       220
+Xft.dpi:       180
 Xft.antialias: true
 
 ! special
@@ -47,33 +47,5 @@ URxvt.iso14755:    false
 URxvt.iso14755_52: false
 URxvt.internalBorder: 25
 URxvt.keysym.Shift-Control-C: eval:selection_to_clipboard
-URxvt.keysym.Shift-Control-V: eval:paste_clipboard
 
-rofi.modi:                           window,drun,run
-rofi.sidebar-mode:                   true
-rofi.terminal:                       urxvt
-rofi.ssh-client:                     ssh
-rofi.ssh-command:                    {terminal} -e "{ssh-client} {host}"
-rofi.opacity:                        80
-rofi.width:                          45
-rofi.lines:                          10
-rofi.columns:                        1
-rofi.font:                           ClearSansMedium 13
-rofi.drun-icon-theme:                Numix-Circle
-rofi.show-icons:                     false
-rofi.bw:                             10
-rofi.location:                       0
-rofi.levenshtein-sort:               true
-rofi.case-sensitive:                 false
-rofi.fuzzy:                          false
-rofi.padding: 50
-rofi.line-margin:                    10
-rofi.separator-style:                solid
-rofi.hide-scrollbar:                 true
-rofi.markup-rows:                    false
-rofi.scrollbar-width: 0
-rofi.color-enabled: true
-rofi.color-window: #2f343f, #2f343f, #2f343f
-rofi.color-normal: #2f343f, #d8dee8, #2f343f, #2f343f, #bf616a
-rofi.color-active: #2f343f, #b48ead, #2f343f, #2f343f, #93e5cc
-rofi.color-urgent: #2f343f, #ebcb8b, #2f343f, #2f343f, #ebcb8b
+URxvt.keysym.Shift-Control-V: eval:paste_clipboard

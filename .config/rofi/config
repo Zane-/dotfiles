@@ -1,22 +1,9 @@
-rofi.modi:                           window,drun,run
-ro
 rofi.terminal:                       rxvt-unicode
-rofi.ssh-client:                     ssh
-rofi.ssh-command:                    {terminal} -e "{ssh-client} {host}"
-rofi.opacity:                        80
 rofi.width:                          45
-rofi.lines:                          10
-rofi.columns:                        1
-rofi.font:                           Roboto Mono for Powerline 13
-rofi.bw:                             10
-rofi.location:                       0
+rofi.lines:                          8
+rofi.font:                           SFNS Display 13
 rofi.levenshtein-sort:               true
-rofi.case-sensitive:                 false
-rofi.fuzzy:                          false
-rofi.padding: 50
 rofi.line-margin:                    10
 rofi.separator-style:                solid
 rofi.hide-scrollbar:                 false
-rofi.markup-rows:                    false
-rofi.scrollbar-width: 3
 rofi.theme: /home/zane/dotfiles/themes/rofi/nord.rasi

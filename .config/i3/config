@@ -47,6 +47,8 @@ floating_modifier $mod
 
 # start a terminal
 bindsym $mod+t exec rxvt
+# start shell rofi
+bindsym $mod+x exec ~/dotfiles/scripts/shell.sh
 
 # start chrome
 assign [class="Google-chrome"] $ws1

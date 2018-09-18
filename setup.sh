@@ -7,12 +7,12 @@ mkdir -p ~/dotfiles/npm-packages
 
 # create symbolic links
 echo "[+] Creating symbolic links, moving current dotfiles to ~/dotfiles/backups"
-for dotfile in .npmrc .vimrc .zshrc .zpreztorc .zshenv; do
+for dotfile in .npmrc .vimrc .zshrc .zpreztorc .zshenv .Xresources; do
 	if [ -f ~/$dotfile ]; then
 		mv --backup=t ~/$dotfile ~/dotfiles/backups
 	fi
 	ln -s ~/dotfiles/$dotfile ~/$dotfile
-	echo "[+] Created $dotfile"
+	echo "[+] Copied $dotfile"
 done
 
 # install plugged
@@ -52,41 +52,31 @@ for dotfile in zlogin zlogout zprofile; do
 	ln -s ~/.zprezto/runcoms/$dotfile ~/.$dotfile
 done
 
-# install pyenv
-# if  [ ! -d ~/.pyenv ]; then
-# 	echo "[+] Installing pyenv"
-# 	if [ -x "$(command -v git)" ]; then
-# 		git clone https://github.com/pyenv/pyenv.git ~/.pyenv
-# 	else
-# 		echo "[-] Git is not installed, install with sudo apt-get install git"
-# 	fi
-# fi
-
-read -p "[+] Install i3 config? (y/n): " opt
+read -p "[+] Install i3-gaps? (y/n): " opt
 if [ "$opt" != "${opt#[Yy]}" ] ;then
-	for i3config in config i3blocks.conf; do
-		if [ -f ~/.config/i3/$i3config ]; then
-			mv --backup=t ~/.config/i3/$i3config ~/dotfiles/backups
-		fi
-		ln -s ~/dotfiles/.config/i3/$i3config ~/.config/i3/$i3config
-		echo "[+] Created $i3config"
-	done
+	if [ -f ~/.config/i3/config ]; then
+		mv --backup=t ~/.config/i3/config ~/dotfiles/backups
+	fi
+	ln -s ~/dotfiles/.config/i3/config ~/.config/i3/config
+	echo "[+] Copied i3 config"
 
-	for polybar in config launch.sh ; do
-		if [ -f ~/.config/polybar/$polybar ]; then
-			mv --backup=t ~/.config/polybar/$polybar ~/dotfiles/backups
-		fi
-		ln -s ~/dotfiles/.config/polybar/$polybar ~/.config/polybar/$polybar
-		echo "[+] Created $polybar"
-	done
+	if [ -f ~/.config/polybar/config ]; then
+		mv --backup=t ~/.config/polybar/config ~/dotfiles/backups
+	fi
+	ln -s ~/dotfiles/.config/polybar/config ~/.config/polybar/config
+	echo "[+] Copied polybar config"
 
-	for font in fontawesome-webfont.ttf SystemSanFranciscoDisplayBold.ttf SystemSanFranciscoDisplayRegular.ttf SystemSanFranciscoDisplayThin.ttf SystemSanFranciscoDisplayUltralight.ttf ; do
-		if [ -f ~/.fonts/$font ]; then
-			mv --backup=t ~/.fonts/$font ~/dotfiles/backups
-		fi
-		ln -s ~/dotfiles/.fonts/$font ~/.fonts/$font
-	done
-	echo "[+] Installed fonts"
+	if [ -f ~/.config/rofi/config  ]; then
+		mv --backup=t ~/.config/rofi/config ~/dotfiles/backups
+	fi
+	ln -s ~/dotfiles/.config/rofi/config ~/.config/rofi
+	echo "[+] Copied rofi config"
+
+	if [ -f ~/.config/dunst/dunstrc  ]; then
+		mv --backup=t ~/.config/dunst/dunstrc ~/dotfiles/backups
+	fi
+	ln -s ~/dotfiles/.config/dunst/dunstrc/ ~/.config/dunst/dunstrc
+	echo "[+] Copied dunst config"
 fi
 
 # Optional package installation (for vim and python)

@@ -1,7 +1,7 @@
 rofi.terminal:                       rxvt-unicode
 rofi.width:                          45
 rofi.lines:                          8
-rofi.font:                           SFNS Display 13
+rofi.font:                           Roboto Mono for Powerline 10
 rofi.levenshtein-sort:               true
 rofi.line-margin:                    10
 rofi.separator-style:                solid

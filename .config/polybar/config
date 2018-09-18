@@ -173,7 +173,6 @@ format-underline = ${xrdb:color4}
 exec = ~/dotfiles/.config/polybar/scripts/bluetooth.sh
 click-left = ~/dotfiles/scripts/toggle_bluetooth.sh
 label = %output%
-label-foreground = ${colors.foreground-alt}
 
 [module/battery]
 type = internal/battery

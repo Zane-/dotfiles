@@ -54,6 +54,9 @@ bindsym $mod+x exec ~/dotfiles/scripts/shell.sh
 assign [class="Google-chrome"] $ws1
 bindsym $mod+c exec google-chrome
 
+# search google
+bindsym $mod+w exec ~/dotfiles/scripts/search.sh
+
 # show powermenu
 bindsym $mod+p exec ~/dotfiles/.config/polybar/scripts/powermenu.sh
 

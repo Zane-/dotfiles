@@ -1,7 +1,7 @@
 #!/bin/sh
 
-POWER="\tLog Out\n\tReboot\n\tPower Off"
-ROFI=`echo $POWER | rofi -dmenu -i -lines 3 -font "Roboto Mono for Powerline 9" -columns 1 -width 15 -location 3 -yoffset 56 -dpi 180 -p power -color-window '#ff282c34, #00000000, #00000000' -color-normal '#ff282c34, #99666666, #ff282c34, #22ffffff, #99e5c07b' | awk '{print $1}'`
+POWER="\tLog Out\n\tReboot\n\tPower Off\n\tSuspend"
+ROFI=`echo $POWER | rofi -dmenu -i -lines 4 -font "Roboto Mono for Powerline 9" -columns 1 -width 15 -location 3 -yoffset 56 -dpi 180 -p power -color-window '#ff282c34, #00000000, #00000000' -color-normal '#ff282c34, #99666666, #ff282c34, #22ffffff, #99e5c07b' | awk '{print $1}'`
 
 echo $ROFI
 
@@ -19,6 +19,10 @@ if [ ${#ROFI} -gt 0 ]; then
         MESG="Rebooting..."
         CMD="reboot"
         ;;
+	Suspend)
+		systemctl suspend
+	 	exit 0
+		;;
     esac
 fi
 

@@ -195,6 +195,9 @@ exec_always --no-startup-id "dunst -config $HOME/.config/dunst/dunstrc"
 exec_always --no-startup-id "compton --blur-background --blur-strength 5 --inactive-opacity 0.9"
 for_window [class="^.*"] border pixel 3
 
+# Redshift
+exec --no-startup-id redshift
+
 # Bluetooth
 bindsym $mod+Shift+b exec ~/dotfiles/scripts/toggle_bluetooth.sh
 bindsym $mod+Shift+m exec ~/dotfiles/scripts/connect_to_bose.sh

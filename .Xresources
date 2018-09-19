@@ -38,7 +38,7 @@ Xft.antialias: true
 *.color7:       #ABB2BF
 *.color15:      #5C6370
 
-URxvt.background: #282C34
+URxvt.background: rgba:2800/2c00/3400/dd00
 URxvt.depth: 32
 URxvt.scrollBar: false
 URxvt.visualBell: false

@@ -45,8 +45,12 @@ workspace 1 gaps outer 0
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
+# lock the screen
+bindsym $mod+Shift+v exec i3lock-fancy
+
 # start a terminal
 bindsym $mod+t exec rxvt
+
 # start shell rofi
 bindsym $mod+x exec ~/dotfiles/scripts/shell.sh
 

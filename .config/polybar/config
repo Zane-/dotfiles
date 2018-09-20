@@ -131,10 +131,10 @@ interval = 5
 date =
 date-alt = " %Y-%m-%d"
 
-time = "%m-%d %I:%M"
+time = "%m.%d.%Y | %I:%M"
 time-alt = %I:%M
 
-format-prefix = ""
+format-prefix = ""
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline = ${xrdb:color3}
 

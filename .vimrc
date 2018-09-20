@@ -250,6 +250,8 @@ Plug 'pangloss/vim-javascript' " javascript syntax support
 Plug 'mxw/vim-jsx' " jsx syntax support for react
 Plug 'vim-latex/vim-latex'
 Plug 'xuhdev/vim-latex-live-preview'
+Plug 'luochen1990/rainbow'
+
 call plug#end()
 "================================================"
 "                 Plugin Config                  "
@@ -300,10 +302,15 @@ let g:gitgutter_enabled = 0
 "--------------------------------"
 "            NERDTree            "
 "--------------------------------"
-let g:NERDTreeShowHidden=1
+let g:NERDTreeShowHidden = 1
 let g:NERDTreeQuitOnOpen = 1
 let g:NERDTreeMapOpenInTab = '<C-t>'
 let g:NERDTreeMapOpenVSplit = '<C-v>'
+
+"--------------------------------"
+"            Rainbow             "
+"--------------------------------"
+let g:rainbow_active = 1
 
 "--------------------------------"
 "           Startify             "

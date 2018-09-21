@@ -46,7 +46,7 @@ workspace 1 gaps outer 0
 floating_modifier $mod
 
 # lock the screen
-bindsym $mod+Shift+v exec i3lock-fancy
+bindsym $mod+Shift+z exec i3lock-fancy
 
 # start a terminal
 bindsym $mod+t exec rxvt

@@ -19,9 +19,15 @@ fi
 
 export EDITOR=vim # set default editor to vim
 
-
 if [[ "$PROFILE_STARTUP" == true  ]]; then
     zprof
 	unsetopt xtrace
 	exec 2>&3 3>&-
 fi
+
+# Disable corrections
+unsetopt correct_all
+unsetopt correct
+
+eval $(thefuck --alias)
+source /usr/share/autojump/autojump.zsh

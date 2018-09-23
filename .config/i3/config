@@ -59,7 +59,7 @@ assign [class="Google-chrome"] $ws1
 bindsym $mod+c exec google-chrome
 
 # search google
-bindsym $mod+s exec ~/dotfiles/scripts/search.sh
+bindcode --release 133 exec ~/dotfiles/scripts/search.sh
 
 # show powermenu
 bindsym $mod+p exec ~/dotfiles/.config/polybar/scripts/powermenu.sh

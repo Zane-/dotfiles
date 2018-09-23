@@ -39,5 +39,5 @@ alias gpw="git config credential.helper 'cache --timeout=72000'"
 
 alias reap="scale reaper"
 
-copy="xclip -selection clipboard"
-pst="xclip -selection clipboard -o"
+alias copy="xclip -selection clipboard"
+alias pst="xclip -selection clipboard -o"

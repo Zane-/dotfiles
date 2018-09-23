@@ -46,7 +46,7 @@ workspace 1 gaps outer 0
 floating_modifier $mod
 
 # lock the screen
-bindsym $mod+Shift+z exec i3lock-fancy
+bindsym $mod+i exec i3lock-fancy
 
 # start a terminal
 bindsym $mod+t exec rxvt
@@ -59,7 +59,7 @@ assign [class="Google-chrome"] $ws1
 bindsym $mod+c exec google-chrome
 
 # search google
-bindcode --release 133 exec ~/dotfiles/scripts/search.sh
+bindsym $mod+s exec ~/dotfiles/scripts/search.sh
 
 # show powermenu
 bindsym $mod+p exec ~/dotfiles/.config/polybar/scripts/powermenu.sh
@@ -70,9 +70,6 @@ bindsym $mod+q kill
 # start dmenu (a program launcher)
 #bindsym $mod+d exec dmenu_run
 bindsym $mod+d exec rofi -show drun -dpi 200
-
-# start htop
-bindsym $mod+z exec htop
 
 # change focus
 bindsym $mod+h focus left
@@ -177,12 +174,11 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-
 # Startup
 exec --no-startup-id gnome-settings-daemon
 # switch to random wallpaper
 exec_always --no-startup-id feh --randomize --bg-fill ~/Pictures/Wallpapers/
-;exec --no-startup-id mopidy
+#exec --no-startup-id mopidy
 
 # Polybar
 exec_always --no-startup-id ~/dotfiles/.config/polybar/launch.sh

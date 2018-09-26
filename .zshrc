@@ -7,6 +7,9 @@ if [[ "$PROFILE_STARTUP" == true  ]]; then
 	setopt xtrace prompt_subst
 fi
 
+[[ $- != *i* ]] && return
+[[ -z "$TMUX" ]] && exec tmux
+
 # Source aliases
 source ~/dotfiles/.aliases
 # source ~/dotfiles/.p_aliases
@@ -29,5 +32,7 @@ fi
 unsetopt correct_all
 unsetopt correct
 
-eval $(thefuck --alias)
-source /usr/share/autojump/autojump.zsh
+#eval $(thefuck --alias)
+# source /usr/share/autojump/autojump.zsh
+[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
+

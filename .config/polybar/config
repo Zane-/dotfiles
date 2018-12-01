@@ -39,7 +39,7 @@ font-2 = Material Design Icons:size=11;2
 font-3 = Material Icons:size=11;2
 
 modules-left = i3
-modules-right = mpd volume memory cpu date wlan bluetooth battery tasks powermenu
+modules-right = mpd backlight volume memory cpu date wlan bluetooth battery tasks powermenu
 
 tray-position =
 tray-padding = 2
@@ -89,6 +89,22 @@ label-song-maxlen = 25
 label-song =  %title%
 label-song-ellipsis = true
 
+[module/backlight]
+type = internal/backlight
+card = intel_backlight
+format = <ramp> <bar>
+ramp-0 = 
+ramp-1 = 
+ramp-2 = 
+ramp-3 = 
+bar-width = 10
+bar-indicator = ╍
+bar-fill = ╍
+bar-empty = ╍
+bar-foreground-0 = ${xrdb:color3}
+bar-indicator-foreground = ${xrdb:color1}
+bar-empty-foreground = ${colors.foreground-alt}
+
 [module/volume]
 type = internal/volume
 format-volume = <ramp-volume> <bar-volume>
@@ -104,7 +120,7 @@ bar-volume-width = 10
 bar-volume-indicator = ╍
 bar-volume-fill = ╍
 bar-volume-empty = ╍
-bar-volume-foreground-0 = ${xrdb:color2}
+bar-volume-foreground-0 = ${colors.foreground-alt}
 bar-volume-indicator-foreground = ${xrdb:color2}
 bar-volume-empty-foreground = ${colors.foreground-alt}
 

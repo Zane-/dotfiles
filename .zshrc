@@ -32,7 +32,10 @@ fi
 unsetopt correct_all
 unsetopt correct
 
-#eval $(thefuck --alias)
+eval $(thefuck --alias)
 # source /usr/share/autojump/autojump.zsh
 [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
 
+# uploads files to transfer.sh and copies link to clipboard
+transfer() { if [ $# -eq 0  ]; then echo -e "No arguments specified. Usage:\necho transfer /tmp/test.md\ncat /tmp/test.md | transfer test.md"; return 1; fi
+tmpfile=$( mktemp -t transferXXX  ); if tty -s; then basefile=$(basename "$1" | sed -e 's/[^a-zA-Z0-9._-]/-/g'); curl --progress-bar --upload-file "$1" "https://transfer.sh/$basefile" >> $tmpfile; else curl --progress-bar --upload-file "-" "https://transfer.sh/$1" >> $tmpfile ; fi; cat $tmpfile | pbcopy; rm -f $tmpfile; }

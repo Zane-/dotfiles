@@ -17,12 +17,6 @@ alias ...="cd ../.."
 alias ....="cd ../../.."
 alias fm="nautilus ."
 
-# colorls
-alias ls="colorls"
-alias la="colorls -a"
-alias lg="colorls --gs -a"
-alias ll="colorls -l -a"
-
 # package manager
 alias agi="sudo apt-get install"
 alias agu="sudo apt-get update"

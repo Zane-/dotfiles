@@ -2,10 +2,12 @@
 alias gg="exit"
 alias c="clear"
 alias cls="clear"
+alias f="fuck"
+
 # ignore node_modules folder with grep
 alias grep="grep --color=auto --exclude-dir=\node_modules"
-alias cprs="tar -czvf" # create gzip archive
-alias extr="tar -xzvf" # extract gzip archive
+alias compress="tar -czvf" # create gzip archive
+alias extract="tar -xzvf" # extract gzip archive
 alias wget="wget -c" # resume downloads
 
 # directory navigation
@@ -14,6 +16,12 @@ alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 alias fm="nautilus ."
+
+# colorls
+alias ls="colorls"
+alias la="colorls -a"
+alias lg="colorls --gs -a"
+alias ll="colorls -l -a"
 
 # package manager
 alias agi="sudo apt-get install"
@@ -26,18 +34,19 @@ alias aar="sudo add-apt-repository"
 # programming
 alias rb="ruby"
 alias irbs="irb --simple-prompt"
-alias py="ipython3"
+alias ipy="ipython3"
+alias py3="python3"
 alias venv="python3 -m venv"
 alias acd="source ~/dotfiles/venv/bin/activate"
 alias ac="source venv/bin/activate"
 alias de="deactivate"
 alias a="./a.out"
+alias dcu="docker-compose up"
 
 # git
 alias gpom="git push -u origin master"
 alias gpw="git config credential.helper 'cache --timeout=72000'"
 
-alias reap="scale reaper"
-
 alias copy="xclip -selection clipboard"
 alias pst="xclip -selection clipboard -o"
+

@@ -39,7 +39,7 @@ font-2 = Material Design Icons:size=11;2
 font-3 = Material Icons:size=11;2
 
 modules-left = i3
-modules-right = mpd backlight volume memory cpu date wlan bluetooth battery tasks powermenu
+modules-right = mpd backlight volume memory cpu date wlan nordvpn bluetooth battery tasks powermenu
 
 tray-position =
 tray-padding = 2
@@ -181,6 +181,14 @@ ramp-signal-2 = 
 ramp-signal-3 = 
 ramp-signal-4 = 
 ramp-signal-foreground = ${colors.foreground-alt}
+
+[module/nordvpn]
+type = custom/script
+format-underline = ${xrdb:color3}
+click-left = ~/dotfiles/.config/polybar/scripts/nordvpn.sh
+exec = ~/dotfiles/.config/polybar/scripts/check_vpn_status.sh
+interval = 5
+label = %output%
 
 [module/bluetooth]
 type = custom/script

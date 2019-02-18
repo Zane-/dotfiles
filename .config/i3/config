@@ -62,6 +62,9 @@ bindsym $mod+Shift+c exec google-chrome -incognito
 # search google
 bindsym $mod+s exec ~/dotfiles/scripts/search.sh
 
+# show nordvpn menu
+bindsym $mod+Shift+n exec ~/dotfiles/.config/polybar/scripts/nordvpn.sh
+
 # show powermenu
 bindsym $mod+p exec ~/dotfiles/.config/polybar/scripts/powermenu.sh
 

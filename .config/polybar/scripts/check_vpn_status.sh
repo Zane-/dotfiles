@@ -1,7 +1,7 @@
 #!/bin/bash
 
-on=""
-off=""
+on=""
+off=""
 regex="Status: (\w+)"
 status=`nordvpn status`
 

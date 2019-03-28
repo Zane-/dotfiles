@@ -120,7 +120,7 @@ bar-volume-width = 10
 bar-volume-indicator = ╍
 bar-volume-fill = ╍
 bar-volume-empty = ╍
-bar-volume-foreground-0 = ${colors.foreground-alt}
+bar-volume-foreground-0 = ${xrdb:color4}
 bar-volume-indicator-foreground = ${xrdb:color2}
 bar-volume-empty-foreground = ${colors.foreground-alt}
 

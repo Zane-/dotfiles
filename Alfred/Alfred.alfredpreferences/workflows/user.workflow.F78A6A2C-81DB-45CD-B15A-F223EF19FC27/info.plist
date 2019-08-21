@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>de.leenno.terminalfinder</string>
+	<key>connections</key>
+	<dict>
+		<key>11E78030-346C-4879-9E3F-A793544ABEE1</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>C5615B51-DAE5-4A23-8376-67AA21C3ECC3</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>9F9DC1C6-5DE4-49F7-9BAA-14E4CA01C956</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>C5615B51-DAE5-4A23-8376-67AA21C3ECC3</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>AA3CDA14-C3B5-442B-B117-D61A244C6625</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>BFDCE43A-5AE3-4362-88D9-D0D3CD119C81</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>C58C0627-C710-4999-A27A-B071CDF64FC5</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>BFDCE43A-5AE3-4362-88D9-D0D3CD119C81</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>LeEnno</string>
+	<key>description</key>
+	<string>Open currently selected Finder (or Path Finder) window in Terminal (or iTerm2) and vice versa</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>TerminalFinder</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>to</string>
+				<key>subtext</key>
+				<string>Open current Finder directory in iTerm</string>
+				<key>text</key>
+				<string>Finder → iTerm</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>AA3CDA14-C3B5-442B-B117-D61A244C6625</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>applescript</key>
+				<string>on alfred_script(q)
+  
+  tell application "Finder"
+    set pathList to (quoted form of POSIX path of (folder of the front window as alias))
+    set command to "clear; cd " &amp; pathList
+  end tell
+  
+  tell application "System Events"
+    -- some versions might identify as "iTerm2" instead of "iTerm"
+    set isRunning to (exists (processes where name is "iTerm")) or (exists (processes where name is "iTerm2"))
+  end tell
+  
+  tell application "iTerm"
+    activate
+    set hasNoWindows to ((count of windows) is 0)
+    if isRunning and hasNoWindows then
+      create window with default profile
+    end if
+    select first window
+    
+    tell the first window
+      if isRunning and hasNoWindows is false then
+        create tab with default profile
+      end if
+      tell current session to write text command
+    end tell
+  end tell
+  
+end alfred_script</string>
+				<key>cachescript</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.applescript</string>
+			<key>uid</key>
+			<string>BFDCE43A-5AE3-4362-88D9-D0D3CD119C81</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>action</key>
+				<integer>0</integer>
+				<key>argument</key>
+				<integer>0</integer>
+				<key>focusedappvariable</key>
+				<false/>
+				<key>focusedappvariablename</key>
+				<string></string>
+				<key>hotkey</key>
+				<integer>17</integer>
+				<key>hotmod</key>
+				<integer>1835008</integer>
+				<key>hotstring</key>
+				<string>T</string>
+				<key>leftcursor</key>
+				<false/>
+				<key>modsmode</key>
+				<integer>0</integer>
+				<key>relatedAppsMode</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.hotkey</string>
+			<key>uid</key>
+			<string>C58C0627-C710-4999-A27A-B071CDF64FC5</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>action</key>
+				<integer>0</integer>
+				<key>argument</key>
+				<integer>0</integer>
+				<key>focusedappvariable</key>
+				<false/>
+				<key>focusedappvariablename</key>
+				<string></string>
+				<key>hotkey</key>
+				<integer>3</integer>
+				<key>hotmod</key>
+				<integer>1835008</integer>
+				<key>hotstring</key>
+				<string>F</string>
+				<key>leftcursor</key>
+				<false/>
+				<key>modsmode</key>
+				<integer>0</integer>
+				<key>relatedAppsMode</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.hotkey</string>
+			<key>uid</key>
+			<string>11E78030-346C-4879-9E3F-A793544ABEE1</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>applescript</key>
+				<string>on alfred_script(q)
+  tell application "iTerm"
+    tell the current session of current window
+      write text "open -a Finder ./"
+    end tell
+  end tell
+end alfred_script</string>
+				<key>cachescript</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.applescript</string>
+			<key>uid</key>
+			<string>C5615B51-DAE5-4A23-8376-67AA21C3ECC3</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>fo</string>
+				<key>subtext</key>
+				<string>Open current iTerm directory in Finder</string>
+				<key>text</key>
+				<string>iTerm → Finder</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>9F9DC1C6-5DE4-49F7-9BAA-14E4CA01C956</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string></string>
+	<key>uidata</key>
+	<dict>
+		<key>11E78030-346C-4879-9E3F-A793544ABEE1</key>
+		<dict>
+			<key>xpos</key>
+			<integer>220</integer>
+			<key>ypos</key>
+			<integer>280</integer>
+		</dict>
+		<key>9F9DC1C6-5DE4-49F7-9BAA-14E4CA01C956</key>
+		<dict>
+			<key>xpos</key>
+			<integer>220</integer>
+			<key>ypos</key>
+			<integer>400</integer>
+		</dict>
+		<key>AA3CDA14-C3B5-442B-B117-D61A244C6625</key>
+		<dict>
+			<key>xpos</key>
+			<integer>220</integer>
+			<key>ypos</key>
+			<integer>40</integer>
+		</dict>
+		<key>BFDCE43A-5AE3-4362-88D9-D0D3CD119C81</key>
+		<dict>
+			<key>xpos</key>
+			<integer>460</integer>
+			<key>ypos</key>
+			<integer>110</integer>
+		</dict>
+		<key>C5615B51-DAE5-4A23-8376-67AA21C3ECC3</key>
+		<dict>
+			<key>xpos</key>
+			<integer>460</integer>
+			<key>ypos</key>
+			<integer>350</integer>
+		</dict>
+		<key>C58C0627-C710-4999-A27A-B071CDF64FC5</key>
+		<dict>
+			<key>xpos</key>
+			<integer>220</integer>
+			<key>ypos</key>
+			<integer>160</integer>
+		</dict>
+	</dict>
+	<key>webaddress</key>
+	<string>http://www.ienno.de</string>
+</dict>
+</plist>

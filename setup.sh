@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 # make backup directory
 mkdir -p ~/dotfiles/backups
 # make directory for global packages (for user)
@@ -7,7 +8,7 @@ mkdir -p ~/dotfiles/npm-packages
 
 # create symbolic links
 echo "[+] Creating symbolic links, moving current dotfiles to ~/dotfiles/backups"
-for dotfile in .npmrc .vimrc .zshrc .zpreztorc .zshenv .Xresources; do
+for dotfile in .npmrc .vimrc .zshrc .zpreztorc .zshenv .Xresources .tmux.conf; do
 	if [ -f ~/$dotfile ]; then
 		mv --backup=t ~/$dotfile ~/dotfiles/backups
 	fi
@@ -19,6 +20,11 @@ done
 if [ ! -d ~/.vim/plugged ]; then
 	 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 		 https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+fi
+
+# link tmux plugin manager
+if [ ! -d ~/.tmux ]; then
+	ln -s ~/dotfiles/.tmux ~/.tmux
 fi
 
 # install vim plugins
@@ -52,7 +58,7 @@ for dotfile in zlogin zlogout zprofile; do
 	ln -s ~/.zprezto/runcoms/$dotfile ~/.$dotfile
 done
 
-read -p "[+] Install i3-gaps? (y/n): " opt
+read -p "[+] Install i3-gaps setup? (y/n): " opt
 if [ "$opt" != "${opt#[Yy]}" ] ;then
 	if [ -f ~/.config/i3/config ]; then
 		mv --backup=t ~/.config/i3/config ~/dotfiles/backups

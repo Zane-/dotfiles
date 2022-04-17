@@ -93,3 +93,4 @@ if [ $opt == "y" ]; then
 fi
 
 echo "[+] dotfiles installed. Your old dotfiles have been placed in ~/dotfiles/backups"
+echo "[+] Use Ctrl+A + I to install tmux plugins"

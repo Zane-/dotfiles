@@ -19,6 +19,12 @@ alias ...="cd ../.."
 alias ....="cd ../../.."
 alias fm="nautilus ."
 
+# exa
+alias l="exa --icons -a"
+alias ls="exa --icons"
+alias la="exa --icons -a"
+alias ll="exa --icons -l -a"
+
 # package manager
 alias agi="sudo apt-get install"
 alias agu="sudo apt-get update"
@@ -36,7 +42,6 @@ alias venv="python3 -m venv"
 alias acd="source ~/dotfiles/venv/bin/activate"
 alias ac="source venv/bin/activate"
 alias de="deactivate"
-alias a="./a.out"
 alias dcu="docker-compose up"
 
 # git

@@ -27,4 +27,4 @@ fi
 
 # Add global yarn packages to PATH
 # export PATH="$(yarn global bin):$PATH"
-# . "$HOME/.cargo/env"
+. "$HOME/.cargo/env"

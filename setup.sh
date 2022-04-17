@@ -27,6 +27,13 @@ if [ ! -d ~/.tmux ]; then
 	ln -s ~/dotfiles/.tmux ~/.tmux
 fi
 
+# Optional package installation (for vim and python)
+read -p "[+] Install dependencies and build tools? (y/n): " opt
+if [ $opt == "y" ]; then
+	sudo apt-get update
+	sudo apt-get install -y bat build-essential libssl-dev libreadline-dev libsqlite3-dev silversearcher-ag exuberant-ctags clang clang-format cmake default-jdk golang
+fi
+
 # install vim plugins
 vim +PlugInstall +qall
 
@@ -83,13 +90,6 @@ if [ "$opt" != "${opt#[Yy]}" ] ;then
 	fi
 	ln -s ~/dotfiles/.config/dunst/dunstrc/ ~/.config/dunst/dunstrc
 	echo "[+] Copied dunst config"
-fi
-
-# Optional package installation (for vim and python)
-read -p "[+] Install dependencies and build tools? (y/n): " opt
-if [ $opt == "y" ]; then
-	sudo apt-get update
-	sudo apt-get install -y bat build-essential libssl-dev libreadline-dev libsqlite3-dev silversearcher-ag exuberant-ctags clang clang-format cmake default-jdk golang
 fi
 
 echo "[+] dotfiles installed. Your old dotfiles have been placed in ~/dotfiles/backups"

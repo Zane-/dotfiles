@@ -1,10 +1,11 @@
 "================================================"
 "                  Vim Config                    "
 "              Author: Zane Bilous               "
-"           Last Modified: 03/17/2018            "
+"           Last Modified: 04/17/2022            "
 "                 Dependencies:                  "
 "      silverserver-ag: for the ack plugin       "
 "      exuberant-ctags: for tagbar               "
+"      bunch of other stuff for build tools      "
 "================================================"
 
 
@@ -17,7 +18,7 @@ set hidden                " buffers can be in the bg without having to be saved
 set autoread              " autoreload changed files
 
 set number                " line numbers
-set relativenumber        " hybrid numbering
+" set relativenumber        " hybrid numbering
 
 set scrolloff=15          " keep 15 lines above/below cursor line
 set cursorline            " underline current line

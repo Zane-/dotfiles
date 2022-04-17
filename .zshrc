@@ -32,7 +32,8 @@ fi
 unsetopt correct_all
 unsetopt correct
 
-eval $(thefuck --alias)
+eval "$(thefuck --alias)"
+eval "$(fasd --init auto)"
 
 # uploads files to transfer.sh and copies link to clipboard
 transfer() { if [ $# -eq 0  ]; then echo -e "No arguments specified. Usage:\necho transfer /tmp/test.md\ncat /tmp/test.md | transfer test.md"; return 1; fi

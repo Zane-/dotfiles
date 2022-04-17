@@ -89,7 +89,7 @@ fi
 read -p "[+] Install dependencies and build tools? (y/n): " opt
 if [ $opt == "y" ]; then
 	sudo apt-get update
-	sudo apt-get install -y build-essential libssl-dev libreadline-dev libsqlite3-dev silversearcher-ag exuberant-ctags
+	sudo apt-get install -y bat build-essential libssl-dev libreadline-dev libsqlite3-dev silversearcher-ag exuberant-ctags
 fi
 
 echo "[+] dotfiles installed. Your old dotfiles have been placed in ~/dotfiles/backups"

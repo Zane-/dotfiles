@@ -3,6 +3,8 @@ alias gg="exit"
 alias c="clear"
 alias cls="clear"
 alias f="fuck"
+# use batcat for improved file printing
+alias cat="batcat"
 
 # ignore node_modules folder with grep
 alias grep="grep --color=auto --exclude-dir=\node_modules"

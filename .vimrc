@@ -7,6 +7,7 @@
 "      exuberant-ctags: for tagbar               "
 "================================================"
 
+
 "--------------------------------"
 "         General Config         "
 "--------------------------------"
@@ -82,6 +83,8 @@ nmap <leader>w :w!<cr>
 nmap <leader>wq :wq!<cr>
 nmap <leader>q :q<cr>
 nmap <leader>qq :q!<cr>
+" use w!! to save as sudo
+cmap w!! w !sudo tee >/dev/null %
 
 " Buffer navigation
 map <silent> bd :bd<cr>
@@ -117,6 +120,8 @@ map <silent> tq :tabclose<cr>
 
 " vertical split
 nnoremap <silent> <C-v> :vsp<cr>
+" horizontal split
+nnoremap <silent> <C-h> :split<cr>
 
 " delete trailing whitespace
 nmap <silent> <leader>dw :%s/\s\+$//<cr>:nohlsearch<cr>
@@ -151,16 +156,17 @@ nnoremap Q @q
 vnoremap Q :norm @q<cr>
 
 " move split to new tab
-nnoremap <silent> <leader>st <C-w><s-t>gT
+nnoremap <silent> st <C-w><s-t>gT
+
+" move tabs to splits
+nnoremap <silent> mt :call MoveToNextTab()<cr>
+nnoremap <silent> mT :call MoveToPrevTab()<cr>
 
 " toggle line number type
 nnoremap <silent> tn :call ToggleNumber()<cr>
 
 " toggle folding
 nnoremap <silent> tf :call ToggleFold()<cr>
-
-" use w!! to save as sudo
-cmap w!! w !sudo tee >/dev/null %
 
 " shifting in visual mode doesn't unselect
 vnoremap < <gv
@@ -190,7 +196,7 @@ map <silent> <leader>cc :TComment<cr>
 map <leader>gf :Ack! 
 map <silent> <leader>gg :GitGutterToggle<cr>
 map <silent> <leader>ll :LLPStartPreview<cr>
-"map <silent> <F5> :TagbarToggle<cr>
+" map <silent> <F5> :TagbarToggle<cr>
 
 "--------------------------------"
 "             Colors             "
@@ -250,6 +256,7 @@ Plug 'mxw/vim-jsx' " jsx syntax support for react
 Plug 'vim-latex/vim-latex'
 Plug 'xuhdev/vim-latex-live-preview'
 Plug 'luochen1990/rainbow'
+Plug 'markonm/traces.vim'
 
 call plug#end()
 "================================================"
@@ -381,3 +388,49 @@ function LNext(prev)
 	catch /^Vim\%((\a\+)\)\=:E42/
 	endtry
 endfunction
+
+" Moves the current tab to a split in the previous tab
+function MoveToPrevTab()
+  "there is only one window
+  if tabpagenr('$') == 1 && winnr('$') == 1
+    return
+  endif
+  "preparing new window
+  let l:tab_nr = tabpagenr('$')
+  let l:cur_buf = bufnr('%')
+  if tabpagenr() != 1
+    close!
+    if l:tab_nr == tabpagenr('$')
+      tabprev
+    endif
+    sp
+  else
+    close!
+    exe "0tabnew"
+  endif
+  "opening current buffer in new window
+  exe "b".l:cur_buf
+endfunc
+
+" Moves the current tab to a split in the next tab
+function MoveToNextTab()
+  "there is only one window
+  if tabpagenr('$') == 1 && winnr('$') == 1
+    return
+  endif
+  "preparing new window
+  let l:tab_nr = tabpagenr('$')
+  let l:cur_buf = bufnr('%')
+  if tabpagenr() < tab_nr
+    close!
+    if l:tab_nr == tabpagenr('$')
+      tabnext
+    endif
+    sp
+  else
+    close!
+    tabnew
+  endif
+  "opening current buffer in new window
+  exe "b".l:cur_buf
+endfunc

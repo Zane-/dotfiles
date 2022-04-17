@@ -235,7 +235,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'fredkschott/covim' " collab editing server
 Plug 'tpope/vim-fugitive' " git wrapper
 " build and install autocompleter
-"Plug 'valloric/youcompleteme', { 'do': './install.py --clang-completer' }
+Plug 'valloric/youcompleteme', { 'do': './install.py --all' }
 
 Plug 'ervandew/supertab' " tab for omnicompletion
 Plug 'w0rp/ale' " linting

@@ -133,9 +133,6 @@ nnoremap <leader>fm gg=G``
 nnoremap <silent> <S-k> :m-2<cr>
 nnoremap <silent> <S-j> :m+<cr>
 
-" insert blank line below with enter
-noremap <cr> o<Esc>
-
 " ensure <cr> isn't remapped during cmd enter and quickfix
 augroup cr
 	autocmd!
@@ -170,6 +167,7 @@ vnoremap < <gv
 vnoremap > >gv
 
 " insert blank line with enter and shift+enter
+noremap <cr> o<Esc>
 nmap <S-Enter> O<Esc>
 nmap <cr> o<Esc>
 
@@ -206,7 +204,8 @@ hi Search ctermfg=NONE ctermbg=241 cterm=NONE guibg=#44475a gui=NONE
 "      Compilation/Execution     "
 "--------------------------------"
 augroup exe
-	autocmd!
+	" C
+	autocmd filetype c nnoremap <F4> :w<cr> :!gcc -o a % && ./a<cr>
 	" C++
 	autocmd filetype cpp nnoremap <F4> :w<cr> :!clang++-5.0 -std=c++11 -Wall -g *.cpp && ./a.out<cr>
 	" Java

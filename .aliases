@@ -21,7 +21,6 @@ alias fm="nautilus ."
 
 # exa
 alias l="exa --icons -a"
-alias ls="exa --icons"
 alias la="exa --icons -a"
 alias ll="exa --icons -l -a"
 

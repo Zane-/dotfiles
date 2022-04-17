@@ -205,7 +205,7 @@ hi Search ctermfg=NONE ctermbg=241 cterm=NONE guibg=#44475a gui=NONE
 "--------------------------------"
 augroup exe
 	" C
-	autocmd filetype c nnoremap <F4> :w<cr> :!gcc -o a % && ./a<cr>
+	autocmd filetype c nnoremap <F4> :w<cr> :!clang *.c && ./a.out<cr>
 	" C++
 	autocmd filetype cpp nnoremap <F4> :w<cr> :!clang++-5.0 -std=c++11 -Wall -g *.cpp && ./a.out<cr>
 	" Java
@@ -273,7 +273,7 @@ let g:airline#extensions#tabline#enabled = 1
 "--------------------------------"
 "              ale               "
 "--------------------------------"
-let g:ale_fixers = {'javascript': ['eslint'], 'python': ['autopep8']}
+let g:ale_fixers = {'javascript': ['eslint'], 'python': ['autopep8'], 'c': ['clang-format']}
 let g:ale_fix_on_save = 1
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_enter = 0

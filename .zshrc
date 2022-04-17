@@ -33,8 +33,6 @@ unsetopt correct_all
 unsetopt correct
 
 eval $(thefuck --alias)
-source /usr/share/autojump/autojump.zsh
-[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
 
 # uploads files to transfer.sh and copies link to clipboard
 transfer() { if [ $# -eq 0  ]; then echo -e "No arguments specified. Usage:\necho transfer /tmp/test.md\ncat /tmp/test.md | transfer test.md"; return 1; fi

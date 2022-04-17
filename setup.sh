@@ -27,11 +27,11 @@ if [ ! -d ~/.tmux ]; then
 	ln -s ~/dotfiles/.tmux ~/.tmux
 fi
 
-# Optional package installation (for vim and python)
-read -p "[+] Install dependencies and build tools? (y/n): " opt
+# Optional package installation
+read -p "[+] Install dependencie and tools? (y/n): " opt
 if [ $opt == "y" ]; then
 	sudo apt-get update
-	sudo apt-get install -y bat build-essential libssl-dev libreadline-dev libsqlite3-dev silversearcher-ag exuberant-ctags clang clang-format cmake default-jdk golang python3-dev nodejs npm
+	sudo apt-get install -y bat build-essential libssl-dev libreadline-dev libsqlite3-dev silversearcher-ag exuberant-ctags clang clang-format cmake default-jdk golang python3-dev nodejs npm ruby ruby-dev tldr aria2c git fasd
 fi
 
 # install vim plugins
@@ -51,10 +51,7 @@ mkdir -p ~/.vim/undodir
 # install prezto
 if  [ ! -d ~/.zprezto ]; then
 	echo "[+] Installing prezto"
-	if [ -x "$(command -v git)" ]; then
-		git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
-		echo "[-] Git is not installed, install with sudo apt-get install git"
-	fi
+	git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
 fi
 
 # copy over prezto dotfiles

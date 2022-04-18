@@ -8,7 +8,10 @@ if [[ "$PROFILE_STARTUP" == true  ]]; then
 fi
 
 [[ $- != *i* ]] && return
-[[ -z "$TMUX" ]] && exec tmux
+if [ -z "$TMUX" ] && [ ${UID} != 0 ]
+then
+    tmux new-session -A -s main
+fi
 
 # Source aliases
 source ~/dotfiles/.aliases

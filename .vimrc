@@ -217,7 +217,6 @@ autocmd ColorScheme * highlight! link SignColumn LineNr
 
 augroup cursor_behaviour
     autocmd!
-
     " reset cursor on start:
     autocmd VimEnter * silent !echo -ne "\e[2 q"
     " cursor blinking bar on insert mode

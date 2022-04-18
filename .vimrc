@@ -18,7 +18,9 @@ set hidden                " buffers can be in the bg without having to be saved
 set autoread              " autoreload changed files
 
 set number                " line numbers
+set numberwidth=1
 " set relativenumber        " hybrid numbering
+set signcolumn=number     " Share the line number column and SignColumn
 
 set scrolloff=15          " keep 15 lines above/below cursor line
 set cursorline            " underline current line
@@ -121,8 +123,6 @@ map <silent> tq :tabclose<cr>
 
 " vertical split
 nnoremap <silent> <C-v> :vsp<cr>
-" horizontal split
-nnoremap <silent> <C-h> :split<cr>
 
 " delete trailing whitespace
 nmap <silent> <leader>dw :%s/\s\+$//<cr>:nohlsearch<cr>
@@ -285,6 +285,18 @@ let g:ale_fixers = {'javascript': ['eslint'], 'python': ['autopep8'], 'c': ['cla
 let g:ale_fix_on_save = 1
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_enter = 0
+let g:ale_sign_error = '✘'
+let g:ale_sign_warning = '⚠'
+highlight ALEError ctermbg=none cterm=bold
+highlight ALEErrorLine ctermbg=none cterm=bold
+highlight ALEErrorSign ctermbg=none ctermfg=red
+highlight ALEStyleError ctermbg=none cterm=bold
+highlight ALEStyleWarning ctermbg=none cterm=bold
+highlight ALEWarning ctermbg=none cterm=bold
+highlight ALEWarningLine ctermbg=none cterm=bold
+highlight ALEWarningSign ctermbg=none ctermfg=yellow
+highlight! link SignColumn LineNr
+autocmd ColorScheme * highlight! link SignColumn LineNr
 
 "--------------------------------"
 "            Closetag            "
@@ -349,6 +361,7 @@ let g:tagbar_iconchars = ['▸', '▾']
 " let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
 set completeopt-=preview
 highlight Pmenu ctermbg=0 ctermfg=5
+let g:ycm_show_diagnostics_ui = 0
 
 "--------------------------------"
 "           Functions            "

@@ -17,7 +17,7 @@ set encoding=utf8         " set utf8 as standard encoding
 set hidden                " buffers can be in the bg without having to be saved
 set autoread              " autoreload changed files
 
-set mouse-=a              " use mouse for scrolling and clicking
+set mouse=nicr            " use mouse for scrolling and clicking
 
 set number                " line numbers
 set numberwidth=1

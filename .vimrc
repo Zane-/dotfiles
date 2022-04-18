@@ -17,6 +17,8 @@ set encoding=utf8         " set utf8 as standard encoding
 set hidden                " buffers can be in the bg without having to be saved
 set autoread              " autoreload changed files
 
+set mouse=nicr            " use mouse for scrolling and clicking
+
 set number                " line numbers
 set numberwidth=1
 " set relativenumber        " hybrid numbering
@@ -203,9 +205,27 @@ map <silent> <leader>ll :LLPStartPreview<cr>
 "             Colors             "
 "--------------------------------"
 syntax on
-hi Visual ctermfg=NONE ctermbg=241 cterm=NONE guifg=NONE guibg=#44475a gui=NONE
-hi Folded ctermbg=0
-hi Search ctermfg=NONE ctermbg=241 cterm=NONE guibg=#44475a gui=NONE
+highlight Visual ctermfg=NONE ctermbg=241 cterm=NONE guifg=NONE guibg=#44475a gui=NONE
+highlight Folded ctermbg=0
+highlight Search ctermfg=NONE ctermbg=241 cterm=NONE guibg=#44475a gui=NONE
+highlight CursorLine term=bold cterm=bold guibg=Grey40
+highlight CursorLineNr term=bold cterm=none ctermbg=none ctermfg=yellow gui=bold
+highlight MatchParen ctermfg=46 ctermbg=241 cterm=NONE
+
+highlight! link SignColumn LineNr
+autocmd ColorScheme * highlight! link SignColumn LineNr
+
+augroup cursor_behaviour
+    autocmd!
+
+    " reset cursor on start:
+    autocmd VimEnter * silent !echo -ne "\e[2 q"
+    " cursor blinking bar on insert mode
+    let &t_SI = "\e[5 q"
+    " cursor steady block on command mode
+    let &t_EI = "\e[2 q"
+
+augroup END
 
 "--------------------------------"
 "      Compilation/Execution     "
@@ -239,7 +259,6 @@ Plug 'easymotion/vim-easymotion' " jump to any word with ease
 Plug 'tomtom/tcomment_vim' " comment toggler
 Plug 'vim-airline/vim-airline' " status line and tab bar
 Plug 'vim-airline/vim-airline-themes'
-Plug 'fredkschott/covim' " collab editing server
 Plug 'tpope/vim-fugitive' " git wrapper
 " build and install autocompleter
 Plug 'valloric/youcompleteme', { 'do': './install.py --all' }
@@ -254,8 +273,6 @@ Plug 'airblade/vim-gitgutter' " show added/deleted lines in gutter
 Plug 'octol/vim-cpp-enhanced-highlight' " additional cpp syntax support
 Plug 'pangloss/vim-javascript' " javascript syntax support
 Plug 'mxw/vim-jsx' " jsx syntax support for react
-Plug 'vim-latex/vim-latex'
-Plug 'xuhdev/vim-latex-live-preview'
 Plug 'luochen1990/rainbow'
 Plug 'markonm/traces.vim'
 
@@ -285,8 +302,8 @@ let g:ale_fixers = {'javascript': ['eslint'], 'python': ['autopep8'], 'c': ['cla
 let g:ale_fix_on_save = 1
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_enter = 0
-let g:ale_sign_error = '✘'
-let g:ale_sign_warning = '⚠'
+let g:ale_sign_error = '•'
+let g:ale_sign_warning = '•'
 highlight ALEError ctermbg=none cterm=bold
 highlight ALEErrorLine ctermbg=none cterm=bold
 highlight ALEErrorSign ctermbg=none ctermfg=red
@@ -295,8 +312,6 @@ highlight ALEStyleWarning ctermbg=none cterm=bold
 highlight ALEWarning ctermbg=none cterm=bold
 highlight ALEWarningLine ctermbg=none cterm=bold
 highlight ALEWarningSign ctermbg=none ctermfg=yellow
-highlight! link SignColumn LineNr
-autocmd ColorScheme * highlight! link SignColumn LineNr
 
 "--------------------------------"
 "            Closetag            "

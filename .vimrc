@@ -150,6 +150,7 @@ augroup end
 
 " copy and paste paragraph below
 noremap cp yap>S-}>p
+noremap mp dap>S-}>p
 
 " insert timestamp
 nnoremap <silent> <leader>ts :put =strftime(\"%d %b %Y, %H:%M:%S %z\")<cr>

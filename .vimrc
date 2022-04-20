@@ -148,10 +148,6 @@ augroup cr
 	autocmd BufReadPost quickfix nnoremap <cr> <cr>
 augroup end
 
-" copy / cut codeblock
-noremap cp ya{
-noremap mp d}
-
 " insert timestamp
 nnoremap <silent> <leader>ts :put =strftime(\"%d %b %Y, %H:%M:%S %z\")<cr>
 
@@ -275,6 +271,8 @@ Plug 'pangloss/vim-javascript' " javascript syntax support
 Plug 'mxw/vim-jsx' " jsx syntax support for react
 Plug 'luochen1990/rainbow'
 Plug 'markonm/traces.vim'
+Plug 'kana/vim-textobj-user'
+Plug 'kana/vim-textobj-function'
 
 call plug#end()
 "================================================"

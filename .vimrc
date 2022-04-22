@@ -3,7 +3,7 @@
 "              Author: Zane Bilous               "
 "           Last Modified: 04/17/2022            "
 "                 Dependencies:                  "
-"      silverserver-ag: for the ack plugin       "
+"      ripgrep: for the ack plugin       "
 "      exuberant-ctags: for tagbar               "
 "      bunch of other stuff for build tools      "
 "================================================"
@@ -287,8 +287,8 @@ call plug#end()
 "--------------------------------"
 "              ack               "
 "--------------------------------"
-if executable('ag')
-	let g:ackprg = 'ag --vimgrep -U'
+if executable('rg')
+	let g:ackprg = 'rg --vimgrep -U'
 endif
 
 "--------------------------------"
@@ -325,8 +325,8 @@ let g:closetag_filenames = '*.html, *.js'
 "             CtrlP              "
 "--------------------------------"
 let g:ctrlp_show_hidden = 1
-" use silversearcher
-let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+" use ripgrep
+let g:ctrlp_user_command = 'rg %s --files --hidden --color=never --glob ""'
 " ignore node_modules et al
 let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist)|(\.(swp|ico|git|svn))$'
 

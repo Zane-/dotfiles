@@ -25,8 +25,8 @@ fi
 
 export VISUAL=vim
 export EDITOR=vim # set default editor to vim
-export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
-export FZF_CTRL_T_COMMAND='ag --hidden --ignore .git -g ""'
+export FZF_DEFAULT_COMMAND='rg --hidden ""'
+export FZF_CTRL_T_COMMAND='rg --hidden ""'
 
 if [[ "$PROFILE_STARTUP" == true  ]]; then
     zprof

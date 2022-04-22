@@ -229,16 +229,21 @@ augroup END
 augroup exe
 	" C
 	autocmd filetype c nnoremap <F4> :w<cr> :!clang *.c && ./a.out<cr>
+	autocmd filetype c inoremap <F4> <Esc> :w<cr> :!clang *.c && ./a.out<cr>
 	" C++
-	autocmd filetype cpp nnoremap <F4> :w<cr> :!clang++-5.0 -std=c++11 -Wall -g *.cpp && ./a.out<cr>
+	autocmd filetype cpp inoremap <F4> :w<cr> :!clang++-5.0 -std=c++11 -Wall -g *.cpp && ./a.out<cr>
+	autocmd filetype cpp inoremap <F4> <Esc> :w<cr> :!clang++-5.0 -std=c++11 -Wall -g *.cpp && ./a.out<cr>
 	" Java
-	autocmd filetype java nnoremap <F4> :w<cr> :!javac %<cr>
+	autocmd filetype java inoremap <F4> :w<cr> :!javac %<cr>
 	" Rust
-	autocmd filetype rust nnoremap <F4> :w<cr> :!rustc % && ./%:r
+	autocmd filetype rust inoremap <F4> :w<cr> :!rustc % && ./%:r
+	autocmd filetype rust inoremap <F4> <Esc> :w<cr> :!rustc % && ./%:r
 	" Python
-	autocmd filetype python nnoremap <F4> :w<cr> :!python %<cr>
+	autocmd filetype python inoremap <F4> :w<cr> :!python %<cr>
+	autocmd filetype python inoremap <F4> <Esc> :w<cr> :!python %<cr>
 	" Ruby
-	autocmd filetype ruby nnoremap <F4> :w<cr> :!ruby %<cr>
+	autocmd filetype ruby inoremap <F4> :w<cr> :!ruby %<cr>
+	autocmd filetype ruby nnoremap <F4> <Esc> :w<cr> :!ruby %<cr>
 augroup end
 
 "---------------------------------"

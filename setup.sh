@@ -30,7 +30,7 @@ fi
 read -p "[+] Install dependencies and tools? (y/n): " opt
 if [ $opt == "y" ]; then
 	sudo apt-get update
-	sudo apt-get install -y bat build-essential libssl-dev libreadline-dev libsqlite3-dev silversearcher-ag exuberant-ctags clang clang-format cmake default-jdk golang python3-dev nodejs npm ruby ruby-dev tldr aria2c git fasd exa
+	sudo apt-get install -y bat build-essential libssl-dev libreadline-dev libsqlite3-dev silversearcher-ag exuberant-ctags clang clang-format cmake default-jdk golang python3-dev nodejs npm ruby ruby-dev tldr aria2c git fasd exa fzf
 fi
 
 read -p "[+] Are you on WSL and wanting to install Rust? (y/n): " opt2

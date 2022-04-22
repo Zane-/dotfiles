@@ -1,5 +1,4 @@
 #
-# Defines environment variables.
 #
 # Authors:
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
@@ -24,6 +23,8 @@ fi
 #         pyenv $@
 #     }
 # fi
+
+# export PATH="/home/zane/.local/bin:$PATH"
 
 # Add global yarn packages to PATH
 # export PATH="$(yarn global bin):$PATH"

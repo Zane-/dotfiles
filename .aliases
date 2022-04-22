@@ -24,6 +24,10 @@ alias l="exa --icons -a"
 alias la="exa --icons -a"
 alias ll="exa --icons -l -a"
 
+# fzf
+alias fz="fzf-tmux"
+alias vz="vim \$(fzf-tmux)"
+
 # package manager
 alias agi="sudo apt-get install"
 alias agu="sudo apt-get update"

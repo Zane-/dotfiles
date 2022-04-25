@@ -301,7 +301,7 @@ let g:airline#extensions#tabline#enabled = 1
 "--------------------------------"
 "              ale               "
 "--------------------------------"
-let g:ale_fixers = {'javascript': ['eslint'], 'python': ['autopep8'], 'c': ['clang-format'], 'cpp': ['clang-format']}
+let g:ale_fixers = {'javascript': ['eslint'], 'python': ['yapf'], 'c': ['clang-format'], 'cpp': ['clang-format']}
 let g:ale_fix_on_save = 1
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_enter = 0

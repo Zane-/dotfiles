@@ -4,7 +4,9 @@ alias c="clear"
 alias cls="clear"
 alias f="fuck"
 # use batcat for improved file printing
-alias cat="batcat"
+alias ct="batcat"
+# quick-source aliases
+alias sal="source ~/dotfiles/.aliases"
 
 # ignore node_modules folder with grep
 alias grep="grep --color=auto --exclude-dir=\node_modules"
@@ -48,7 +50,8 @@ alias de="deactivate"
 alias dcu="docker-compose up"
 
 # git
-alias gpom="git push -u origin master"
+alias gpom="git push -u origin main"
+alias gpoma="git push -u origin master"
 alias gpw="git config credential.helper 'cache --timeout=72000'"
 alias gad="git add ."
 

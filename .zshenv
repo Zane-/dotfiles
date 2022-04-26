@@ -24,7 +24,7 @@ fi
 #     }
 # fi
 
-# export PATH="/home/zane/.local/bin:$PATH"
+export PATH="/home/zane/.local/bin:$PATH"
 
 # Add global yarn packages to PATH
 # export PATH="$(yarn global bin):$PATH"

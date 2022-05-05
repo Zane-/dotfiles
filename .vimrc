@@ -113,7 +113,7 @@ nmap rg :%s/
 nmap rl :s/
 
 " Tabs
-nnoremap <silent> <C-t> :tabnew<cr>
+nnoremap <silent> <leader>tn :tabnew<cr>
 map <silent> <Left> :tabprevious<cr>
 map <silent> <Right> :tabnext<cr>
 map <silent> tq :tabclose<cr>
@@ -193,10 +193,10 @@ map <silent> <leader>gg :GitGutterToggle<cr>
 map <silent> <leader>ll :LLPStartPreview<cr>
 " map <silent> <F5> :TagbarToggle<cr>
 nnoremap <silent> \ :Rg<cr>
-nnoremap <silent> <C-p> :Files<cr>
-nnoremap <silent> <leader>b :Buffers<cr>
-nnoremap <silent> <leader>s :BLines<cr>
-nnoremap <silent> <leader>ts :Windows<cr>
+nnoremap <silent> <C-f> :Files<cr>
+nnoremap <silent> <C-b> :Buffers<cr>
+nnoremap <silent> <C-s> :BLines<cr>
+nnoremap <silent> <C-t> :Windows<cr>
 
 "--------------------------------"
 "             Colors             "

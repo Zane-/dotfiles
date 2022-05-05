@@ -14,6 +14,10 @@ if [ ! -x "$(command -v fzf)" ]; then
 	sudo apt-get install fzf
 fi
 
+if [ ! -x "$(command -v fasd)" ]; then
+	sudo apt-get install fasd
+fi
+
 if  [ ! -d ~/.zprezto ]; then
 	echo "[+] Installing prezto"
 	git clone --recursive https://github.com/sorin-ionescu/prezto.git "$HOME/.zprezto"
@@ -41,5 +45,4 @@ for dotfile in zlogin zlogout zprofile; do
 done
 
 echo "[+] Setup complete. Any existing files have been moved to ~/dotfiles/backups"
-
 

@@ -14,7 +14,7 @@ export FZF_DEFAULT_COMMAND="rg --files --hidden --follow --glob '!.git'"
 export FZF_CTRL_T_COMMAND="rg --files --hidden --follow --glob '!.git'"
 
 [[ $- != *i* ]] && return
-if [ -z "$TMUX" ] && [ ${UID} != 0 ]
+if [ -z "$TMUX" ] && [ ${UID} != 0 ] && [ -x "$(command -v tmux)" ]
 then
     tmux new-session -A -s main
 fi

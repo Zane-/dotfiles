@@ -8,7 +8,7 @@ if  [ ! -d ~/.zprezto ]; then
 fi
 
 echo "[+] Creating symbolic links..."
-for dotfile in .zshrc .zpreztorc .zshenuv; do
+for dotfile in .zshrc .zpreztorc .zshenv; do
 	if [ -f ~/$dotfile ]; then
 		mv --backup=t ~/$dotfile ~/dotfiles/backups
 	fi

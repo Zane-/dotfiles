@@ -24,8 +24,12 @@ fi
 #     }
 # fi
 
-export PATH="/home/zane/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 
-# Add global yarn packages to PATH
-# export PATH="$(yarn global bin):$PATH"
-. "$HOME/.cargo/env"
+if [ -x "$(command -v yarn)" ]; then
+	export PATH="$(yarn global bin):$PATH"
+fi
+
+if [[ -f "$HOME/.cargo/env" ]]; then
+	. "$HOME/.cargo/env"
+fi

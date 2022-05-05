@@ -43,5 +43,5 @@ for dotfile in zlogin zlogout zprofile; do
 	echo "[+] Linked $dotfile"
 done
 
-echo "[+] Setup complete. Restart zsh for changes to take effect. Any existing files have been moved to ~/dotfiles/backups"
+echo "[+] Setup complete. Change your default shell to zsh using 'chsh -s /bin/zsh'. Then, restart zsh for changes to take effect. Any existing files have been moved to ~/dotfiles/backups"
 

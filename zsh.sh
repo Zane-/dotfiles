@@ -26,7 +26,6 @@ if  [ ! -d ~/.zprezto ]; then
 	git submodule add -f https://github.com/lildude/fzf-prezto $HOME/.zprezto/contrib/fzf
 fi
 
-
 echo "[+] Creating symbolic links..."
 for dotfile in .zshrc .zpreztorc .zshenv; do
 	if [ -f ~/$dotfile ]; then
@@ -44,5 +43,7 @@ for dotfile in zlogin zlogout zprofile; do
 	echo "[+] Linked $dotfile"
 done
 
-echo "[+] Setup complete. Any existing files have been moved to ~/dotfiles/backups"
+source $HOME/.zshrc
+
+echo "[+] Setup complete. Restart zsh for changes to take effect. Any existing files have been moved to ~/dotfiles/backups"
 

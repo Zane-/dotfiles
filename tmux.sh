@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ ! -f ~/.tmux/plugins/tpm ]; then
-	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+	git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm
 fi
 
 mkdir -p ~/dotfiles/backups

@@ -4,8 +4,12 @@ mkdir -p ~/dotfiles/backups
 
 if  [ ! -d ~/.zprezto ]; then
 	echo "[+] Installing prezto"
-	git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
+	git clone --recursive https://github.com/sorin-ionescu/prezto.git "$HOME/.zprezto"
+
+	mkdir -p $HOME/.zprezto/contrib
+	git submodule add -f https://github.com/lildude/fzf-prezto $HOME/.zprezto/contrib/fzf
 fi
+
 
 echo "[+] Creating symbolic links..."
 for dotfile in .zshrc .zpreztorc .zshenv; do
@@ -25,3 +29,5 @@ for dotfile in zlogin zlogout zprofile; do
 done
 
 echo "[+] Setup complete. Any existing files have been moved to ~/dotfiles/backups"
+
+

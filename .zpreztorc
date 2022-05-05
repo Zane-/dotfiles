@@ -25,6 +25,10 @@ zstyle ':prezto:module:terminal' auto-title 'yes'
 # Set the Zsh functions to load (man zshcontrib).
 zstyle ':prezto:load' zfunction 'zargs' 'zmv'
 
+# fzf settings
+zstyle ':prezto:module:fzf' height '30%'
+zstyle ':prezto:module:fzf' tmux 'yes'
+
 # Set the Prezto modules to load (browse modules).
 # The order matters.
 zstyle ':prezto:load' pmodule \
@@ -40,7 +44,8 @@ zstyle ':prezto:load' pmodule \
   'syntax-highlighting' \
   'history-substring-search' \
   'autosuggestions' \
-  'prompt'
+  'prompt' \
+  'fzf'
 
 # Set the prompt theme to load.
 # Setting it to 'random' loads a random theme.

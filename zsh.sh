@@ -21,7 +21,10 @@ fi
 if  [ ! -d ~/.zprezto ]; then
 	echo "[+] Installing prezto"
 	git clone --recursive https://github.com/sorin-ionescu/prezto.git "$HOME/.zprezto"
+fi
 
+if [ ! -d $SOME/.zprezto/contrib/fzf ]; then
+	echo "[+] Installing fzf prezto module"
 	mkdir -p $HOME/.zprezto/contrib
 	cd $HOME/.zprezto && git submodule add -f https://github.com/lildude/fzf-prezto contrib/fzf
 fi

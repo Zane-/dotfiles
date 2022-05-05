@@ -261,7 +261,7 @@ Plug 'vim-airline/vim-airline' " status line and tab bar
 Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-fugitive' " git wrapper
 " build and install autocompleter
-Plug 'valloric/youcompleteme', { 'do': './install.py --all' }
+" Plug 'valloric/youcompleteme', { 'do': './install.py --all' }
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim' " fuzzyfinder
 Plug 'ervandew/supertab' " tab for omnicompletion

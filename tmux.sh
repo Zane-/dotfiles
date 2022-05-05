@@ -2,10 +2,15 @@
 
 mkdir -p ~/dotfiles/backups
 
-if [ ! -d $HOME/.tmux/plugins/tpm ]; then
+if [ ! -x "$(command -v tmux)" ]; then
+	sudo apt-get install tmux
+fi
+
+if [ ! -f ~/.tmux/plugins/tpm ]; then
 	echo "[+] Installing tpm"
 	git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm
 fi
+
 
 if [ -f ~/.tmux.conf ]; then
 	mv --backup=t ~/.tmux.conf ~/dotfiles/backups

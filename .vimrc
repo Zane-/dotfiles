@@ -1,4 +1,5 @@
 "================================================"
+"
 "                  Vim Config                    "
 "              Author: Zane Bilous               "
 "           Last Modified: 04/17/2022            "
@@ -7,7 +8,6 @@
 "      exuberant-ctags: for tagbar               "
 "      bunch of other stuff for build tools      "
 "================================================"
-
 
 "--------------------------------"
 "         General Config         "
@@ -163,7 +163,7 @@ nnoremap <silent> tn :call ToggleNumber()<cr>
 " toggle folding
 nnoremap <silent> tf :call ToggleFold()<cr>
 
-" shifting in visual mode doesn't unselect
+" don't unselect after shifting in visual mode
 vnoremap < <gv
 vnoremap > >gv
 
@@ -196,6 +196,7 @@ nnoremap <silent> \ :Rg<cr>
 nnoremap <silent> <C-p> :Files<cr>
 nnoremap <silent> <leader>b :Buffers<cr>
 nnoremap <silent> <leader>s :BLines<cr>
+nnoremap <silent> <leader>ts :Windows<cr>
 
 "--------------------------------"
 "             Colors             "

@@ -55,6 +55,7 @@ alias gpoma="git push -u origin master"
 alias gpw="git config credential.helper 'cache --timeout=72000'"
 alias gad="git add ."
 alias grd="git reset ."
+alias grh="git reset HEAD~"
 
 # clipboard
 alias copy="xclip -selection clipboard"

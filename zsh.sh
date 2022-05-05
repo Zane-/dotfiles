@@ -2,6 +2,18 @@
 
 mkdir -p ~/dotfiles/backups
 
+if [ ! -x "$(command -v zsh)" ]; then
+	sudo apt-get install zsh
+fi
+
+if [ ! -x "$(command -v ripgrep)" ]; then
+	sudo apt-get install ripgrep
+fi
+
+if [ ! -x "$(command -v fzf)" ]; then
+	sudo apt-get install fzf
+fi
+
 if  [ ! -d ~/.zprezto ]; then
 	echo "[+] Installing prezto"
 	git clone --recursive https://github.com/sorin-ionescu/prezto.git "$HOME/.zprezto"

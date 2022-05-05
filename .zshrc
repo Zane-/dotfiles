@@ -7,6 +7,12 @@ if [[ "$PROFILE_STARTUP" == true  ]]; then
 	setopt xtrace prompt_subst
 fi
 
+export VISUAL=vim
+export EDITOR=vim # set default editor to vim
+export FPP_EDITOR=vim
+export FZF_DEFAULT_COMMAND="rg --files --hidden --follow --glob '!.git'"
+export FZF_CTRL_T_COMMAND="rg --files --hidden --follow --glob '!.git'"
+
 [[ $- != *i* ]] && return
 if [ -z "$TMUX" ] && [ ${UID} != 0 ]
 then
@@ -22,11 +28,6 @@ source ~/dotfiles/.aliases
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 	source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
-
-export VISUAL=vim
-export EDITOR=vim # set default editor to vim
-export FZF_DEFAULT_COMMAND='rg --hidden ""'
-export FZF_CTRL_T_COMMAND='rg --hidden ""'
 
 if [[ "$PROFILE_STARTUP" == true  ]]; then
     zprof

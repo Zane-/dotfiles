@@ -91,11 +91,6 @@ nmap <leader>qq :q!<cr>
 " use w!! to save as sudo
 cmap w!! w !sudo tee >/dev/null %
 
-" Buffer navigation
-map <silent> bd :bd<cr>
-map <silent> bn :bn<cr>
-map <silent> bb :bp<cr>
-
 " Line navigation
 nnoremap B ^
 nnoremap E $
@@ -197,6 +192,10 @@ map <leader>gf :Ack!
 map <silent> <leader>gg :GitGutterToggle<cr>
 map <silent> <leader>ll :LLPStartPreview<cr>
 " map <silent> <F5> :TagbarToggle<cr>
+nnoremap <silent> \ :Rg<cr>
+nnoremap <silent> <C-p> :Files<cr>
+nnoremap <silent> <leader>b :Buffers<cr>
+nnoremap <silent> <leader>s :BLines<cr>
 
 "--------------------------------"
 "             Colors             "
@@ -254,7 +253,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'mhinz/vim-startify' " fancy start page
 Plug 'scrooloose/nerdtree' " filetree
 " Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'} " easy browsing of tags
-Plug 'ctrlpvim/ctrlp.vim' " fuzzyfinder
+
 Plug 'mileszs/ack.vim' " search files for a pattern recursively
 Plug 'easymotion/vim-easymotion' " jump to any word with ease
 Plug 'tomtom/tcomment_vim' " comment toggler
@@ -263,7 +262,8 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-fugitive' " git wrapper
 " build and install autocompleter
 Plug 'valloric/youcompleteme', { 'do': './install.py --all' }
-
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim' " fuzzyfinder
 Plug 'ervandew/supertab' " tab for omnicompletion
 Plug 'w0rp/ale' " linting
 Plug 'jiangmiao/auto-pairs' " automatically insert matching pair ([{ etc
@@ -320,15 +320,6 @@ highlight ALEWarningSign ctermbg=none ctermfg=yellow
 "            Closetag            "
 "--------------------------------"
 let g:closetag_filenames = '*.html, *.js'
-
-"--------------------------------"
-"             CtrlP              "
-"--------------------------------"
-let g:ctrlp_show_hidden = 1
-" use ripgrep
-let g:ctrlp_user_command = 'rg %s --files --hidden --color=never --glob ""'
-" ignore node_modules et al
-let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist)|(\.(swp|ico|git|svn))$'
 
 "--------------------------------"
 "           gitgutter            "

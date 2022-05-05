@@ -4,7 +4,8 @@
 "              Author: Zane Bilous               "
 "           Last Modified: 04/17/2022            "
 "                 Dependencies:                  "
-"      ripgrep: for the ack plugin       "
+"      ripgrep: for the ack plugin               "
+"      fzf: for fzf
 "      exuberant-ctags: for tagbar               "
 "      bunch of other stuff for build tools      "
 "================================================"
@@ -112,8 +113,13 @@ nmap <silent> <leader><space> :nohlsearch<cr>
 nmap rg :%s/
 nmap rl :s/
 
+" Buffers
+nnoremap <silent> bd :bdelete<cr>
+nnoremap <silent> bn :bnext<cr>
+nnoremap <silent> bp :bprev<cr>
+
 " Tabs
-nnoremap <silent> <leader>tn :tabnew<cr>
+nnoremap <silent> tn :tabnew<cr>
 map <silent> <Left> :tabprevious<cr>
 map <silent> <Right> :tabnext<cr>
 map <silent> tq :tabclose<cr>
@@ -158,7 +164,7 @@ nnoremap <silent> mt :call MoveToNextTab()<cr>
 nnoremap <silent> mT :call MoveToPrevTab()<cr>
 
 " toggle line number type
-nnoremap <silent> tn :call ToggleNumber()<cr>
+nnoremap <silent> tln :call ToggleNumber()<cr>
 
 " toggle folding
 nnoremap <silent> tf :call ToggleFold()<cr>

@@ -5,6 +5,14 @@ mkdir -p ~/.vim/backups
 mkdir -p ~/.vim/swapfiles
 mkdir -p ~/.vim/undodir
 
+if [ ! -x "$(command -v rg)" ]; then
+	sudo apt-get install ripgrep
+fi
+
+if [ ! -x "$(command -v fzf)" ]; then
+	sudo apt-get install fzf
+fi
+
 if [ -f ~/.vimrc ]; then
 	mv --backup=t ~/.vimrc ~/dotfiles/backups
 fi

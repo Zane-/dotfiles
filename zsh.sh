@@ -6,7 +6,7 @@ if [ ! -x "$(command -v zsh)" ]; then
 	sudo apt-get install zsh
 fi
 
-if [ ! -x "$(command -v ripgrep)" ]; then
+if [ ! -x "$(command -v rg)" ]; then
 	sudo apt-get install ripgrep
 fi
 

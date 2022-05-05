@@ -23,7 +23,7 @@ if  [ ! -d ~/.zprezto ]; then
 	git clone --recursive https://github.com/sorin-ionescu/prezto.git "$HOME/.zprezto"
 
 	mkdir -p $HOME/.zprezto/contrib
-	git submodule add -f https://github.com/lildude/fzf-prezto $HOME/.zprezto/contrib/fzf
+	cd $HOME/.zprezto && git submodule add -f https://github.com/lildude/fzf-prezto $HOME/.zprezto/contrib/fzf
 fi
 
 echo "[+] Creating symbolic links..."

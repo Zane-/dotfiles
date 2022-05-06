@@ -1,11 +1,11 @@
 "================================================"
-"
+"                                                "
 "                  Vim Config                    "
-"              Author: Zane Bilous               "
-"           Last Modified: 04/17/2022            "
-"                 Dependencies:                  "
+"    Author: Zane Bilous                         "
+"    Last Modified: 05/05/2022                   "
+"    Dependencies:                               "
 "      ripgrep: for the ack plugin               "
-"      fzf: for fzf
+"      fzf: for fzf                              "
 "      exuberant-ctags: for tagbar               "
 "      bunch of other stuff for build tools      "
 "================================================"
@@ -202,7 +202,7 @@ nnoremap <silent> \ :Rg<cr>
 nnoremap <silent> <C-f> :Files<cr>
 nnoremap <silent> <C-b> :Buffers<cr>
 nnoremap <silent> <C-s> :BLines<cr>
-nnoremap <silent> <C-t> :Windows<cr>
+nnoremap <silent> <C-l> :Windows<cr>
 
 "--------------------------------"
 "             Colors             "

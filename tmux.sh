@@ -8,6 +8,7 @@ fi
 
 if [ ! -f ~/.tmux/plugins/tpm ]; then
 	echo "[+] Installing tpm"
+	mkdir -p $HOME/.tmux/plugins
 	git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm
 fi
 

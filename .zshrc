@@ -16,6 +16,7 @@ export EDITOR=vim # set default editor to vim
 export FPP_EDITOR=vim
 export FZF_DEFAULT_COMMAND="rg --files --hidden --follow --glob '!.git'"
 export FZF_CTRL_T_COMMAND="rg --files --hidden --follow --glob '!.git'"
+# export FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --preview 'batcat --color=always --style=header,grid --line-range :300 {}'"
 
 [[ $- != *i* ]] && return
 if [ -z "$TMUX" ] && [ ${UID} != 0 ] && [ -x "$(command -v tmux)" ]

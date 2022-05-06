@@ -1,110 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-	<key>bundleid</key>
-	<string>rodrigobdz.chrome-incognito.alfred</string>
-	<key>connections</key>
-	<dict>
-		<key>2C99F6F1-EF16-4CF1-9762-5D05A1FFAA4D</key>
-		<array>
-			<dict>
-				<key>destinationuid</key>
-				<string>16039760-F173-4AB8-9C73-DA7401D5DE23</string>
-				<key>modifiers</key>
-				<integer>0</integer>
-				<key>modifiersubtext</key>
-				<string></string>
-				<key>vitoclose</key>
-				<false/>
-			</dict>
-		</array>
-	</dict>
-	<key>createdby</key>
-	<string>rodrigobdz</string>
-	<key>description</key>
-	<string>Open Google Chrome in Incognito Mode</string>
-	<key>disabled</key>
-	<false/>
-	<key>name</key>
-	<string>Chrome Incognito</string>
-	<key>objects</key>
-	<array>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>concurrently</key>
-				<false/>
-				<key>escaping</key>
-				<integer>63</integer>
-				<key>script</key>
-				<string>on run argv	tell application "Google Chrome"		-- Open incognito window		set W to every window whose mode is "incognito"		if W = {} then set W to {make new window with properties {mode:"incognito"}}		set [W] to W				set userQuery to item 1 of argv		set incognitoQuery to "https://www.google.com/search?q=" &amp; userQuery		tell W to set T to make new tab with properties {URL:incognitoQuery}				-- Close empty tab if found		-- Script creates an empty tab when opening an incognito window		set emptyTab to my lookupTabWithUrl("chrome://newtab/")		if emptyTab is not null then			close emptyTab		end if				set index of W to 1		activate	end tellend run-- Function:-- Look up tab with given URL-- Returns tab reference, if foundto lookupTabWithUrl(www)	local www		tell application "Google Chrome"		set T to every tab of (every window whose mode is "incognito") whose URL is www				if (count item 1 of T) = 0 then return null		return item 1 of item 1 of T	end tellend lookupTabWithUrl</string>
-				<key>scriptargtype</key>
-				<integer>1</integer>
-				<key>scriptfile</key>
-				<string></string>
-				<key>type</key>
-				<integer>6</integer>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.action.script</string>
-			<key>uid</key>
-			<string>16039760-F173-4AB8-9C73-DA7401D5DE23</string>
-			<key>version</key>
-			<integer>2</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>argumenttype</key>
-				<integer>1</integer>
-				<key>keyword</key>
-				<string>i</string>
-				<key>subtext</key>
-				<string>Open Google Chrome in Incognito Mode</string>
-				<key>text</key>
-				<string>Incognito</string>
-				<key>withspace</key>
-				<true/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.input.keyword</string>
-			<key>uid</key>
-			<string>2C99F6F1-EF16-4CF1-9762-5D05A1FFAA4D</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
-	</array>
-	<key>readme</key>
-	<string>Credits:
-
-This workflow is based on the following two workflows.
-
-Workflow for Alfred 2.x
-https://github.com/sonnyhuynh/alfred2-chrome-incognito
-
-Workflow for Alfred 1.x
-https://github.com/drezha/Alfred.App_Extensions/tree/master/Launch%20Chrome%20Incognito</string>
-	<key>uidata</key>
-	<dict>
-		<key>16039760-F173-4AB8-9C73-DA7401D5DE23</key>
-		<dict>
-			<key>xpos</key>
-			<integer>500</integer>
-			<key>ypos</key>
-			<real>60</real>
-		</dict>
-		<key>2C99F6F1-EF16-4CF1-9762-5D05A1FFAA4D</key>
-		<dict>
-			<key>xpos</key>
-			<integer>300</integer>
-			<key>ypos</key>
-			<real>60</real>
-		</dict>
-	</dict>
-	<key>version</key>
-	<string>1.1.0</string>
-	<key>webaddress</key>
-	<string>https://github.com/rodrigobdz/alfred-chrome-incognito-workflow</string>
-</dict>
-</plist>

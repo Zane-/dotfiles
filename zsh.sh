@@ -18,6 +18,12 @@ if [ ! -x "$(command -v fasd)" ]; then
 	sudo apt-get install fasd
 fi
 
+if [ ! -x "$(command -v bat)" ]; then
+	sudo apt-get install bat
+	mkdir -p ~/.local/bin
+	ln -s /usr/bin/batcat ~/.local/bin/bat
+fi
+
 if  [ ! -d ~/.zprezto ]; then
 	echo "[+] Installing prezto"
 	git clone --recursive https://github.com/sorin-ionescu/prezto.git "$HOME/.zprezto"

@@ -14,9 +14,6 @@ unsetopt correct
 export VISUAL=vim
 export EDITOR=vim # set default editor to vim
 export FPP_EDITOR=vim
-export FZF_DEFAULT_COMMAND="rg --files --hidden --follow --glob '!.git'"
-export FZF_CTRL_T_COMMAND="rg --files --hidden --follow --glob '!.git'"
-# export FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --preview 'batcat --color=always --style=header,grid --line-range :300 {}'"
 
 [[ $- != *i* ]] && return
 if [ -z "$TMUX" ] && [ ${UID} != 0 ] && [ -x "$(command -v tmux)" ]
@@ -31,6 +28,11 @@ source ~/dotfiles/.aliases
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 	source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
+
+export FZF_DEFAULT_COMMAND="rg --files --hidden --follow --glob '!.git'"
+export FZF_CTRL_T_COMMAND="rg --files --hidden --follow --glob '!.git'"
+export FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --preview 'bat --color=always --style=header,grid --line-range :300 {}'"
+
 
 # Init fasd
 if [ -x "$(command -v fasd)" ]; then

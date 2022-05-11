@@ -5,6 +5,8 @@ mkdir -p ~/.vim/backups
 mkdir -p ~/.vim/swapfiles
 mkdir -p ~/.vim/undodir
 
+sudo apt-get update
+
 if [ ! -x "$(command -v rg)" ]; then
 	sudo apt-get install ripgrep
 fi

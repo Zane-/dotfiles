@@ -2,6 +2,8 @@
 
 mkdir -p ~/dotfiles/backups
 
+sudo apt-get update
+
 if [ ! -x "$(command -v zsh)" ]; then
 	sudo apt-get install zsh
 fi

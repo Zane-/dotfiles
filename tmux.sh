@@ -2,6 +2,8 @@
 
 mkdir -p ~/dotfiles/backups
 
+sudo apt-get update
+
 if [ ! -x "$(command -v tmux)" ]; then
 	sudo apt-get install tmux
 fi

@@ -2,62 +2,62 @@
 
 mkdir -p ~/dotfiles/backups
 
-if [ ! -x "$(command -v apt-get)" ]; then
+if [ -x "$(command -v apt-get)" ]; then
 	sudo apt-get update
 else
-	if [ ! -x "$(command -v brew)" ]; then
+	if [ -x "$(command -v brew)" ]; then
 		brew update
 	fi
 fi
 
 
 if [ ! -x "$(command -v zsh)" ]; then
-	if [ ! -x "$(command -v apt-get)" ]; then
+	if [ -x "$(command -v apt-get)" ]; then
 		sudo apt-get install zsh
 	else
-		if [ ! -x "$(command -v brew)" ]; then
+		if [ -x "$(command -v brew)" ]; then
 			brew install zsh
 		fi
 	fi
 fi
 
 if [ ! -x "$(command -v rg)" ]; then
-	if [ ! -x "$(command -v apt-get)" ]; then
+	if [ -x "$(command -v apt-get)" ]; then
 		sudo apt-get install -o Dpkg::Options::="--force-overwrite" ripgrep
 	else
-		if [ ! -x "$(command -v brew)" ]; then
+		if [ -x "$(command -v brew)" ]; then
 			brew install ripgrep
 		fi
 	fi
 fi
 
 if [ ! -x "$(command -v fzf)" ]; then
-	if [ ! -x "$(command -v apt-get)" ]; then
+	if [ -x "$(command -v apt-get)" ]; then
 		sudo apt-get install fzf
 	else
-		if [ ! -x "$(command -v brew)" ]; then
+		if [ -x "$(command -v brew)" ]; then
 			brew install fzf
 		fi
 	fi
 fi
 
 if [ ! -x "$(command -v fasd)" ]; then
-	if [ ! -x "$(command -v apt-get)" ]; then
+	if [ -x "$(command -v apt-get)" ]; then
 		sudo apt-get install fasd
 	else
-		if [ ! -x "$(command -v brew)" ]; then
+		if [ -x "$(command -v brew)" ]; then
 			brew install fasd
 		fi
 	fi
 fi
 
 if [ ! -x "$(command -v bat)" ]; then
-	if [ ! -x "$(command -v apt-get)" ]; then
+	if [ -x "$(command -v apt-get)" ]; then
 		sudo apt-get install -o Dpkg::Options::="--force-overwrite" bat
 		mkdir -p ~/.local/bin
 		ln -s /usr/bin/batcat ~/.local/bin/bat
 	else
-		if [ ! -x "$(command -v brew)" ]; then
+		if [ -x "$(command -v brew)" ]; then
 			brew install bat
 		fi
 	fi

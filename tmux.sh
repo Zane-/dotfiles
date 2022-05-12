@@ -2,19 +2,19 @@
 
 mkdir -p ~/dotfiles/backups
 
-if [ ! -x "$(command -v apt-get)" ]; then
+if [ -x "$(command -v apt-get)" ]; then
 	sudo apt-get update
-fi
-
-if [ ! -x "$(command -v brew)" ]; then
-	brew update
+else
+	if [ -x "$(command -v brew)" ]; then
+		brew update
+	fi
 fi
 
 if [ ! -x "$(command -v tmux)" ]; then
-	if [ ! -x "$(command -v apt-get)" ]; then
+	if [ -x "$(command -v apt-get)" ]; then
 		sudo apt-get install tmux
 	else
-		if [ ! -x "$(command -v brew)" ]; then
+		if [ -x "$(command -v brew)" ]; then
 			brew install tmux
 		fi
 	fi

@@ -13,10 +13,10 @@ fi
 if [ ! -x "$(command -v tmux)" ]; then
 	if [ ! -x "$(command -v apt-get)" ]; then
 		sudo apt-get install tmux
-	fi
-
-	if [ ! -x "$(command -v brew)" ]; then
-		brew install tmux
+	else
+		if [ ! -x "$(command -v brew)" ]; then
+			brew install tmux
+		fi
 	fi
 fi
 

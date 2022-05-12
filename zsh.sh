@@ -9,7 +9,7 @@ if [ ! -x "$(command -v zsh)" ]; then
 fi
 
 if [ ! -x "$(command -v rg)" ]; then
-	sudo apt-get install ripgrep
+	sudo apt-get install -o Dpkg::Options::="--force-overwrite" ripgrep
 fi
 
 if [ ! -x "$(command -v fzf)" ]; then
@@ -21,7 +21,7 @@ if [ ! -x "$(command -v fasd)" ]; then
 fi
 
 if [ ! -x "$(command -v bat)" ]; then
-	sudo apt-get install bat
+	sudo apt-get install -o Dpkg::Options::="--force-overwrite" bat
 	mkdir -p ~/.local/bin
 	ln -s /usr/bin/batcat ~/.local/bin/bat
 fi

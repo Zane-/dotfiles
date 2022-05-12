@@ -36,10 +36,10 @@ if [ ! -x "$(command -v fzf)" ]; then
 fi
 
 if [ -f ~/.vimrc ]; then
-	mv --backup=t ~/.vimrc ~/dotfiles/backups
+	mv ~/.vimrc ~/dotfiles/backups
 fi
 
-ln -s ~/dotfiles/.vimrc ~/.vimrc
+ln -sf ~/dotfiles/.vimrc ~/.vimrc
 echo "[+] Linked .vimrc"
 
 # install plugged

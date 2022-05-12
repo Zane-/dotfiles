@@ -55,7 +55,7 @@ if [ ! -x "$(command -v bat)" ]; then
 	if [ -x "$(command -v apt-get)" ]; then
 		sudo apt-get install -o Dpkg::Options::="--force-overwrite" bat
 		mkdir -p ~/.local/bin
-		ln -s /usr/bin/batcat ~/.local/bin/bat
+		ln -sf /usr/bin/batcat ~/.local/bin/bat
 	else
 		if [ -x "$(command -v brew)" ]; then
 			brew install bat
@@ -77,17 +77,17 @@ fi
 echo "[+] Creating symbolic links..."
 for dotfile in .zshrc .zpreztorc .zshenv; do
 	if [ -f ~/$dotfile ]; then
-		mv --backup=t ~/$dotfile ~/dotfiles/backups
+		mv ~/$dotfile ~/dotfiles/backups
 	fi
-	ln -s ~/dotfiles/$dotfile ~/$dotfile
+	ln -sf ~/dotfiles/$dotfile ~/$dotfile
 	echo "[+] Linked $dotfile"
 done
 
 for dotfile in zlogin zlogout zprofile; do
 	if [ -f ~/.$dotfile ]; then
-		mv --backup=t ~/.$dotfile ~/dotfiles/backups
+		mv ~/.$dotfile ~/dotfiles/backups
 	fi
-	ln -s ~/.zprezto/runcoms/$dotfile ~/.$dotfile
+	ln -sf ~/.zprezto/runcoms/$dotfile ~/.$dotfile
 	echo "[+] Linked $dotfile"
 done
 

@@ -28,10 +28,10 @@ fi
 
 
 if [ -f ~/.tmux.conf ]; then
-	mv --backup=t ~/.tmux.conf ~/dotfiles/backups
+	mv ~/.tmux.conf ~/dotfiles/backups
 fi
 
-ln -s ~/dotfiles/.tmux.conf ~/.tmux.conf
+ln -sf ~/dotfiles/.tmux.conf ~/.tmux.conf
 
 $HOME/.tmux/plugins/tpm/scripts/install_plugins.sh
 

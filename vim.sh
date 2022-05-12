@@ -5,14 +5,32 @@ mkdir -p ~/.vim/backups
 mkdir -p ~/.vim/swapfiles
 mkdir -p ~/.vim/undodir
 
-sudo apt-get update
+if [ ! -x "$(command -v apt-get)" ]; then
+	sudo apt-get update
+fi
+
+if [ ! -x "$(command -v brew)" ]; then
+	brew update
+fi
 
 if [ ! -x "$(command -v rg)" ]; then
-	sudo apt-get install ripgrep
+	if [ ! -x "$(command -v apt-get)" ]; then
+		sudo apt-get install -o Dpkg::Options::="--force-overwrite" ripgrep
+	fi
+
+	if [ ! -x "$(command -v brew)" ]; then
+		brew install ripgrep
+	fi
 fi
 
 if [ ! -x "$(command -v fzf)" ]; then
-	sudo apt-get install fzf
+	if [ ! -x "$(command -v apt-get)" ]; then
+		sudo apt-get install fzf
+	fi
+
+	if [ ! -x "$(command -v brew)" ]; then
+		brew install fzf
+	fi
 fi
 
 if [ -f ~/.vimrc ]; then

@@ -33,9 +33,9 @@ fi
 
 ln -sf ~/dotfiles/.tmux.conf ~/.tmux.conf
 
-source ~/.tmux.conf
+tmux source ~/.tmux.conf
 $HOME/.tmux/plugins/tpm/scripts/install_plugins.sh
-source ~/.tmux.conf
+tmux source ~/.tmux.conf
 
 echo "[+] Linked .tmux.conf"
 echo "[+] Setup complete. Any existing files have been moved to ~/dotfiles/backups"

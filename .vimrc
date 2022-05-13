@@ -215,6 +215,7 @@ highlight Search ctermfg=NONE ctermbg=241 cterm=NONE guibg=#44475a gui=NONE
 highlight CursorLine term=bold cterm=bold guibg=Grey40
 highlight CursorLineNr term=bold cterm=none ctermbg=none ctermfg=yellow gui=bold
 highlight MatchParen ctermfg=46 ctermbg=241 cterm=NONE
+highlight Pmenu ctermbg=0 ctermfg=5
 
 highlight! link SignColumn LineNr
 autocmd ColorScheme * highlight! link SignColumn LineNr
@@ -270,7 +271,8 @@ Plug 'vim-airline/vim-airline' " status line and tab bar
 Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-fugitive' " git wrapper
 " build and install autocompleter
-" Plug 'valloric/youcompleteme', { 'do': './install.py --all' }
+Plug 'valloric/youcompleteme', { 'do': './install.py --all' }
+Plug 'sirver/ultisnips' " code snippets
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim' " fuzzyfinder
 Plug 'ervandew/supertab' " tab for omnicompletion
@@ -290,6 +292,7 @@ Plug 'kana/vim-textobj-function'
 Plug 'roxma/vim-paste-easy' " auto-enter paste mode on paste
 
 call plug#end()
+
 "================================================"
 "                 Plugin Config                  "
 "================================================"
@@ -375,12 +378,7 @@ let g:tagbar_iconchars = ['▸', '▾']
 "--------------------------------"
 "         YouCompleteMe          "
 "--------------------------------"
-" let g:ycm_server_python_interpreter = '/usr/bin/python'
-" let g:ycm_python_binary_path = '/usr/bin/python3'
-" let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
-set completeopt-=preview
-highlight Pmenu ctermbg=0 ctermfg=5
-let g:ycm_show_diagnostics_ui = 0
+let g:ycm_min_num_of_chars_for_completion = 2
 
 "--------------------------------"
 "           Functions            "

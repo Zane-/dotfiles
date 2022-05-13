@@ -7,9 +7,11 @@ mkdir -p ~/.vim/undodir
 
 if [ -x "$(command -v apt-get)" ]; then
 	sudo apt-get update
+	sudo apt-get install build-esential cmake python3-dev
 else
 	if [ -x "$(command -v brew)" ]; then
 		brew update
+		brew install vim cmake python go nodejs mono
 	fi
 fi
 

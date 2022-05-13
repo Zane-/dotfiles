@@ -112,6 +112,7 @@ nmap <silent> <leader><space> :nohlsearch<cr>
 " Replace
 nmap rg :%s/
 nmap rl :s/
+nmap rw :%s/\<<C-r><C-w>\>/
 
 " Buffers
 nnoremap <silent> bd :bdelete<cr>
@@ -286,6 +287,7 @@ Plug 'luochen1990/rainbow'
 Plug 'markonm/traces.vim'
 Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-textobj-function'
+Plug 'roxma/vim-paste-easy' " auto-enter paste mode on paste
 
 call plug#end()
 "================================================"

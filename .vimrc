@@ -273,6 +273,7 @@ Plug 'tpope/vim-fugitive' " git wrapper
 " build and install autocompleter
 Plug 'valloric/youcompleteme', { 'do': './install.py --clangd-completer --ts-completer --rust-completer --java-completer' }
 Plug 'sirver/ultisnips' " code snippets
+Plug 'honza/vim-snippets'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim' " fuzzyfinder
 Plug 'ervandew/supertab' " tab for omnicompletion
@@ -285,7 +286,6 @@ Plug 'airblade/vim-gitgutter' " show added/deleted lines in gutter
 Plug 'octol/vim-cpp-enhanced-highlight' " additional cpp syntax support
 Plug 'pangloss/vim-javascript' " javascript syntax support
 Plug 'mxw/vim-jsx' " jsx syntax support for react
-Plug 'luochen1990/rainbow'
 Plug 'markonm/traces.vim'
 Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-textobj-function'
@@ -374,6 +374,11 @@ let g:tagbar_autofocus = 1
 let g:tagbar_width = 25
 let g:tagbar_compact = 1
 let g:tagbar_iconchars = ['▸', '▾']
+
+"--------------------------------"
+"           ultisnips            "
+"--------------------------------"
+let g:UltiSnipsExpandTrigger="<c-e>"
 
 "--------------------------------"
 "         YouCompleteMe          "

@@ -8,6 +8,9 @@ alias ct="batcat"
 alias sal="source ~/dotfiles/.aliases"
 alias sz="source ~/dotfiles/.zshrc"
 
+# quick-pull dotfiles
+alias udf="cd ~/dotfiles && git pull"
+
 # ignore node_modules folder with grep
 alias grep="grep --color=auto --exclude-dir=\node_modules"
 alias compress="tar -czvf" # create gzip archive

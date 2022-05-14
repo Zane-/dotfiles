@@ -24,10 +24,14 @@ fi
 #     }
 # fi
 
-export PATH="$HOME/.local/bin:$HOME/.npm-packages/bin:$PATH"
+export PATH="$HOME/.local/bin:PATH"
 
 if [ -x "$(command -v yarn)" ]; then
 	export PATH="$(yarn global bin):$PATH"
+fi
+
+if [ -x "$(command -v npm)" ]; then
+	export PATH="$HOME/.npm-packages/bin:$PATH"
 fi
 
 if [[ -f "$HOME/.cargo/env" ]]; then

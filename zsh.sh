@@ -66,6 +66,14 @@ fi
 if  [ ! -d ~/.zprezto ]; then
 	echo "[+] Installing prezto"
 	git clone --recursive https://github.com/sorin-ionescu/prezto.git "$HOME/.zprezto"
+
+	for dotfile in zlogin zlogout zprofile; do
+		if [ -f ~/.$dotfile ]; then
+			mv ~/.$dotfile ~/dotfiles/backups
+		fi
+		ln -sf ~/.zprezto/runcoms/$dotfile ~/.$dotfile
+		echo "[+] Linked $dotfile"
+	done
 fi
 
 if [ ! -d $SOME/.zprezto/contrib/fzf ]; then
@@ -83,13 +91,14 @@ for dotfile in .zshrc .zpreztorc .zshenv; do
 	echo "[+] Linked $dotfile"
 done
 
-for dotfile in zlogin zlogout zprofile; do
-	if [ -f ~/.$dotfile ]; then
-		mv ~/.$dotfile ~/dotfiles/backups
+
+if [ -x "$(command -v npm)" ]; then
+	if [ -f ~/.npmrc ]; then
+		mv ~/.npmrc ~/dotfiles/backups
 	fi
-	ln -sf ~/.zprezto/runcoms/$dotfile ~/.$dotfile
-	echo "[+] Linked $dotfile"
-done
+	ln -sf ~/dotfiles/.npmrc ~/.npmrc
+	echo "[+] Linked .npmrc"
+fi
 
 echo "[+] Setup complete. Change your default shell to zsh using 'chsh -s /bin/zsh'. Then, restart zsh for changes to take effect. Any existing files have been moved to ~/dotfiles/backups"
 

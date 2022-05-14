@@ -24,7 +24,7 @@ fi
 #     }
 # fi
 
-export PATH="$HOME/.local/bin:PATH"
+export PATH="$HOME/.local/bin:$PATH"
 
 if [ -x "$(command -v yarn)" ]; then
 	export PATH="$(yarn global bin):$PATH"

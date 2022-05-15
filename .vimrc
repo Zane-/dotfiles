@@ -22,9 +22,10 @@ set mouse=nicr            " use mouse for scrolling and clicking
 
 set number                " line numbers
 set numberwidth=1
-" set relativenumber        " hybrid numbering
+" set relativenumber      " hybrid numbering
 set signcolumn=number     " Share the line number column and SignColumn
 
+set cmdheight=2           " use more space for displaying messages
 set scrolloff=15          " keep 15 lines above/below cursor line
 set cursorline            " underline current line
 set linebreak             " break lines
@@ -47,9 +48,9 @@ set foldmethod=indent
 set foldminlines=5        " min num of lines before a block is foldable
 set foldlevelstart=12     " don't autofold unless there are 12 indents
 
-" dont store backups and swapfile in working directory
-set backup
-set backupdir=~/.vim/backups
+" dont store backups and  don't store swapfile in working directory
+set nobackup
+set nowritebackup
 set directory=~/.vim/swapfiles
 set undodir=~/.vim/undodir
 set undofile              " persistent undo
@@ -63,6 +64,9 @@ set shellpipe=>           " hide ack searches from stdout
 set re=1                  " use old regex engine (faster)
 set ttyfast               " optimizations
 set lazyredraw
+set updatetime=300
+
+set shortmess+=c          " don't pass messages to ins-completion-menu
 
 set visualbell            " visual bell
 
@@ -106,7 +110,6 @@ map <C-h> <C-w>h
 map <C-l> <C-w>l
 
 " Search
-nmap <space> /
 nmap <silent> <leader><space> :nohlsearch<cr>
 
 " Replace
@@ -205,6 +208,71 @@ nnoremap <silent> <C-b> :Buffers<cr>
 nnoremap <silent> <C-s> :BLines<cr>
 nnoremap <silent> <C-l> :Windows<cr>
 
+" coc mappings
+
+" use tab for trigger completion with characters ahead and navigate
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ CheckBackspace() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+" make <CR> auto-select the first completion item
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+" GoTo code navigation
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" use K to show documentation in preview window
+nnoremap <silent> K :call ShowDocumentation()<CR>
+
+" symbol renaming
+nmap <leader>rn <Plug>(coc-rename)
+
+" apply codeAction to selection
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+" apply codeAction to the current buffer
+nmap <leader>ac  <Plug>(coc-codeaction)
+
+" apply AutoFix to problem on the current line
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" run the Code Lens action on the current line
+nmap <leader>cl  <Plug>(coc-codelens-action)
+
+" function and class text objects
+xmap if <Plug>(coc-funcobj-i)
+omap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap af <Plug>(coc-funcobj-a)
+xmap ic <Plug>(coc-classobj-i)
+omap ic <Plug>(coc-classobj-i)
+xmap ac <Plug>(coc-classobj-a)
+omap ac <Plug>(coc-classobj-a)
+
+" mappings for CoCList
+" show all diagnostics
+nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
+" manage extensions
+nnoremap <silent><nowait> <space>e  :<C-u>CocList extensions<cr>
+" show commands
+nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
+" find symbol of current document
+nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
+" search workspace symbols
+nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
+" do default action for next item
+nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
+" do default action for previous item
+nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
+" resume latest coc list
+nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
+
 "--------------------------------"
 "             Colors             "
 "--------------------------------"
@@ -218,6 +286,8 @@ highlight MatchParen ctermfg=46 ctermbg=241 cterm=NONE
 highlight Pmenu ctermbg=0 ctermfg=5
 
 highlight! link SignColumn LineNr
+highlight CocHighlightText ctermfg=None ctermbg=241 guibg=#44475a gui=NONE
+
 autocmd ColorScheme * highlight! link SignColumn LineNr
 
 augroup cursor_behaviour
@@ -228,7 +298,6 @@ augroup cursor_behaviour
     let &t_SI = "\e[5 q"
     " cursor steady block on command mode
     let &t_EI = "\e[2 q"
-
 augroup END
 
 "--------------------------------"
@@ -270,12 +339,12 @@ Plug 'tomtom/tcomment_vim' " comment toggler
 Plug 'vim-airline/vim-airline' " status line and tab bar
 Plug 'vim-airline/vim-airline-themes' " themes for airline
 Plug 'tpope/vim-fugitive' " git wrapper
-Plug 'valloric/youcompleteme', { 'do': './install.py --clangd-completer --ts-completer --rust-completer --java-completer' }
+" Plug 'valloric/youcompleteme', { 'do': './install.py --clangd-completer --ts-completer --rust-completer --java-completer' }
+Plug 'neoclide/coc.nvim', {'branch': 'release'} " autocompletion
 Plug 'sirver/ultisnips' " code snippet framework
 Plug 'honza/vim-snippets' " common code snippts
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim' " fuzzyfinder
-Plug 'ervandew/supertab' " tab for omnicompletion
 Plug 'w0rp/ale' " linting and autoformatting
 Plug 'jiangmiao/auto-pairs' " automatically insert matching pair ([{ etc
 Plug 'tpope/vim-surround' " easily change surrounding brackets, quotes, etc.
@@ -286,9 +355,6 @@ Plug 'octol/vim-cpp-enhanced-highlight' " additional cpp syntax support
 Plug 'pangloss/vim-javascript' " javascript syntax support
 Plug 'mxw/vim-jsx' " jsx syntax support for react
 Plug 'markonm/traces.vim' " live preview for substitution
-Plug 'kana/vim-textobj-function' " targets functions
-Plug 'bps/vim-textobj-python' " targets functions/classes for python
-Plug 'kana/vim-textobj-user' " dependency for above
 Plug 'roxma/vim-paste-easy' " auto-enter paste mode on paste
 
 call plug#end()
@@ -335,6 +401,23 @@ highlight ALEWarningSign ctermbg=none ctermfg=yellow
 let g:closetag_filenames = '*.html, *.js'
 
 "--------------------------------"
+"           coc.nvim             "
+"--------------------------------"
+let g:coc_global_extensions = ['coc-html', 'coc-lightbulb', 'coc-marketplace', 'coc-pyright', 'coc-syntax', 'coc-tag', 'coc-ultisnips']
+
+" highlight symbol and references when hodling cursor on it
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" add `:Format` command to format current buffer
+command! -nargs=0 Format :call CocActionAsync('format')
+
+" add `:Fold` command to fold current buffer
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+" add `:OR` command for organize imports of the current buffer
+command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
+
+"--------------------------------"
 "           gitgutter            "
 "--------------------------------"
 " disable on startup because it slows vim down
@@ -379,11 +462,6 @@ let g:tagbar_iconchars = ['▸', '▾']
 "           ultisnips            "
 "--------------------------------"
 let g:UltiSnipsExpandTrigger="<c-e>"
-
-"--------------------------------"
-"         YouCompleteMe          "
-"--------------------------------"
-let g:ycm_min_num_of_chars_for_completion = 2
 
 "--------------------------------"
 "           Functions            "
@@ -470,3 +548,12 @@ function MoveToNextTab()
   "opening current buffer in new window
   exe "b".l:cur_buf
 endfunc
+
+" shows documentation with coc
+function! ShowDocumentation()
+  if CocAction('hasProvider', 'hover')
+    call CocActionAsync('doHover')
+  else
+    call feedkeys('K', 'in')
+  endif
+endfunction

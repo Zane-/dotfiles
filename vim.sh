@@ -38,6 +38,17 @@ if [ ! -x "$(command -v fzf)" ]; then
 
 fi
 
+if [ ! -x "$(command -v ctags)" ]; then
+	if [ -x "$(command -v apt-get)" ]; then
+		sudo apt-get install universal-ctags
+	else
+		if [ -x "$(command -v brew)" ]; then
+			brew install universal-ctags
+		fi
+	fi
+
+fi
+
 if [ -f ~/.vimrc ]; then
 	mv ~/.vimrc ~/dotfiles/backups
 fi

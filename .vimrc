@@ -6,7 +6,7 @@
 "    Dependencies:                               "
 "      ripgrep: for the ack plugin               "
 "      fzf: for fzf                              "
-"      exuberant-ctags: for tagbar               "
+"      universal-ctags: for tagbar               "
 "      bunch of other stuff for build tools      "
 "================================================"
 
@@ -198,7 +198,7 @@ map <silent> <leader>cc :TComment<cr>
 map <leader>gf :Ack! 
 map <silent> <leader>gg :GitGutterToggle<cr>
 map <silent> <leader>ll :LLPStartPreview<cr>
-" map <silent> <F5> :TagbarToggle<cr>
+map <silent> <F5> :TagbarToggle<cr>
 nnoremap <silent> \ :Rg<cr>
 nnoremap <silent> <C-f> :Files<cr>
 nnoremap <silent> <C-b> :Buffers<cr>
@@ -262,15 +262,15 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'mhinz/vim-startify' " fancy start page
 Plug 'scrooloose/nerdtree' " filetree
-" Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'} " easy browsing of tags
-
+Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'} " easy browsing of tags
+Plug 'xolox/vim-misc'
+Plug 'xolox/vim-easytags' " generates tags for files
 Plug 'mileszs/ack.vim' " search files for a pattern recursively
 Plug 'easymotion/vim-easymotion' " jump to any word with ease
 Plug 'tomtom/tcomment_vim' " comment toggler
 Plug 'vim-airline/vim-airline' " status line and tab bar
 Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-fugitive' " git wrapper
-" build and install autocompleter
 Plug 'valloric/youcompleteme', { 'do': './install.py --clangd-completer --ts-completer --rust-completer --java-completer' }
 Plug 'sirver/ultisnips' " code snippets
 Plug 'honza/vim-snippets'

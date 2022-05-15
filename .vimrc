@@ -274,7 +274,7 @@ highlight Search ctermfg=NONE ctermbg=241 cterm=NONE guibg=#44475a gui=NONE
 highlight CursorLine term=bold cterm=bold guibg=Grey40
 highlight CursorLineNr term=bold cterm=none ctermbg=none ctermfg=yellow gui=bold
 highlight MatchParen ctermfg=46 ctermbg=241 cterm=NONE
-highlight Pmenu ctermbg=0 ctermfg=5
+highlight Pmenu ctermbg=0 ctermfg=3
 
 highlight! link SignColumn LineNr
 highlight CocHighlightText ctermfg=None ctermbg=241 guibg=#44475a gui=NONE

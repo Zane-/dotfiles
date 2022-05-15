@@ -7,17 +7,18 @@ mkdir -p ~/.vim/undodir
 
 if [ -x "$(command -v apt-get)" ]; then
 	sudo apt-get update
-	sudo apt-get install build-esential cmake python3-dev npm nodejs default-jdk
+	sudo apt-get install build-esential cmake python3-dev default-jdk
 else
 	if [ -x "$(command -v brew)" ]; then
 		brew update
-		brew install vim cmake python go nodejs npm java
+		brew install vim cmake python java
 		sudo ln -sfn $(brew --prefix java)/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk.jdk
 	fi
 fi
 
 
 if [ ! -x "$(command -v rg)" ]; then
+	echo "[+] Installing ripgrep"
 	if [ -x "$(command -v apt-get)" ]; then
 		sudo apt-get install -o Dpkg::Options::="--force-overwrite" ripgrep
 	else
@@ -28,6 +29,7 @@ if [ ! -x "$(command -v rg)" ]; then
 fi
 
 if [ ! -x "$(command -v fzf)" ]; then
+	echo "[+] Installing fzf"
 	if [ -x "$(command -v apt-get)" ]; then
 		sudo apt-get install fzf
 	else
@@ -39,6 +41,7 @@ if [ ! -x "$(command -v fzf)" ]; then
 fi
 
 if [ ! -x "$(command -v ctags)" ]; then
+	echo "[+] Installing universal-ctags"
 	if [ -x "$(command -v apt-get)" ]; then
 		sudo apt-get install universal-ctags
 	else
@@ -46,7 +49,26 @@ if [ ! -x "$(command -v ctags)" ]; then
 			brew install universal-ctags
 		fi
 	fi
+fi
 
+if [ ! -x "$(command -v yapf)" ]; then
+	echo "[+] Installing yapf"
+	if [ -x "$(command -v python3)" ]; then
+		python3 -m pip install yapf
+	else
+		"[-] Failed to install yapf, please install python3 with pip support"
+	fi
+fi
+
+if [ ! -x "$(command -v clang-format)" ]; then
+	echo "[+] Installing clang-format"
+	if [ -x "$(command -v apt-get)" ]; then
+		sudo apt-get install clang-format
+	else
+		if [ -x "$(command -v brew)" ]; then
+			brew install clang-format
+		fi
+	fi
 fi
 
 if [ -f ~/.vimrc ]; then

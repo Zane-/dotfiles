@@ -186,7 +186,6 @@ nnoremap <silent> <F2> :call LNext(1)<cr>
 " Plugin Mappings
 map <silent> <C-n> :NERDTreeToggle<cr>
 map <silent> <leader>cc :TComment<cr>
-map <silent> <leader>gg :GitGutterToggle<cr>
 map <silent> <F5> :TagbarToggle<cr>
 
 " fzf mappings
@@ -340,13 +339,8 @@ Plug 'honza/vim-snippets' " common code snippts
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim' " fuzzyfinder
 Plug 'w0rp/ale' " linting and autoformatting
-Plug 'jiangmiao/auto-pairs' " automatically insert matching pair ([{ etc
 Plug 'tpope/vim-surround' " easily change surrounding brackets, quotes, etc.
-Plug 'alvan/vim-closetag' " auto close tags for html and jsx
 Plug 'bronson/vim-trailing-whitespace' " show trailing whitespace as red bg
-Plug 'airblade/vim-gitgutter' " show added/deleted lines in gutter
-Plug 'octol/vim-cpp-enhanced-highlight' " additional cpp syntax support
-Plug 'pangloss/vim-javascript' " javascript syntax support
 Plug 'mxw/vim-jsx' " jsx syntax support for react
 Plug 'markonm/traces.vim' " live preview for substitution
 Plug 'roxma/vim-paste-easy' " auto-enter paste mode on paste
@@ -397,7 +391,7 @@ let g:closetag_filenames = '*.html, *.js'
 "--------------------------------"
 "           coc.nvim             "
 "--------------------------------"
-let g:coc_global_extensions = ['coc-html', 'coc-lightbulb', 'coc-marketplace', 'coc-pyright', 'coc-snippets', 'coc-syntax', 'coc-tag']
+let g:coc_global_extensions = ['coc-git', 'coc-html', 'coc-lightbulb', 'coc-marketplace', 'coc-pairs', 'coc-pyright', 'coc-snippets', 'coc-syntax', 'coc-tag', 'coc-tsserver']
 
 " highlight symbol and references when hodling cursor on it
 autocmd CursorHold * silent call CocActionAsync('highlight')
@@ -410,12 +404,6 @@ command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 
 " add `:OR` command for organize imports of the current buffer
 command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
-
-"--------------------------------"
-"           gitgutter            "
-"--------------------------------"
-" disable on startup because it slows vim down
-let g:gitgutter_enabled = 0
 
 "--------------------------------"
 "            NERDTree            "

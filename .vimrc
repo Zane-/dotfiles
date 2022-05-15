@@ -2,12 +2,12 @@
 "                                                "
 "                  Vim Config                    "
 "    Author: Zane Bilous                         "
-"    Last Modified: 05/05/2022                   "
+"    Last Modified: 05/15/2022                   "
 "    Dependencies:                               "
 "      ripgrep: for the ack plugin               "
 "      fzf: for fzf                              "
 "      universal-ctags: for tagbar               "
-"      bunch of other stuff for build tools      "
+"      nodejs: for coc.nvim                      "
 "================================================"
 
 "--------------------------------"
@@ -113,17 +113,18 @@ nmap rw :%s/\<<C-r><C-w>\>/
 
 " Buffers
 nnoremap <silent> bd :bdelete<cr>
-nnoremap <silent> bn :bnext<cr>
-nnoremap <silent> bp :bprev<cr>
+nnoremap <silent> <Left> :bnext<cr>
+nnoremap <silent> <Right> :bprev<cr>
 
 " Tabs
-nnoremap <silent> tn :tabnew<cr>
-map <silent> <Left> :tabprevious<cr>
-map <silent> <Right> :tabnext<cr>
+nnoremap <silent> tt :tabnew<cr>
+map <silent> tp :tabprevious<cr>
+map <silent> tn :tabnext<cr>
 map <silent> tq :tabclose<cr>
 
-" vertical split
+" Splits
 nnoremap <silent> <C-v> :vsp<cr>
+nnoremap <silent> <C-h> :sp<cr>
 
 " delete trailing whitespace
 nmap <silent> <leader>dw :%s/\s\+$//<cr>:nohlsearch<cr>
@@ -137,8 +138,8 @@ noremap <leader>al =ip
 nnoremap <leader>fm gg=G``
 
 " move lines with Shift + Up/Down
-nnoremap <silent> <S-k> :m-2<cr>
 nnoremap <silent> <S-j> :m+<cr>
+nnoremap <silent> <S-k> :m-2<cr>
 
 " ensure <cr> isn't remapped during cmd enter and quickfix
 augroup cr
@@ -157,7 +158,7 @@ vnoremap Q :norm @q<cr>
 " move split to new tab
 nnoremap <silent> <leader>st <C-w><s-t>gT
 
-" move splits to tabs
+" move splits to existing tabs
 nnoremap <silent> mt :call MoveToNextTab()<cr>
 nnoremap <silent> mT :call MoveToPrevTab()<cr>
 
@@ -171,13 +172,11 @@ nnoremap <silent> tf :call ToggleFold()<cr>
 vnoremap < <gv
 vnoremap > >gv
 
-" insert blank line with enter and shift+enter
+" insert blank line with enter
 noremap <cr> o<Esc>
-nmap <S-Enter> O<Esc>
-nmap <cr> o<Esc>
 
 " close quickfix window
-map <silent> <leader>gq :ccl<cr>
+map <silent> ccl :ccl<cr>
 
 " cycle through location list
 nnoremap <silent> <F1> :call LNext(0)<cr>
@@ -204,7 +203,7 @@ inoremap <silent><expr> <TAB>
       \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-" make <CR> auto-select the first completion item
+" make <cr> auto-select the first completion item
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
@@ -217,11 +216,11 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
-" use K to show documentation in preview window
-nnoremap <silent> K :call ShowDocumentation()<CR>
+" show documentation in preview window
+nnoremap <silent> D :call ShowDocumentation()<CR>
 
 " symbol renaming
-nmap <leader>rn <Plug>(coc-rename)
+nnap rn <Plug>(coc-rename)
 
 " apply codeAction to selection
 xmap <leader>a  <Plug>(coc-codeaction-selected)
@@ -246,7 +245,6 @@ omap ic <Plug>(coc-classobj-i)
 xmap ac <Plug>(coc-classobj-a)
 omap ac <Plug>(coc-classobj-a)
 
-" mappings for CoCList
 " show all diagnostics
 nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
 " manage extensions

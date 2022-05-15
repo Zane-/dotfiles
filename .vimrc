@@ -263,21 +263,20 @@ call plug#begin('~/.vim/plugged')
 Plug 'mhinz/vim-startify' " fancy start page
 Plug 'scrooloose/nerdtree' " filetree
 Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'} " easy browsing of tags
-Plug 'xolox/vim-misc'
-Plug 'xolox/vim-easytags' " generates tags for files
+Plug 'ludovicchabant/vim-gutentags' " auto-generates tags
 Plug 'mileszs/ack.vim' " search files for a pattern recursively
 Plug 'easymotion/vim-easymotion' " jump to any word with ease
 Plug 'tomtom/tcomment_vim' " comment toggler
 Plug 'vim-airline/vim-airline' " status line and tab bar
-Plug 'vim-airline/vim-airline-themes'
+Plug 'vim-airline/vim-airline-themes' " themes for airline
 Plug 'tpope/vim-fugitive' " git wrapper
 Plug 'valloric/youcompleteme', { 'do': './install.py --clangd-completer --ts-completer --rust-completer --java-completer' }
-Plug 'sirver/ultisnips' " code snippets
-Plug 'honza/vim-snippets'
+Plug 'sirver/ultisnips' " code snippet framework
+Plug 'honza/vim-snippets' " common code snippts
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim' " fuzzyfinder
 Plug 'ervandew/supertab' " tab for omnicompletion
-Plug 'w0rp/ale' " linting
+Plug 'w0rp/ale' " linting and autoformatting
 Plug 'jiangmiao/auto-pairs' " automatically insert matching pair ([{ etc
 Plug 'tpope/vim-surround' " easily change surrounding brackets, quotes, etc.
 Plug 'alvan/vim-closetag' " auto close tags for html and jsx
@@ -286,9 +285,9 @@ Plug 'airblade/vim-gitgutter' " show added/deleted lines in gutter
 Plug 'octol/vim-cpp-enhanced-highlight' " additional cpp syntax support
 Plug 'pangloss/vim-javascript' " javascript syntax support
 Plug 'mxw/vim-jsx' " jsx syntax support for react
-Plug 'markonm/traces.vim'
-Plug 'kana/vim-textobj-user'
-Plug 'kana/vim-textobj-function'
+Plug 'markonm/traces.vim' " live preview for substitution
+Plug 'kana/vim-textobj-function' " targets functions
+Plug 'kana/vim-textobj-user' " dependency for above
 Plug 'roxma/vim-paste-easy' " auto-enter paste mode on paste
 
 call plug#end()

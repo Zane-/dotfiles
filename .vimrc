@@ -155,9 +155,9 @@ nnoremap Q @q
 vnoremap Q :norm @q<cr>
 
 " move split to new tab
-nnoremap <silent> st <C-w><s-t>gT
+nnoremap <silent> <leader>st <C-w><s-t>gT
 
-" move tabs to splits
+" move splits to tabs
 nnoremap <silent> mt :call MoveToNextTab()<cr>
 nnoremap <silent> mT :call MoveToPrevTab()<cr>
 
@@ -190,10 +190,10 @@ map <silent> <F5> :TagbarToggle<cr>
 
 " fzf mappings
 nnoremap <silent> \ :Rg<cr>
-nnoremap <silent> <C-f> :Files<cr>
-nnoremap <silent> <C-b> :Buffers<cr>
-nnoremap <silent> <C-s> :BLines<cr>
-nnoremap <silent> <C-l> :Windows<cr>
+nnoremap <silent> sf :Files<cr>
+nnoremap <silent> sb :Buffers<cr>
+nnoremap <silent> sl :BLines<cr>
+nnoremap <silent> sw :Windows<cr>
 
 " coc mappings
 

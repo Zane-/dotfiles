@@ -16,6 +16,10 @@ else
 	fi
 fi
 
+if [ ! -x "$(command -v nodejs)" ]; then
+	echo "[+] Installing nodejs"
+	curl -sL install-node.vercel.app/lts | bash
+fi
 
 if [ ! -x "$(command -v rg)" ]; then
 	echo "[+] Installing ripgrep"

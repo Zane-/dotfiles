@@ -272,6 +272,8 @@ nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
 nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 " resume latest coc list
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
+" open the marketplace
+nnoremap <silent><nowait> <space>m  :<C-u>CocList marketplace<CR>
 
 "--------------------------------"
 "             Colors             "

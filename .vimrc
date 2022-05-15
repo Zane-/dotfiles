@@ -124,7 +124,7 @@ map <silent> tq :tabclose<cr>
 
 " Splits
 nnoremap <silent> <C-v> :vsp<cr>
-nnoremap <silent> <C-h> :sp<cr>
+nnoremap <silent> <C-x> :sp<cr>
 
 " delete trailing whitespace
 nmap <silent> <leader>dw :%s/\s\+$//<cr>:nohlsearch<cr>
@@ -342,6 +342,7 @@ Plug 'bronson/vim-trailing-whitespace' " show trailing whitespace as red bg
 Plug 'mxw/vim-jsx' " jsx syntax support for react
 Plug 'markonm/traces.vim' " live preview for substitution
 Plug 'roxma/vim-paste-easy' " auto-enter paste mode on paste
+Plug 'ryanoasis/vim-devicons' " add icons to files
 
 call plug#end()
 
@@ -410,6 +411,8 @@ let g:NERDTreeShowHidden = 1
 let g:NERDTreeQuitOnOpen = 1
 let g:NERDTreeMapOpenInTab = '<C-t>'
 let g:NERDTreeMapOpenVSplit = '<C-v>'
+let g:NERDTreeMapOpenSplit = '<C-x>'
+let g:NERDTreeMinimalUI = 1
 
 "--------------------------------"
 "            Rainbow             "

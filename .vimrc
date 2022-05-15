@@ -220,7 +220,7 @@ nmap <silent> gr <Plug>(coc-references)
 nnoremap <silent> D :call ShowDocumentation()<CR>
 
 " symbol renaming
-nnap rn <Plug>(coc-rename)
+nmap rn <Plug>(coc-rename)
 
 " apply codeAction to selection
 xmap <leader>a  <Plug>(coc-codeaction-selected)

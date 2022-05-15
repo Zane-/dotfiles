@@ -103,12 +103,6 @@ nnoremap E $
 nnoremap j gj
 nnoremap k gk
 
-" Window navigation
-map <C-j> <C-w>j
-map <C-k> <C-w>k
-map <C-h> <C-w>h
-map <C-l> <C-w>l
-
 " Search
 nmap <silent> <leader><space> :nohlsearch<cr>
 
@@ -189,19 +183,13 @@ map <silent> <leader>gq :ccl<cr>
 nnoremap <silent> <F1> :call LNext(0)<cr>
 nnoremap <silent> <F2> :call LNext(1)<cr>
 
-" generate tags for directory
-nmap <silent> <leader>ct :!ctags *<cr>
-
-" copy component template into current file at cursor
-nnoremap <silent> <leader>rnc :read ~/dotfiles/templates/component.js<cr>
-
 " Plugin Mappings
 map <silent> <C-n> :NERDTreeToggle<cr>
 map <silent> <leader>cc :TComment<cr>
-map <leader>gf :Ack! 
 map <silent> <leader>gg :GitGutterToggle<cr>
-map <silent> <leader>ll :LLPStartPreview<cr>
 map <silent> <F5> :TagbarToggle<cr>
+
+" fzf mappings
 nnoremap <silent> \ :Rg<cr>
 nnoremap <silent> <C-f> :Files<cr>
 nnoremap <silent> <C-b> :Buffers<cr>
@@ -220,6 +208,10 @@ inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 " make <CR> auto-select the first completion item
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+" use Ctrl+e to expand snippets
+imap <C-e> <Plug>(coc-snippets-expand)
+
 " GoTo code navigation
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
@@ -405,7 +397,7 @@ let g:closetag_filenames = '*.html, *.js'
 "--------------------------------"
 "           coc.nvim             "
 "--------------------------------"
-let g:coc_global_extensions = ['coc-html', 'coc-lightbulb', 'coc-marketplace', 'coc-pyright', 'coc-syntax', 'coc-tag', 'coc-ultisnips']
+let g:coc_global_extensions = ['coc-html', 'coc-lightbulb', 'coc-marketplace', 'coc-pyright', 'coc-snippets', 'coc-syntax', 'coc-tag']
 
 " highlight symbol and references when hodling cursor on it
 autocmd CursorHold * silent call CocActionAsync('highlight')

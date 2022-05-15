@@ -287,6 +287,7 @@ Plug 'pangloss/vim-javascript' " javascript syntax support
 Plug 'mxw/vim-jsx' " jsx syntax support for react
 Plug 'markonm/traces.vim' " live preview for substitution
 Plug 'kana/vim-textobj-function' " targets functions
+Plug 'bps/vim-textobj-python' " targets functions/classes for python
 Plug 'kana/vim-textobj-user' " dependency for above
 Plug 'roxma/vim-paste-easy' " auto-enter paste mode on paste
 

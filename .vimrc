@@ -343,6 +343,7 @@ Plug 'mxw/vim-jsx' " jsx syntax support for react
 Plug 'markonm/traces.vim' " live preview for substitution
 Plug 'roxma/vim-paste-easy' " auto-enter paste mode on paste
 Plug 'ryanoasis/vim-devicons' " add icons to files
+Plug 'lukas-reineke/indent-blankline.nvim'
 
 call plug#end()
 
@@ -390,7 +391,7 @@ let g:closetag_filenames = '*.html, *.js'
 "--------------------------------"
 "           coc.nvim             "
 "--------------------------------"
-let g:coc_global_extensions = ['coc-git', 'coc-html', 'coc-lightbulb', 'coc-marketplace', 'coc-pairs', 'coc-pyright', 'coc-snippets', 'coc-syntax', 'coc-tag', 'coc-tsserver']
+let g:coc_global_extensions = ['coc-git', 'coc-html', 'coc-marketplace', 'coc-pairs', 'coc-pyright', 'coc-snippets', 'coc-syntax', 'coc-tag', 'coc-tsserver']
 
 " highlight symbol and references when hodling cursor on it
 autocmd CursorHold * silent call CocActionAsync('highlight')

@@ -3,3 +3,4 @@
 .zshenv
 backups/**
 tags
+tags.lock

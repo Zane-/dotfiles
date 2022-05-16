@@ -11,7 +11,7 @@ if [ -x "$(command -v apt-get)" ]; then
 else
 	if [ -x "$(command -v brew)" ]; then
 		brew update
-		brew install vim cmake python java
+		brew install neovim cmake python java
 		sudo ln -sfn $(brew --prefix java)/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk.jdk
 	fi
 fi
@@ -93,18 +93,12 @@ if [-f ~/.config/nvim/init.vim]; then
 fi
 
 mkdir -p ~/.config/nvim
-ln -sf ~/dotfiles/.config/nvim/init.vim ~/.config/nvim/init.vim
-echo "[+] Linked init.vim"
+ln -sf ~/dotfiles/.config/nvim/init.lua ~/.config/nvim/init.lua
+echo "[+] Linked init.lua"
 
-# install plugged
-if [ ! -d ~/.vim/plugged ]; then
-	echo "[+] Installing plugged (vim plugin manager)"
-	curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-		 https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-fi
-
-# install vim plugins
-vim +PlugInstall +qall
+echo "[+] Installing packer"
+git clone --depth 1 https://github.com/wbthomason/packer.nvim\
+ ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 
 echo "[+] Setup complete. Any existing files have been moved to ~/dotfiles/backups"
 

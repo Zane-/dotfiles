@@ -16,42 +16,41 @@ local opt  = vim.opt -- global
 ----------------------------------
 --           Options
 ----------------------------------
+opt.autoread = true                 -- autoreload changed files
+opt.clipboard = 'unnamed'           -- use system clipboard
+opt.cmdheight = 2                   -- use more space for displaying messages
 opt.encoding = 'utf8'               -- set utf8 as standard encoding
 opt.hidden = true                   -- buffers can be in the bg without having to be saved
-opt.autoread = true                 -- autoreload changed files
+opt.foldminlines = 5                -- min num of lines before a block is foldable
+opt.hlsearch = true                 -- highlight search hits
+opt.ignorecase = true               -- ignore case when searching
+opt.incsearch = true                -- show search hits as you type
+opt.linebreak = true                -- break lines
+opt.foldlevelstart = 12             -- don't autofold unless there are 12 indents
 opt.mouse = 'nicr'                  -- use mouse for scrolling and clicking
 opt.number = true                   -- line numbers
-opt.cmdheight = 2                   -- use more space for displaying messages
+opt.pastetoggle = '<F3>'            -- switch to paste mode to paste easily
+opt.re = 1                          -- use old regex engine (faster)
 opt.scrolloff = 15                  -- keep 15 lines above/below cursor line
-opt.linebreak = true                -- break lines
-opt.hlsearch = true                 -- highlight search hits
-opt.incsearch = true                -- show search hits as you type
-opt.ignorecase = true               -- ignore case when searching
-opt.smartcase = true                -- override ignore case if uppercase letters in pattern
-opt.tabstop = 4                     -- make tabs 4-spaces wide
 opt.shiftwidth = 4                  -- make indents correspond to one tab
+opt.smartcase = true                -- override ignore case if uppercase letters in pattern
 opt.smartindent = true              -- indent after brackets
+opt.shellpipe = '>'                 -- hide ack searches from stdout
 opt.splitbelow = true               -- split splits below
 opt.splitright = true               -- vertical split splits right
-opt.foldmethod = 'indent'
-opt.foldminlines = 5                -- min num of lines before a block is foldable
-opt.foldlevelstart = 12             -- don't autofold unless there are 12 indents
+opt.tabstop = 4                     -- make tabs 4-spaces wide
+opt.ttyfast = true                  -- optimizations
+opt.undofile = true                 -- persistent undo
+opt.undolevels = 1000               -- keep lots of undo history
+opt.updatetime = 300                -- faster update time
+opt.visualbell = true               -- use visual bell
+
 cmd([[
 set directory=~/.vim/swapfiles
 set undodir=~/.vim/nvim-undodir
 " show ↪ on wrapped lines
 let &showbreak=nr2char(8618).' '
 ]])                                 -- store swapfiles and undodir elsewhere
-opt.undofile = true                 -- persistent undo
-opt.undolevels = 1000               -- keep lots of undo history
-opt.pastetoggle = '<F3>'            -- switch to paste mode to paste easily
-opt.clipboard = 'unnamed'           -- use system clipboard
-opt.shellpipe = '>'                 -- hide ack searches from stdout
-opt.re = 1                          -- use old regex engine (faster)
-opt.ttyfast = true                  -- optimizations
-opt.lazyredraw = true
-opt.updatetime = 300
-opt.visualbell = true               -- use visual bell
 
 ----------------------------------
 --            Mappings
@@ -119,6 +118,12 @@ vmap('>', '>gv')
 nmap('<cr>', 'o<Esc>')                   -- insert blank line with enter
 nmap('qw', ':ccl<cr>')                   -- close quickfix window
 
+-- disable mouse drag entering visual mode
+cmd([[
+noremap <LeftDrag> <LeftMouse>
+noremap! <LeftDrag> <LeftMouse>
+]])
+
 -- Plugin Mappings
 nmap('<C-n>', ':NvimTreeToggle<cr>')     -- toggle nvim-tree
 nmap('<F5>', ':SymbolsOutline<cr>')      -- toggle symbols outline
@@ -140,6 +145,18 @@ nmap('<A-t>',                            -- toggle terminal
      '<cmd>lua require("FTerm").toggle()<cr>')
 map('t', '<A-t>',
      '<cmd>lua require("FTerm").toggle()<cr>')
+
+nmap('<leader>xx',                       -- trouble mappings
+     '<cmd>TroubleToggle<cr>')
+nmap('<leader>xw',
+     '<cmd>TroubleToggle workspace_diagnostics<cr>')
+nmap('<leader>x',
+     '<cmd>TroubleToggle document_diagnostics<cr>')
+nmap('<leader>x',
+     '<cmd>TroubleToggle quickfix<cr>')
+nmap('<leader>x',
+     '<cmd>TroubleToggle loclist<cr>')
+nmap('gR', '<cmd>TroubleToggle lsp_references<cr>')
 
 -- LSP mappings
 nmap('<space>e', '<cmd>lua vim.diagnostic.open_float()<cr>')
@@ -191,6 +208,7 @@ require('packer').startup(function()
   use 'hrsh7th/cmp-nvim-lsp'              -- completion stuff
   use 'hrsh7th/cmp-path'
   use 'hrsh7th/nvim-cmp'
+  use 'folke/trouble.nvim'                -- aesthetic diagnostics page
   use 'kosayoda/nvim-lightbulb'           -- show a lightbulb for code actions
   use 'markonm/traces.vim'                -- live preview for substitution
   use 'mxw/vim-jsx'                       -- jsx syntax support for react
@@ -256,17 +274,17 @@ augroup END
 --================================================
 
 ----------------------------------
---           Comment
+--        Comment config
 ----------------------------------
 require('Comment').setup()
 
 ----------------------------------
---          Dashboard
+--       Dashboard config
 ----------------------------------
 g.dashboard_default_executive = 'telescope'
 
 ----------------------------------
---             LSP
+--          LSP config
 ----------------------------------
 require('goto-preview').setup({
   default_mappings = true
@@ -285,7 +303,7 @@ lsp_installer.on_server_ready(function(server)
 end)
 
 ----------------------------------
---           Lualine
+--        Lualine config
 ----------------------------------
 local lualine = require('lualine')
 
@@ -504,17 +522,17 @@ ins_right {
 lualine.setup(config)
 
 ----------------------------------
---           neuron
+--        neuron config
 ----------------------------------
 require('neuron').setup()
 
 ----------------------------------
---          nvim-tree
+--       nvim-tree config
 ----------------------------------
 require('nvim-tree').setup()
 
 ----------------------------------
---            nvim-cmp
+--        nvim-cmp config
 ----------------------------------
 local cmp = require('cmp')
 
@@ -586,9 +604,9 @@ cmp.setup.cmdline(':', {
 })
 
 ----------------------------------
---        nvim-treesitter
+--    nvim-treesitter config
 ----------------------------------
-require('nvim-treesitter.configs').setup {
+require('nvim-treesitter.configs').setup({
   ensure_installed = { 'c', 'javascript', 'python', 'rust' },
 
   highlight = {
@@ -623,20 +641,26 @@ require('nvim-treesitter.configs').setup {
       },
     },
   },
-}
+})
 
 ----------------------------------
---          Telescope
+--       Telescope config
 ----------------------------------
-require('telescope').setup{
+require('telescope').setup({
   defaults = {
     vimgrep_arguments = {
       'rg',
 	  '--hidden',
-      '--with-filename',
       '--line-number',
       '--column',
       '--smart-case',
     },
   },
-}
+})
+
+
+----------------------------------
+--        trouble config
+----------------------------------
+require('trouble').setup {}
+

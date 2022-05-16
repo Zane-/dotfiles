@@ -650,8 +650,9 @@ require('telescope').setup({
   defaults = {
     vimgrep_arguments = {
       'rg',
-	  '--hidden',
+      '--hidden',
       '--line-number',
+	  '--with-filename',
       '--column',
       '--smart-case',
     },

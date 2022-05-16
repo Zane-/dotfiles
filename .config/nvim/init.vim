@@ -196,6 +196,11 @@ nnoremap <silent> sf :Telescope find_files<cr>
 nnoremap <silent> sb :Telescope buffers<cr>
 nnoremap <silent> sl :lua require('telescope.builtin').live_grep({grep_open_files=true})<cr>
 
+" barbar mappings
+nnoremap <silent> bp :BufferPick<cr>
+nnoremap <silent> <S-Left> :BufferMovePrevious<cr>
+nnoremap <silent> <S-Right> :BufferMoveNext<cr>
+
 " coc mappings
 
 " use tab for trigger completion with characters ahead and navigate
@@ -266,30 +271,6 @@ nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 " open the marketplace
 nnoremap <silent><nowait> <space>m  :<C-u>CocList marketplace<CR>
 
-"--------------------------------"
-"      Compilation/Execution     "
-"--------------------------------"
-augroup exe
-	" C
-	autocmd filetype c nnoremap <F4> :w<cr> :!clang *.c && ./a.out<cr>
-	autocmd filetype c inoremap <F4> <Esc> :w<cr> :!clang *.c && ./a.out<cr>
-	" C++
-	autocmd filetype cpp nnoremap <F4> :w<cr> :!clang++-5.0 -std=c++11 -Wall -g *.cpp && ./a.out<cr>
-	autocmd filetype cpp inoremap <F4> <Esc> :w<cr> :!clang++-5.0 -std=c++11 -Wall -g *.cpp && ./a.out<cr>
-	" Java
-	autocmd filetype java nnoremap <F4> :w<cr> :!javac %<cr>
-	autocmd filetype java inoremap <F4> <Esc> :w<cr> :!javac %<cr>
-	" Rust
-	autocmd filetype rust nnoremap <F4> :w<cr> :!rustc % && ./%:r
-	autocmd filetype rust inoremap <F4> <Esc> :w<cr> :!rustc % && ./%:r
-	" Python
-	autocmd filetype python nnoremap <F4> :w<cr> :!python %<cr>
-	autocmd filetype python inoremap <F4> <Esc> :w<cr> :!python %<cr>
-	" Ruby
-	autocmd filetype ruby nnoremap <F4> :w<cr> :!ruby %<cr>
-	autocmd filetype ruby inoremap <F4> <Esc> :w<cr> :!ruby %<cr>
-augroup end
-
 "---------------------------------"
 "            Plugins              "
 "---------------------------------"
@@ -303,10 +284,10 @@ Plug 'easymotion/vim-easymotion' " jump to any word with ease
 Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'} " easy browsing of tags
 Plug 'ludovicchabant/vim-gutentags' " auto-generates tags
 
-Plug 'vim-airline/vim-airline' " status line and tab bar
-Plug 'vim-airline/vim-airline-themes' " themes for airline
+Plug 'itchyny/lightline.vim' " status line
+Plug 'kyazdani42/nvim-web-devicons' " dependency for barbar
 Plug 'ryanoasis/vim-devicons' " add icons to files
-Plug 'joshdick/onedark.vim'
+Plug 'ful1e5/onedark.nvim'
 
 Plug 'tpope/vim-fugitive' " git wrapper
 Plug 'neoclide/coc.nvim', {'branch': 'release'} " autocompletion
@@ -357,6 +338,30 @@ augroup END
 
 colorscheme onedark
 
+"--------------------------------"
+"      Compilation/Execution     "
+"--------------------------------"
+augroup exe
+	" C
+	autocmd filetype c nnoremap <F4> :w<cr> :!clang *.c && ./a.out<cr>
+	autocmd filetype c inoremap <F4> <Esc> :w<cr> :!clang *.c && ./a.out<cr>
+	" C++
+	autocmd filetype cpp nnoremap <F4> :w<cr> :!clang++-5.0 -std=c++11 -Wall -g *.cpp && ./a.out<cr>
+	autocmd filetype cpp inoremap <F4> <Esc> :w<cr> :!clang++-5.0 -std=c++11 -Wall -g *.cpp && ./a.out<cr>
+	" Java
+	autocmd filetype java nnoremap <F4> :w<cr> :!javac %<cr>
+	autocmd filetype java inoremap <F4> <Esc> :w<cr> :!javac %<cr>
+	" Rust
+	autocmd filetype rust nnoremap <F4> :w<cr> :!rustc % && ./%:r
+	autocmd filetype rust inoremap <F4> <Esc> :w<cr> :!rustc % && ./%:r
+	" Python
+	autocmd filetype python nnoremap <F4> :w<cr> :!python %<cr>
+	autocmd filetype python inoremap <F4> <Esc> :w<cr> :!python %<cr>
+	" Ruby
+	autocmd filetype ruby nnoremap <F4> :w<cr> :!ruby %<cr>
+	autocmd filetype ruby inoremap <F4> <Esc> :w<cr> :!ruby %<cr>
+augroup end
+
 "================================================"
 "                 Plugin Config                  "
 "================================================"
@@ -367,13 +372,6 @@ colorscheme onedark
 if executable('rg')
 	let g:ackprg = 'rg --vimgrep -U'
 endif
-
-"--------------------------------"
-"            Airline             "
-"--------------------------------"
-let g:airline_theme='deus'
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#enabled = 1
 
 "--------------------------------"
 "              ale               "
@@ -414,6 +412,13 @@ command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 
 " add `:OR` command for organize imports of the current buffer
 command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
+
+"--------------------------------"
+"         lightline.vim          "
+"--------------------------------"
+let g:lightline = {
+      \ 'colorscheme': 'one',
+      \ }
 
 "--------------------------------"
 "            NERDTree            "
@@ -548,6 +553,6 @@ function! ShowDocumentation()
   if CocAction('hasProvider', 'hover')
     call CocActionAsync('doHover')
   else
-    call feedkeys('K', 'in')
+    call feedkeys('D', 'in')
   endif
 endfunction

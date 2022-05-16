@@ -1,5 +1,4 @@
 --================================================
---
 --                 Neovim Config
 --    Author: Zane Bilous
 --    Last Modified: 05/15/2022
@@ -30,7 +29,6 @@ opt.mouse = 'nicr'                  -- use mouse for scrolling and clicking
 opt.number = true                   -- line numbers
 opt.cmdheight = 2                   -- use more space for displaying messages
 opt.scrolloff = 15                  -- keep 15 lines above/below cursor line
-opt.cursorline = true               -- underline current line
 opt.linebreak = true                -- break lines
 opt.hlsearch = true                 -- highlight search hits
 opt.incsearch = true                -- show search hits as you type
@@ -84,99 +82,69 @@ function vmap(shortcut, command)
   map('v', shortcut, command)
 end
 
-g.mapleader = ','                                      -- remap leader to ,
-
-imap('jk', '<Esc>')                                    -- easy normal mode
-
-nmap(';', ':')                                         -- easy command input
-
-nmap('/', '/\v')                                       -- Use Perl-compatible regular expressions for searching
+g.mapleader = ','                        -- remap leader to ,
+imap('jk', '<Esc>')                      -- easy normal mode
+nmap(';', ':')                           -- easy command input
+nmap('/', '/\v')                         -- Use Perl-compatible regular expressions for searching
 vmap('/', '/\v')
-
-nmap('<Up>', '<nop>')                                  -- Disable navigation with up/down
-nmap('<Down>', '<nop>')
-
-nmap('<leader>w', ':w!<cr>')                           -- Quick Save/Quit
+nmap('<leader>w', ':w!<cr>')             -- Quick Save/Quit
 nmap('<leader>wq', ':wq!<cr>')
 nmap('<leader>q', ':q<cr>')
 nmap('<leader>qq', ':q!<cr>')
-
-nmap('B', '^')                                         -- Line navigation
+nmap('B', '^')                           -- Line navigation
 nmap('E', '$')
-nmap('j', 'gj')                                        -- move up and down by display rather than line number
+nmap('j', 'gj')                          -- move up and down by display rather than line number
 nmap('k', 'gk')
-
-nmap('<leader><space>', ':nohlsearch<cr>')             -- Turn off search highlight
-
-nmap('rg', ':%s/')                                     -- Replace
+nmap('<leader><space>',
+     ':nohlsearch<cr>')                  -- Turn off search highlight
+nmap('rg', ':%s/')                       -- Replace
 nmap('rl', ':s/')
 nmap('rw', ':%s/\\<<C-r><C-w>\\>/')
-
-nmap('bd', ':bdelete<cr>')                             -- Buffers
+nmap('bd', ':bdelete<cr>')               -- Buffers
 nmap('<Left>', ':bnext<cr>')
 nmap('<Right>', ':bprev<cr>')
-
-nmap('tt', ':tabnew<cr>')                              -- Tabs
+nmap('tt', ':tabnew<cr>')                -- Tabs
 nmap('tp', ':tabprevious<cr>')
 nmap('tn', ':tabnext<cr>')
 nmap('tq', ':tabclose<cr>')
-
-nmap('<C-v>', ':vsp<cr>')                              -- Splits
+nmap('<C-v>', ':vsp<cr>')                -- Splits
 nmap('<C-x>', ':sp<cr>')
-
-nmap('<leader>dw', ':%s/\\s\\+$//<cr>:nohlsearch<cr>') -- delete trailing whitespace
-nmap('<leader>dm', ':%s/^M//g<cr>')                    -- delete ^M
-
-nmap('<S-j>', ':m+<cr>')                               -- move lines with Shift + Up/Down
-nmap('<S-k>', ':m-2<cr>')
-
-nmap('Q', '@q')                                        -- use macros with Q (and in visual mode)
+nmap('<leader>dw',
+     ':%s/\\s\\+$//<cr>:nohlsearch<cr>') -- delete trailing whitespace
+nmap('<leader>dm', ':%s/^M//g<cr>')      -- delete ^M
+nmap('<Down>', ':m+<cr>')                -- move lines with Up/Down
+nmap('<Up>', ':m-2<cr>')
+nmap('Q', '@q')                          -- use macros with Q (and in visual mode)
 vmap('Q', ':norm @q<cr>')
-
-vmap('<', '<gv')                                       -- don't unselect after shifting in visual mode
+vmap('<', '<gv')                         -- don't unselect after shifting in visual mode
 vmap('>', '>gv')
-
-nmap('<cr>', 'o<Esc>')                                 -- insert blank line with enter
-
-nmap('qw', ':ccl<cr>')                                -- close quickfix window
+nmap('<cr>', 'o<Esc>')                   -- insert blank line with enter
+nmap('qw', ':ccl<cr>')                   -- close quickfix window
 
 -- Plugin Mappings
-nmap('<C-n>', ':NERDTreeToggle<cr>')                   -- toggle file tree
-nmap('<leader>cc',  ':TComment<cr>')                   -- toggle comment
-nmap('<F5>', ':TagbarToggle<cr>')                      -- toggle tagbar
+nmap('<C-n>', ':NvimTreeToggle<cr>')     -- toggle nvim-tree
+nmap('<F5>', ':TagbarToggle<cr>')        -- toggle tagbar
 
-nmap('\\', ':Telescope live_grep<cr>')                 -- Telescope mappings
-nmap('sf', ':Telescope find_files<cr>')
-nmap('sb', ':Telescope buffers<cr>')
-nmap('sl', ':lua require("telescope.builtin").live_grep({grep_open_files=true})<cr>')
+nmap('\\', ':Telescope live_grep<cr>')   -- Telescope mappings
+nmap('ff', ':Telescope find_files<cr>')
+nmap('fb', ':Telescope buffers<cr>')
+nmap('fl',
+    ':lua require("telescope.builtin").live_grep({grep_open_files=true})<cr>')
 
-nmap('bp', ':BufferPick<cr>')                          -- barbar mappings
+nmap('bp', ':BufferPick<cr>')            -- barbar mappings
 nmap('<S-Left>', ':BufferMovePrevious<cr>')
 nmap('<S-Right>', ':BufferMoveNext<cr>')
+
+nmap('<A-t>',                            -- toggle terminal
+     '<cmd>lua require("FTerm").toggle()<cr>')
+map('t', '<A-t>',
+     '<cmd>lua require("FTerm").toggle()<cr>')
 
 -- LSP mappings
 nmap('<space>e', '<cmd>lua vim.diagnostic.open_float()<cr>')
 nmap('<F1>', '<cmd>lua vim.diagnostic.goto_prev()<cr>')
 nmap('<F2>', '<cmd>lua vim.diagnostic.goto_next()<cr>')
 nmap('<space>q', '<cmd>lua vim.diagnostic.setloclist()<cr>')
-
-local on_attach = function(client, bufnr)
-  -- Enable completion triggered by <c-x><c-o>
-  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-  nmap_buf(bufnr, 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>')
-  nmap_buf(bufnr, 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>')
-  nmap_buf(bufnr, 'D', '<cmd>lua vim.lsp.buf.hover()<cr>')
-  nmap_buf(bufnr, 'gi', 'cmd>lua vim.lsp.buf.implementation()<cr>')
-  nmap_buf(bufnr, '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<cr>')
-  nmap_buf(bufnr, '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<cr>')
-  nmap_buf(bufnr, '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<cr>')
-  nmap_buf(bufnr, '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<cr>')
-  nmap_buf(bufnr, '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<cr>')
-  nmap_buf(bufnr, '<space>rn', '<cmd>lua vim.lsp.buf.rename()<cr>')
-  nmap_buf(bufnr, '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<cr>')
-  nmap_buf(bufnr, 'gr', '<cmd>lua vim.lsp.buf.references()<cr>')
-  nmap_buf(bufnr, '<space>f', '<cmd>lua vim.lsp.buf.formatting()<cr>')
-end
 
 -- ensure <cr> isn't remapped during cmd enter and quickfix
 vim.cmd([[
@@ -196,44 +164,56 @@ require('packer').startup(function()
 
   use 'bronson/vim-trailing-whitespace'   -- show trailing whitespace as red bg
   use 'easymotion/vim-easymotion'         -- jump to any word with ease
-  use 'ful1e5/onedark.nvim'               -- colorscheme
+  use 'folke/tokyonight.nvim'             -- colorscheme
+  use 'glepnir/dashboard-nvim'            -- fancy start page
   use 'honza/vim-snippets'                -- common code snippts
   use 'hrsh7th/cmp-buffer'
   use 'hrsh7th/cmp-cmdline'
   use 'hrsh7th/cmp-nvim-lsp'              -- completion stuff
   use 'hrsh7th/cmp-path'
   use 'hrsh7th/nvim-cmp'
-  use 'itchyny/lightline.vim'             -- status line
+  use 'kosayoda/nvim-lightbulb'           -- show a lightbulb for code actions
   use 'ludovicchabant/vim-gutentags'      -- auto-generates tags
   use 'majutsushi/tagbar'                 -- easy browsing of tags
   use 'markonm/traces.vim'                -- live preview for substitution
   use 'mxw/vim-jsx'                       -- jsx syntax support for react
-  use 'mhinz/vim-startify'                -- fancy start page
   use 'neovim/nvim-lspconfig'             -- completion, go-to, etc.
+  use 'numToStr/Comment.nvim'             -- comments
+  use 'numToStr/FTerm.nvim'               -- terminal popup
   use 'nvim-lua/plenary.nvim'
+  use 'nvim-lua/popup.nvim'
+  use 'nvim-lualine/lualine.nvim'         -- status line
   use 'nvim-telescope/telescope.nvim'     -- aesthetic fuzzyfinder
   use 'nvim-treesitter/nvim-treesitter'   -- additional syntax highlighting
   use 'nvim-treesitter/nvim-treesitter-textobjects'
+  use "oberblastmeister/neuron.nvim"
+  use 'olimorris/onedarkpro.nvim'
+  use 'stevearc/dressing.nvim'            -- use telescope for more things
+  use {
+	  'ray-x/navigator.lua',              -- combine LSP and treesitter
+	  requires = {'ray-x/guihua.lua', run = 'cd lua/fzy && make'}
+  }
   use 'roxma/vim-paste-easy'              -- auto-enter paste mode on paste
+  use 'RRethy/vim-illuminate'             -- highlight symbol under cursor
   use 'ryanoasis/vim-devicons'            -- add icons to files
-  use 'scrooloose/nerdtree'               -- filetree
+  use 'kyazdani42/nvim-tree.lua'          -- filetree
   use 'sirver/ultisnips'                  -- code snippet framework
-  use 'tomtom/tcomment_vim'               -- comment toggler
-  use 'tpope/vim-fugitive'                -- git wrapper
   use 'tpope/vim-surround'                -- easily change surrounding brackets, quotes, etc.
-  use 'w0rp/ale'                          -- linting and autoformatting
   use 'quangnguyen30192/cmp-nvim-ultisnips'
   use {
     'romgrk/barbar.nvim',                 -- fancy tabs
     requires = {{'kyazdani42/nvim-web-devicons'}}
   }
+  use 'weilbith/nvim-code-action-menu'    -- show diffs for code actions
 end)
 
 ----------------------------------
 --             Colors
 ----------------------------------
-cmd('colorscheme onedark')
 cmd([[
+colorscheme tokyonight
+set background=dark
+
 highlight Visual ctermfg=NONE ctermbg=241 cterm=NONE guifg=NONE guibg=#44475a gui=NONE
 highlight Folded ctermbg=0
 highlight Search ctermfg=NONE ctermbg=241 cterm=NONE guibg=#44475a gui=NONE
@@ -284,65 +264,258 @@ augroup END
 --================================================
 
 ----------------------------------
---              ale
+--           Comment
 ----------------------------------
-cmd('let g:ale_fixers = {"javascript": ["eslint"], "python": ["yapf"], "c": ["clang-format"], "cpp": ["clang-format"]}')
-g.ale_fix_on_save = 1
-g.ale_lint_on_text_changed = 'never'
-g.ale_lint_on_enter = 0
-g.ale_sign_error = '•'
-g.ale_sign_warning = '•'
-
-cmd([[
-highlight ALEError ctermbg=none cterm=bold
-highlight ALEErrorLine ctermbg=none cterm=bold
-highlight ALEErrorSign ctermbg=none ctermfg=red
-highlight ALEStyleError ctermbg=none cterm=bold
-highlight ALEStyleWarning ctermbg=none cterm=bold
-highlight ALEWarning ctermbg=none cterm=bold
-highlight ALEWarningLine ctermbg=none cterm=bold
-highlight ALEWarningSign ctermbg=none ctermfg=yellow
-]])
+require('Comment').setup()
 
 ----------------------------------
---           Closetag
+--          Dashboard
 ----------------------------------
-g.closetag_filenames = '*.html, *.js'
-
-----------------------------------
---         lightline.vim
-----------------------------------
-cmd([[
-let g:lightline = {
-      \ 'colorscheme': 'one',
-      \ }
-]])
+g.dashboard_default_executive = 'telescope'
 
 ----------------------------------
 --             LSP
 ----------------------------------
-local servers = { 'pyright', 'rust_analyzer', 'tsserver' }
-local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
-for _, lsp in pairs(servers) do
-  require('lspconfig')[lsp].setup {
-    capabilities = capabilities,
-    on_attach = on_attach,
-    flags = {
-      -- This will be the default in neovim 0.7+
-      debounce_text_changes = 150,
-    }
-  }
-end
+require('navigator').setup({
+  on_attach = function(client, bufnr)
+    require('illuminate').on_attach(client)
+    nmap_buf(bufnr, 'ca', '<cmd>CodeActionMenu<cr>')
+  end,
+
+  lsp = {
+    capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),
+    -- servers = { 'clangd', 'pyright', 'rust_analyzer', 'tsserver' },
+  },
+})
 
 ----------------------------------
---            NERDTree
+--           Lualine
 ----------------------------------
-g.NERDTreeShowHidden = 1
-g.NERDTreeQuitOnOpen = 1
-g.NERDTreeMapOpenInTab = '<C-t>'
-g.NERDTreeMapOpenVSplit = '<C-v>'
-g.NERDTreeMapOpenSplit = '<C-x>'
-g.NERDTreeMinimalUI = 1
+local lualine = require('lualine')
+
+-- Color table for highlights
+-- stylua: ignore
+local colors = {
+  bg       = '#202328',
+  fg       = '#bbc2cf',
+  yellow   = '#ECBE7B',
+  cyan     = '#008080',
+  darkblue = '#081633',
+  green    = '#98be65',
+  orange   = '#FF8800',
+  violet   = '#a9a1e1',
+  magenta  = '#c678dd',
+  blue     = '#51afef',
+  red      = '#ec5f67',
+}
+
+local conditions = {
+  buffer_not_empty = function()
+    return vim.fn.empty(vim.fn.expand('%:t')) ~= 1
+  end,
+  hide_in_width = function()
+    return vim.fn.winwidth(0) > 80
+  end,
+  check_git_workspace = function()
+    local filepath = vim.fn.expand('%:p:h')
+    local gitdir = vim.fn.finddir('.git', filepath .. ';')
+    return gitdir and #gitdir > 0 and #gitdir < #filepath
+  end,
+}
+
+local config = {
+  options = {
+    -- Disable sections and component separators
+    component_separators = '',
+    section_separators = '',
+    theme = {
+      -- We are going to use lualine_c an lualine_x as left and
+      -- right section. Both are highlighted by c theme .  So we
+      -- are just setting default looks o statusline
+      normal = { c = { fg = colors.fg, bg = colors.bg } },
+      inactive = { c = { fg = colors.fg, bg = colors.bg } },
+    },
+  },
+  sections = {
+    -- these are to remove the defaults
+    lualine_a = {},
+    lualine_b = {},
+    lualine_y = {},
+    lualine_z = {},
+    -- These will be filled later
+    lualine_c = {},
+    lualine_x = {},
+  },
+  inactive_sections = {
+    -- these are to remove the defaults
+    lualine_a = {},
+    lualine_b = {},
+    lualine_y = {},
+    lualine_z = {},
+    lualine_c = {},
+    lualine_x = {},
+  },
+}
+
+-- Inserts a component in lualine_c at left section
+local function ins_left(component)
+  table.insert(config.sections.lualine_c, component)
+end
+
+-- Inserts a component in lualine_x ot right section
+local function ins_right(component)
+  table.insert(config.sections.lualine_x, component)
+end
+
+ins_left {
+  function()
+    return '▊'
+  end,
+  color = { fg = colors.blue }, -- Sets highlighting of component
+  padding = { left = 0, right = 1 }, -- We don't need space before this
+}
+
+ins_left {
+  -- mode component
+  function()
+    return ''
+  end,
+  color = function()
+    -- auto change color according to neovims mode
+    local mode_color = {
+      n = colors.red,
+      i = colors.green,
+      v = colors.blue,
+      [''] = colors.blue,
+      V = colors.blue,
+      c = colors.magenta,
+      no = colors.red,
+      s = colors.orange,
+      S = colors.orange,
+      [''] = colors.orange,
+      ic = colors.yellow,
+      R = colors.violet,
+      Rv = colors.violet,
+      cv = colors.red,
+      ce = colors.red,
+      r = colors.cyan,
+      rm = colors.cyan,
+      ['r?'] = colors.cyan,
+      ['!'] = colors.red,
+      t = colors.red,
+    }
+    return { fg = mode_color[vim.fn.mode()] }
+  end,
+  padding = { right = 1 },
+}
+
+ins_left {
+  -- filesize component
+  'filesize',
+  cond = conditions.buffer_not_empty,
+}
+
+ins_left {
+  'filename',
+  cond = conditions.buffer_not_empty,
+  color = { fg = colors.magenta, gui = 'bold' },
+}
+
+ins_left { 'location' }
+
+ins_left { 'progress', color = { fg = colors.fg, gui = 'bold' } }
+
+ins_left {
+  'diagnostics',
+  sources = { 'nvim_diagnostic' },
+  symbols = { error = ' ', warn = ' ', info = ' ' },
+  diagnostics_color = {
+    color_error = { fg = colors.red },
+    color_warn = { fg = colors.yellow },
+    color_info = { fg = colors.cyan },
+  },
+}
+
+-- Insert mid section. You can make any number of sections in neovim :)
+-- for lualine it's any number greater then 2
+ins_left {
+  function()
+    return '%='
+  end,
+}
+
+ins_left {
+  -- Lsp server name .
+  function()
+    local msg = 'N/A'
+    local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
+    local clients = vim.lsp.get_active_clients()
+    if next(clients) == nil then
+      return msg
+    end
+    for _, client in ipairs(clients) do
+      local filetypes = client.config.filetypes
+      if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
+        return client.name
+      end
+    end
+    return msg
+  end,
+  icon = ' LSP:',
+  color = { fg = '#ffffff', gui = 'bold' },
+}
+
+-- Add components to right sections
+ins_right {
+  'o:encoding', -- option component same as &encoding in viml
+  fmt = string.upper,
+  cond = conditions.hide_in_width,
+  color = { fg = colors.green, gui = 'bold' },
+}
+
+ins_right {
+  'fileformat',
+  fmt = string.upper,
+  icons_enabled = false,
+  color = { fg = colors.green, gui = 'bold' },
+}
+
+ins_right {
+  'branch',
+  icon = '',
+  color = { fg = colors.violet, gui = 'bold' },
+}
+
+ins_right {
+  'diff',
+  symbols = { added = ' ', modified = '柳 ', removed = ' ' },
+  diff_color = {
+    added = { fg = colors.green },
+    modified = { fg = colors.orange },
+    removed = { fg = colors.red },
+  },
+  cond = conditions.hide_in_width,
+}
+
+ins_right {
+  function()
+    return '▊'
+  end,
+  color = { fg = colors.blue },
+  padding = { left = 1 },
+}
+
+lualine.setup(config)
+
+----------------------------------
+--           neuron
+----------------------------------
+require('neuron').setup()
+
+----------------------------------
+--          nvim-tree
+----------------------------------
+require('nvim-tree').setup()
 
 ----------------------------------
 --            nvim-cmp

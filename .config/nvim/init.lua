@@ -3,10 +3,7 @@
 --    Author: Zane Bilous
 --    Last Modified: 05/15/2022
 --    Dependencies:
---      ripgrep: for the ack plugin
---      fzf: for fzf
---      universal-ctags: for tagbar
---      nodejs: for coc.nvim
+--      ripgrep, fzf
 --================================================
 
 ----------------------------------
@@ -124,11 +121,14 @@ nmap('qw', ':ccl<cr>')                   -- close quickfix window
 
 -- Plugin Mappings
 nmap('<C-n>', ':NvimTreeToggle<cr>')     -- toggle nvim-tree
-nmap('<F5>', ':TagbarToggle<cr>')        -- toggle tagbar
+nmap('<F5>', ':SymbolsOutline<cr>')      -- toggle symbols outline
 
-nmap('\\', ':Telescope live_grep hidden=true<cr>')   -- Telescope mappings
-nmap('ff', ':Telescope find_files hidden=true<cr>')
-nmap('fb', ':Telescope buffers<cr>')
+nmap('\\',                               -- Telescope mappings
+    ':Telescope live_grep hidden=true<cr>')
+nmap('ff',
+    ':Telescope find_files hidden=true<cr>')
+nmap('fb',
+    ':Telescope buffers<cr>')
 nmap('fl',
     ':lua require("telescope.builtin").live_grep({grep_open_files=true})<cr>')
 
@@ -146,6 +146,24 @@ nmap('<space>e', '<cmd>lua vim.diagnostic.open_float()<cr>')
 nmap('<F1>', '<cmd>lua vim.diagnostic.goto_prev()<cr>')
 nmap('<F2>', '<cmd>lua vim.diagnostic.goto_next()<cr>')
 nmap('<space>q', '<cmd>lua vim.diagnostic.setloclist()<cr>')
+
+local on_attach = function(client, bufnr)
+  -- Enable completion triggered by <c-x><c-o>
+  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+  nmap_buf(bufnr, 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>')
+  nmap_buf(bufnr, 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>')
+  nmap_buf(bufnr, 'D', '<cmd>lua vim.lsp.buf.hover()<cr>')
+  nmap_buf(bufnr, 'gi', 'cmd>lua vim.lsp.buf.implementation()<cr>')
+  nmap_buf(bufnr, '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<cr>')
+  nmap_buf(bufnr, '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<cr>')
+  nmap_buf(bufnr, '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<cr>')
+  nmap_buf(bufnr, '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<cr>')
+  nmap_buf(bufnr, '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<cr>')
+  nmap_buf(bufnr, '<space>rn', '<cmd>lua vim.lsp.buf.rename()<cr>')
+  nmap_buf(bufnr, '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<cr>')
+  nmap_buf(bufnr, 'gr', '<cmd>lua vim.lsp.buf.references()<cr>')
+  nmap_buf(bufnr, '<space>f', '<cmd>lua vim.lsp.buf.formatting()<cr>')
+end
 
 -- ensure <cr> isn't remapped during cmd enter and quickfix
 vim.cmd([[
@@ -174,8 +192,6 @@ require('packer').startup(function()
   use 'hrsh7th/cmp-path'
   use 'hrsh7th/nvim-cmp'
   use 'kosayoda/nvim-lightbulb'           -- show a lightbulb for code actions
-  use 'ludovicchabant/vim-gutentags'      -- auto-generates tags
-  use 'majutsushi/tagbar'                 -- easy browsing of tags
   use 'markonm/traces.vim'                -- live preview for substitution
   use 'mxw/vim-jsx'                       -- jsx syntax support for react
   use 'neovim/nvim-lspconfig'             -- completion, go-to, etc.
@@ -190,14 +206,12 @@ require('packer').startup(function()
   use "oberblastmeister/neuron.nvim"
   use 'olimorris/onedarkpro.nvim'
   use 'stevearc/dressing.nvim'            -- use telescope for more things
-  use {
-	  'ray-x/navigator.lua',              -- combine LSP and treesitter
-	  requires = {'ray-x/guihua.lua', run = 'cd lua/fzy && make'}
-  }
   use 'roxma/vim-paste-easy'              -- auto-enter paste mode on paste
   use 'RRethy/vim-illuminate'             -- highlight symbol under cursor
   use 'ryanoasis/vim-devicons'            -- add icons to files
   use 'kyazdani42/nvim-tree.lua'          -- filetree
+  use 'rmagatti/goto-preview'             -- goto preview popup
+  use 'simrat39/symbols-outline.nvim'     -- menu for symbols
   use 'sirver/ultisnips'                  -- code snippet framework
   use 'tpope/vim-surround'                -- easily change surrounding brackets, quotes, etc.
   use 'quangnguyen30192/cmp-nvim-ultisnips'
@@ -254,25 +268,21 @@ g.dashboard_default_executive = 'telescope'
 ----------------------------------
 --             LSP
 ----------------------------------
-require('nvim-lsp-installer').setup({
-	automatic_installation = true,
+require('goto-preview').setup({
+  default_mappings = true
 })
 
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+local lsp_installer = require("nvim-lsp-installer")
 
-require('navigator').setup({
-  on_attach = function(client, bufnr)
-    require('illuminate').on_attach(client)
-    nmap_buf(bufnr, 'ca', '<cmd>CodeActionMenu<cr>')
-  end,
-
-  lsp_installer = true,
-
-  lsp = {
-	capabilities = capabilities,
-  },
-})
-
+lsp_installer.on_server_ready(function(server)
+    local opts = {
+      capabilities = capabilities,
+	  on_attach = on_attach,
+	}
+    server:setup(opts)
+    vim.cmd([[ do User LspAttach Buffers ]])
+end)
 
 ----------------------------------
 --           Lualine
@@ -616,15 +626,6 @@ require('nvim-treesitter.configs').setup {
 }
 
 ----------------------------------
---             Tagbar
-----------------------------------
-g.tagbar_left = 1
-g.tagbar_autofocus = 1
-g.tagbar_width = 25
-g.tagbar_compact = 1
-cmd('let g:tagbar_iconchars = ["▸", "▾"]')
-
-----------------------------------
 --          Telescope
 ----------------------------------
 require('telescope').setup{
@@ -636,7 +637,6 @@ require('telescope').setup{
       '--line-number',
       '--column',
       '--smart-case',
-      '-u' -- thats the new thing
     },
   },
 }

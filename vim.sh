@@ -16,6 +16,12 @@ else
 	fi
 fi
 
+if [ ! -x "$(command -v nvim)" ]; then
+	echo "[+] Installing neovim"
+	sudo add-apt-repository ppa:neovim-ppa/unstable
+	sudo apt-get update && sudo apt-get install neovim
+fi
+
 if [ ! -x "$(command -v nodejs)" ]; then
 	echo "[+] Installing nodejs"
 	curl -sL install-node.vercel.app/lts | bash
@@ -81,6 +87,14 @@ fi
 
 ln -sf ~/dotfiles/.vimrc ~/.vimrc
 echo "[+] Linked .vimrc"
+
+if [-f ~/.config/nvim/init.vim]; then
+	mv ~/.vimrc ~/dotfiles/backups
+fi
+
+mkdir -p ~/.config/nvim
+ln -sf ~/dotfiles/.config/nvim/init.vim ~/.config/nvim/init.vim
+echo "[+] Linked init.vim"
 
 # install plugged
 if [ ! -d ~/.vim/plugged ]; then

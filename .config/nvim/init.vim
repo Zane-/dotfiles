@@ -1,6 +1,9 @@
+set runtimepath^=~/.vim runtimepath+=~/.vim/after
+let &packpath=&runtimepath
+
 "================================================"
 "                                                "
-"                  Vim Config                    "
+"                 Neovim Config                  "
 "    Author: Zane Bilous                         "
 "    Last Modified: 05/15/2022                   "
 "    Dependencies:                               "
@@ -52,7 +55,7 @@ set foldlevelstart=12     " don't autofold unless there are 12 indents
 set nobackup
 set nowritebackup
 set directory=~/.vim/swapfiles
-set undodir=~/.vim/undodir
+set undodir=~/.vim/nvim-undodir
 set undofile              " persistent undo
 set undolevels=1000       " keep lots of undo history
 
@@ -187,12 +190,11 @@ map <silent> <C-n> :NERDTreeToggle<cr>
 map <silent> <leader>cc :TComment<cr>
 map <silent> <F5> :TagbarToggle<cr>
 
-" fzf mappings
-nnoremap <silent> \ :Rg<cr>
-nnoremap <silent> sf :Files<cr>
-nnoremap <silent> sb :Buffers<cr>
-nnoremap <silent> sl :BLines<cr>
-nnoremap <silent> sw :Windows<cr>
+" Telescope mappings
+nnoremap <silent> \ :Telescope live_grep<cr>
+nnoremap <silent> sf :Telescope find_files<cr>
+nnoremap <silent> sb :Telescope buffers<cr>
+nnoremap <silent> sl :lua require('telescope.builtin').live_grep({grep_open_files=true})<cr>
 
 " coc mappings
 
@@ -318,8 +320,10 @@ Plug 'bronson/vim-trailing-whitespace' " show trailing whitespace as red bg
 Plug 'tpope/vim-surround' " easily change surrounding brackets, quotes, etc.
 Plug 'roxma/vim-paste-easy' " auto-enter paste mode on paste
 
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim' " fuzzyfinder
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-treesitter/nvim-treesitter' " better syntax highlighting
+Plug 'nvim-telescope/telescope.nvim' " aesthetic fuzzyfinder
+Plug 'romgrk/barbar.nvim' " better tabs
 
 call plug#end()
 
@@ -327,7 +331,6 @@ call plug#end()
 "             Colors             "
 "--------------------------------"
 syntax on
-colorscheme onedark
 
 highlight Visual ctermfg=NONE ctermbg=241 cterm=NONE guifg=NONE guibg=#44475a gui=NONE
 highlight Folded ctermbg=0
@@ -351,6 +354,8 @@ augroup cursor_behaviour
     " cursor steady block on command mode
     let &t_EI = "\e[2 q"
 augroup END
+
+colorscheme onedark
 
 "================================================"
 "                 Plugin Config                  "

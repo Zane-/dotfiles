@@ -11,9 +11,10 @@ fi
 unsetopt correct_all
 unsetopt correct
 
-export VISUAL=vim
-export EDITOR=vim # set default editor to vim
-export FPP_EDITOR=vim
+# set default editor to vim
+export VISUAL=nvim
+export EDITOR=nvim
+export FPP_EDITOR=nvim
 
 [[ $- != *i* ]] && return
 if [ -z "$TMUX" ] && [ ${UID} != 0 ] && [ -x "$(command -v tmux)" ]

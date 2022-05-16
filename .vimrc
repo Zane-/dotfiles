@@ -327,7 +327,6 @@ call plug#end()
 "             Colors             "
 "--------------------------------"
 syntax on
-colorscheme onedark
 
 highlight Visual ctermfg=NONE ctermbg=241 cterm=NONE guifg=NONE guibg=#44475a gui=NONE
 highlight Folded ctermbg=0

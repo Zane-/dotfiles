@@ -42,8 +42,10 @@ opt.splitright = true               -- vertical split splits right
 opt.foldmethod = 'indent'
 opt.foldminlines = 5                -- min num of lines before a block is foldable
 opt.foldlevelstart = 12             -- don't autofold unless there are 12 indents
-opt.directory = '$HOME/.vim/swapfiles'  -- store swapfiles elsewhere
-opt.undodir = '$HOME/.vim/nvim-undodir' -- store undodir elsewhere
+cmd([[
+set directory=~/.vim/swapfiles
+set undodir=~/.vim/nvim-undodir
+]])                                 -- store swapfiles and undodir elsewhere
 opt.undofile = true                 -- persistent undo
 opt.undolevels = 1000               -- keep lots of undo history
 opt.pastetoggle = '<F3>'            -- switch to paste mode to paste easily
@@ -260,7 +262,7 @@ require('navigator').setup({
 
   lsp = {
     capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),
-    -- servers = { 'clangd', 'pyright', 'rust_analyzer', 'tsserver' },
+    servers = { 'clangd', 'pyright', 'rust_analyzer', 'tsserver' },
   },
 })
 

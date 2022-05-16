@@ -12,12 +12,9 @@
 ----------------------------------
 --           Aliases
 ----------------------------------
-local bo = vim.bo    -- buffer local
 local cmd = vim.cmd  -- vim commands
-local fn = vim.fn    -- access vim functions
 local g  = vim.g     -- global for let options
 local opt  = vim.opt -- global
-local wo = vim.wo    -- window local
 
 ----------------------------------
 --           Options
@@ -45,6 +42,8 @@ opt.foldlevelstart = 12             -- don't autofold unless there are 12 indent
 cmd([[
 set directory=~/.vim/swapfiles
 set undodir=~/.vim/nvim-undodir
+" show ↪ on wrapped lines
+let &showbreak=nr2char(8618).' '
 ]])                                 -- store swapfiles and undodir elsewhere
 opt.undofile = true                 -- persistent undo
 opt.undolevels = 1000               -- keep lots of undo history
@@ -127,8 +126,8 @@ nmap('qw', ':ccl<cr>')                   -- close quickfix window
 nmap('<C-n>', ':NvimTreeToggle<cr>')     -- toggle nvim-tree
 nmap('<F5>', ':TagbarToggle<cr>')        -- toggle tagbar
 
-nmap('\\', ':Telescope live_grep<cr>')   -- Telescope mappings
-nmap('ff', ':Telescope find_files<cr>')
+nmap('\\', ':Telescope live_grep hidden=true<cr>')   -- Telescope mappings
+nmap('ff', ':Telescope find_files hidden=true<cr>')
 nmap('fb', ':Telescope buffers<cr>')
 nmap('fl',
     ':lua require("telescope.builtin").live_grep({grep_open_files=true})<cr>')
@@ -207,6 +206,7 @@ require('packer').startup(function()
     requires = {{'kyazdani42/nvim-web-devicons'}}
   }
   use 'weilbith/nvim-code-action-menu'    -- show diffs for code actions
+  use 'williamboman/nvim-lsp-installer'   -- install lsp servers
 end)
 
 ----------------------------------
@@ -254,17 +254,25 @@ g.dashboard_default_executive = 'telescope'
 ----------------------------------
 --             LSP
 ----------------------------------
+require('nvim-lsp-installer').setup({
+	automatic_installation = true,
+})
+
+local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+
 require('navigator').setup({
   on_attach = function(client, bufnr)
     require('illuminate').on_attach(client)
     nmap_buf(bufnr, 'ca', '<cmd>CodeActionMenu<cr>')
   end,
 
+  lsp_installer = true,
+
   lsp = {
-    capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),
-    servers = { 'clangd', 'pyright', 'rust_analyzer', 'tsserver' },
+	capabilities = capabilities,
   },
 })
+
 
 ----------------------------------
 --           Lualine
@@ -514,7 +522,7 @@ cmp.setup({
     ['<C-b>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
-	['<Tab>'] = cmp.mapping(function(fallback)
+    ['<Tab>'] = cmp.mapping(function(fallback)
 								if cmp.visible() then
 									cmp.select_next_item()
 									return
@@ -522,8 +530,7 @@ cmp.setup({
 								fallback()
 							end
 	, { 'i', 'c' }),
-
-	['<S-Tab>'] = cmp.mapping(function(fallback)
+    ['<S-Tab>'] = cmp.mapping(function(fallback)
 								if cmp.visible() then
 									cmp.select_prev_item()
 									return
@@ -617,3 +624,19 @@ g.tagbar_width = 25
 g.tagbar_compact = 1
 cmd('let g:tagbar_iconchars = ["▸", "▾"]')
 
+----------------------------------
+--          Telescope
+----------------------------------
+require('telescope').setup{
+  defaults = {
+    vimgrep_arguments = {
+      'rg',
+	  '--hidden',
+      '--with-filename',
+      '--line-number',
+      '--column',
+      '--smart-case',
+      '-u' -- thats the new thing
+    },
+  },
+}

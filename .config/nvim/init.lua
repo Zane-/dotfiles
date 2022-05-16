@@ -13,13 +13,12 @@
 ----------------------------------
 --           Aliases
 ----------------------------------
-local opt  = vim.opt -- global
-local g  = vim.g     -- global for let options
-local wo = vim.wo    -- window local
 local bo = vim.bo    -- buffer local
-local fn = vim.fn    -- access vim functions
 local cmd = vim.cmd  -- vim commands
--- local map = require('user.utils').map -- import map helper
+local fn = vim.fn    -- access vim functions
+local g  = vim.g     -- global for let options
+local opt  = vim.opt -- global
+local wo = vim.wo    -- window local
 
 ----------------------------------
 --           Options
@@ -139,7 +138,7 @@ vmap('>', '>gv')
 
 nmap('<cr>', 'o<Esc>')                                 -- insert blank line with enter
 
-nmap('ccl', ':ccl<cr>')                                -- close quickfix window
+nmap('qw', ':ccl<cr>')                                -- close quickfix window
 
 -- Plugin Mappings
 nmap('<C-n>', ':NERDTreeToggle<cr>')                   -- toggle file tree
@@ -164,19 +163,19 @@ nmap('<space>q', '<cmd>lua vim.diagnostic.setloclist()<cr>')
 local on_attach = function(client, bufnr)
   -- Enable completion triggered by <c-x><c-o>
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-  nmap_buf('gD', '<cmd>lua vim.lsp.buf.declaration()<cr>')
-  nmap_buf('gd', '<cmd>lua vim.lsp.buf.definition()<cr>')
-  nmap_buf('D', '<cmd>lua vim.lsp.buf.hover()<cr>')
-  nmap_buf('gi', 'cmd>lua vim.lsp.buf.implementation()<cr>')
-  nmap_buf('<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<cr>')
-  nmap_buf('<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<cr>')
-  nmap_buf('<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<cr>')
-  nmap_buf('<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<cr>')
-  nmap_buf('<space>D', '<cmd>lua vim.lsp.buf.type_definition()<cr>')
-  nmap_buf('<space>rn', '<cmd>lua vim.lsp.buf.rename()<cr>')
-  nmap_buf('<space>ca', '<cmd>lua vim.lsp.buf.code_action()<cr>')
-  nmap_buf('gr', '<cmd>lua vim.lsp.buf.references()<cr>')
-  nmap_buf('<space>f', '<cmd>lua vim.lsp.buf.formatting()<cr>')
+  nmap_buf(bufnr, 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>')
+  nmap_buf(bufnr, 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>')
+  nmap_buf(bufnr, 'D', '<cmd>lua vim.lsp.buf.hover()<cr>')
+  nmap_buf(bufnr, 'gi', 'cmd>lua vim.lsp.buf.implementation()<cr>')
+  nmap_buf(bufnr, '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<cr>')
+  nmap_buf(bufnr, '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<cr>')
+  nmap_buf(bufnr, '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<cr>')
+  nmap_buf(bufnr, '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<cr>')
+  nmap_buf(bufnr, '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<cr>')
+  nmap_buf(bufnr, '<space>rn', '<cmd>lua vim.lsp.buf.rename()<cr>')
+  nmap_buf(bufnr, '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<cr>')
+  nmap_buf(bufnr, 'gr', '<cmd>lua vim.lsp.buf.references()<cr>')
+  nmap_buf(bufnr, '<space>f', '<cmd>lua vim.lsp.buf.formatting()<cr>')
 end
 
 -- ensure <cr> isn't remapped during cmd enter and quickfix
@@ -193,6 +192,8 @@ augroup end
 -----------------------------------
 
 require('packer').startup(function()
+  use 'wbthomason/packer.nvim'            -- this package manager
+
   use 'bronson/vim-trailing-whitespace'   -- show trailing whitespace as red bg
   use 'easymotion/vim-easymotion'         -- jump to any word with ease
   use 'ful1e5/onedark.nvim'               -- colorscheme
@@ -209,9 +210,11 @@ require('packer').startup(function()
   use 'mxw/vim-jsx'                       -- jsx syntax support for react
   use 'mhinz/vim-startify'                -- fancy start page
   use 'neovim/nvim-lspconfig'             -- completion, go-to, etc.
+  use 'nvim-lua/plenary.nvim'
   use 'nvim-telescope/telescope.nvim'     -- aesthetic fuzzyfinder
+  use 'nvim-treesitter/nvim-treesitter'   -- additional syntax highlighting
+  use 'nvim-treesitter/nvim-treesitter-textobjects'
   use 'roxma/vim-paste-easy'              -- auto-enter paste mode on paste
-  use 'quangnguyen30192/cmp-nvim-ultisnips'
   use 'ryanoasis/vim-devicons'            -- add icons to files
   use 'scrooloose/nerdtree'               -- filetree
   use 'sirver/ultisnips'                  -- code snippet framework
@@ -219,14 +222,10 @@ require('packer').startup(function()
   use 'tpope/vim-fugitive'                -- git wrapper
   use 'tpope/vim-surround'                -- easily change surrounding brackets, quotes, etc.
   use 'w0rp/ale'                          -- linting and autoformatting
-
+  use 'quangnguyen30192/cmp-nvim-ultisnips'
   use {
     'romgrk/barbar.nvim',                 -- fancy tabs
     requires = {{'kyazdani42/nvim-web-devicons'}}
-  }
-  use {
-    'nvim-treesitter/nvim-treesitter',    -- additional syntax highlighting
-    requires = {{'nvim-lua/plenary.nvim'}}
   }
 end)
 
@@ -346,10 +345,9 @@ g.NERDTreeMapOpenSplit = '<C-x>'
 g.NERDTreeMinimalUI = 1
 
 ----------------------------------
---            nvm-cmp
+--            nvim-cmp
 ----------------------------------
--- Setup nvim-cmp.
-local cmp = require'cmp'
+local cmp = require('cmp')
 
 cmp.setup({
   snippet = {
@@ -418,6 +416,46 @@ cmp.setup.cmdline(':', {
     { name = 'cmdline' }
   })
 })
+
+----------------------------------
+--        nvim-treesitter
+----------------------------------
+require('nvim-treesitter.configs').setup {
+  ensure_installed = { 'c', 'javascript', 'python', 'rust' },
+
+  highlight = {
+    enable = true,
+    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+    -- Using this option may slow down your editor, and you may see some duplicate highlights.
+    -- Instead of true it can also be a list of languages
+    additional_vim_regex_highlighting = false,
+  },
+  textobjects = {
+    lsp_interop = {
+      enable = true,
+	  border = 'single',
+      peek_definition_code = {
+        ['pf'] = '@function.outer',
+        ['pc'] = '@class.outer',
+      },
+    },
+    select = {
+      enable = true,
+
+      -- Automatically jump forward to textobj, similar to targets.vim
+      lookahead = true,
+
+      keymaps = {
+        -- You can use the capture groups defined in textobjects.scm
+        ["af"] = "@function.outer",
+        ["if"] = "@function.inner",
+        ["ac"] = "@class.outer",
+        ["ic"] = "@class.inner",
+      },
+    },
+  },
+}
 
 ----------------------------------
 --           Startify

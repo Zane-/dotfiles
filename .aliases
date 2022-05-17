@@ -50,7 +50,7 @@ alias ll="exa --icons -l -a"
 
 # fzf
 alias fz="fzf-tmux --ansi --preview='right:60%' --preview 'bat --color=always --style=header,grid --line-range :300 {}'"
-alias vz="vim \$(fzf-tmux --ansi --preview='right:60%' --preview 'bat --color=always --style=header,grid --line-range :300 {}')"
+alias vz="nvim \$(fzf-tmux --ansi --preview='right:60%' --preview 'bat --color=always --style=header,grid --line-range :300 {}')"
 
 # fasd
 alias a='fasd -a'        # any
@@ -70,7 +70,3 @@ alias gpw="git config credential.helper 'cache --timeout=72000'"
 alias gad="git add ."
 alias grd="git reset ."
 alias grh="git reset HEAD~"
-
-# vim
-alias vpi="vim +PlugInstall +qall"
-alias vpc="vim +PlugClean +qall"

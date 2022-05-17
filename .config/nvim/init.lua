@@ -197,6 +197,7 @@ require('packer').startup(function()
 	use 'glepnir/dashboard-nvim' -- fancy start page
 	use 'folke/trouble.nvim' -- aesthetic diagnostics page
 	use 'kosayoda/nvim-lightbulb' -- show a lightbulb for code actions
+	use 'lewis6991/gitsigns.nvim' -- git integration
 	use 'markonm/traces.vim' -- live preview for substitution
 	use 'mfussenegger/nvim-dap' -- debugger
 	use 'ms-jpq/coq_nvim' -- completion
@@ -274,6 +275,11 @@ cmd [[ let g:coq_settings = { 'auto_start': v:true } ]]
 --       Dashboard config
 ----------------------------------
 g.dashboard_default_executive = 'telescope'
+
+----------------------------------
+--       gitsigns config
+----------------------------------
+require('gitsigns').setup()
 
 ----------------------------------
 --          LSP config

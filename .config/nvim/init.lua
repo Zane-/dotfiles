@@ -183,7 +183,7 @@ local on_attach = function(client, bufnr)
 end
 
 -- ensure <cr> isn't remapped during cmd enter and quickfix
-vim.cmd([[
+cmd([[
 augroup cr
 	autocmd!
 	autocmd CmdwinEnter * nnoremap <cr> <cr>
@@ -520,11 +520,6 @@ ins_right {
 }
 
 lualine.setup(config)
-
-----------------------------------
---        neuron config
-----------------------------------
-require('neuron').setup()
 
 ----------------------------------
 --       nvim-tree config

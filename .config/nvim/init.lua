@@ -16,41 +16,31 @@ local opt = vim.opt -- global
 ----------------------------------
 --           Options
 ----------------------------------
-opt.autoread = true -- autoreload changed files
 opt.clipboard = 'unnamed' -- use system clipboard
 opt.cmdheight = 2 -- use more space for displaying messages
-opt.encoding = 'utf8' -- set utf8 as standard encoding
-opt.hidden = true -- buffers can be in the bg without having to be saved
 opt.foldminlines = 5 -- min num of lines before a block is foldable
-opt.hlsearch = true -- highlight search hits
 opt.ignorecase = true -- ignore case when searching
 opt.incsearch = true -- show search hits as you type
 opt.linebreak = true -- break lines
 opt.foldlevelstart = 12 -- don't autofold unless there are 12 indents
 opt.mouse = 'nicr' -- use mouse for scrolling and clicking
 opt.number = true -- line numbers
-opt.pastetoggle = '<F3>' -- switch to paste mode to paste easily
 opt.re = 1 -- use old regex engine (faster)
 opt.scrolloff = 15 -- keep 15 lines above/below cursor line
-opt.shiftwidth = 4 -- make indents correspond to one tab
+opt.shiftwidth = 2 -- make indents correspond to one tab
 opt.smartcase = true -- override ignore case if uppercase letters in pattern
 opt.smartindent = true -- indent after brackets
 opt.shellpipe = '>' -- hide ack searches from stdout
 opt.splitbelow = true -- split splits below
 opt.splitright = true -- vertical split splits right
-opt.tabstop = 4 -- make tabs 4-spaces wide
-opt.ttyfast = true -- optimizations
+opt.tabstop = 2 -- make tabs 2-spaces wide
 opt.undofile = true -- persistent undo
-opt.undolevels = 1000 -- keep lots of undo history
 opt.updatetime = 300 -- faster update time
 opt.visualbell = true -- use visual bell
 
 cmd([[
-set directory=~/.vim/swapfiles
-set undodir=~/.vim/nvim-undodir
-" show ↪ on wrapped lines
 let &showbreak=nr2char(8618).' '
-]]) -- store swapfiles and undodir elsewhere
+]]) -- show ↪ on wrapped lines
 
 ----------------------------------
 --            Mappings
@@ -208,6 +198,7 @@ require('packer').startup(function()
 	use 'folke/trouble.nvim' -- aesthetic diagnostics page
 	use 'kosayoda/nvim-lightbulb' -- show a lightbulb for code actions
 	use 'markonm/traces.vim' -- live preview for substitution
+	use 'mfussenegger/nvim-dap' -- debugger
 	use 'ms-jpq/coq_nvim' -- completion
 	use 'ms-jpq/coq.artifacts' -- snippets
 	use 'mxw/vim-jsx' -- jsx syntax support for react

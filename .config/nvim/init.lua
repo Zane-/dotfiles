@@ -179,7 +179,7 @@ local on_attach = function(client, bufnr)
 	nmap_buf(bufnr, '<space>rn', '<cmd>lua vim.lsp.buf.rename()<cr>')
 	nmap_buf(bufnr, '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<cr>')
 	nmap_buf(bufnr, 'gr', '<cmd>lua vim.lsp.buf.references()<cr>')
-	nmap_buf(bufnr, '<space>f', '<cmd>lua vim.lsp.buf.formatting()<cr>')
+	nmap_buf(bufnr, '<space>f', '<cmd>lua vim.lsp.buf.format { async = true } <cr>')
 end
 
 -- ensure <cr> isn't remapped during cmd enter and quickfix

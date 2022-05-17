@@ -196,6 +196,7 @@ require('packer').startup(function()
 	use 'folke/tokyonight.nvim' -- colorscheme
 	use 'glepnir/dashboard-nvim' -- fancy start page
 	use 'folke/trouble.nvim' -- aesthetic diagnostics page
+	use 'jbyuki/instant.nvim' -- collaborative editing server
 	use 'kosayoda/nvim-lightbulb' -- show a lightbulb for code actions
 	use 'lewis6991/gitsigns.nvim' -- git integration
 	use 'markonm/traces.vim' -- live preview for substitution
@@ -280,6 +281,11 @@ g.dashboard_default_executive = 'telescope'
 --       gitsigns config
 ----------------------------------
 require('gitsigns').setup()
+
+----------------------------------
+--        instant config
+----------------------------------
+g.instant_username = "Zane"
 
 ----------------------------------
 --          LSP config

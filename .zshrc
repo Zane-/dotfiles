@@ -15,6 +15,7 @@ unsetopt correct
 export VISUAL=nvim
 export EDITOR=nvim
 export FPP_EDITOR=nvim
+export NVIM_INIT='$HOME/.config/nvim/init.lua'
 
 [[ $- != *i* ]] && return
 if [ -z "$TMUX" ] && [ ${UID} != 0 ] && [ -x "$(command -v tmux)" ]

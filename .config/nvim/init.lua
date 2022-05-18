@@ -112,6 +112,7 @@ nmap('\\', '<cmd>Telescope live_grep hidden=true<cr>')
 nmap('ff', '<cmd>Telescope find_files hidden=true<cr>')
 nmap('fb', '<cmd>Telescope buffers<cr>')
 nmap('fl', '<cmd>lua require("telescope.builtin").live_grep({grep_open_files=true})<cr>')
+nmap('<space>p', '<cmd>Telescope command_palette<cr>')
 
 -- barbar mappings
 nmap('bp', '<cmd>BufferPick<cr>')
@@ -191,6 +192,7 @@ require('packer').startup(function()
 	use 'jbyuki/instant.nvim' -- collaborative editing server
 	use 'kosayoda/nvim-lightbulb' -- show a lightbulb for code actions
 	use 'lewis6991/gitsigns.nvim' -- git integration
+	use 'LinArcX/telescope-command-palette.nvim' -- command palette
 	use 'markonm/traces.vim' -- live preview for substitution
 	use 'mfussenegger/nvim-dap' -- debugger
 	use 'ms-jpq/coq_nvim' -- completion
@@ -267,7 +269,7 @@ cmd [[ let g:coq_settings = { 'auto_start': 'shut-up' } ]]
 ----------------------------------
 --       Dashboard config
 ----------------------------------
-g.dashboard_default_executive = 'teqescope'
+g.dashboard_default_executive = 'telescope'
 
 ----------------------------------
 --       gitsigns config
@@ -465,7 +467,7 @@ ins_left {
 		end
 		return msg
 	end,
-	icon = ' LSP<cmd>',
+	icon = ' LSP:',
 	color = { fg = '#ffffff', gui = 'bold' },
 }
 
@@ -570,7 +572,46 @@ require('telescope').setup({
 			'--smart-case',
 		},
 	},
+	extensions = {
+		command_palette = {
+			{ "File",
+				{ "entire selection (C-a)", ':call feedkeys("GVgg")' },
+				{ "save current file (C-s)", ':w' },
+				{ "save all files (C-A-s)", ':wa' },
+				{ "quit (C-q)", ':qa' },
+				{ "file browser (C-i)", ":lua require'telescope'.extensions.file_browser.file_browser()", 1 },
+				{ "git files (A-f)", ":lua require('telescope.builtin').git_files()", 1 },
+				{ "files (C-f)", ":lua require('telescope.builtin').find_files()", 1 },
+			},
+			{ "Help",
+				{ "cheatsheet", ":help index" },
+				{ "summary", ":help summary" },
+				{ "quick reference", ":help quickref" },
+			},
+			{ "Vim",
+				{ "reload neovim", ":source ~/.config/nvim/init.lua" },
+				{ 'check health', ":checkhealth" },
+				{ "jumps (Alt-j)", ":lua require('telescope.builtin').jumplist()" },
+				{ "commands", ":lua require('telescope.builtin').commands()" },
+				{ "command history", ":lua require('telescope.builtin').command_history()" },
+				{ "registers (A-e)", ":lua require('telescope.builtin').registers()" },
+				{ "colorscheme", ":lua require('telescope.builtin').colorscheme()", 1 },
+				{ "vim options", ":lua require('telescope.builtin').vim_options()" },
+				{ "keymaps", ":lua require('telescope.builtin').keymaps()" },
+				{ "buffers", ":Telescope buffers" },
+				{ "search history (C-h)", ":lua require('telescope.builtin').search_history()" },
+				{ "paste mode", ':set paste!' },
+				{ 'cursor line', ':set cursorline!' },
+				{ 'cursor column', ':set cursorcolumn!' },
+				{ "spell checker", ':set spell!' },
+				{ "relative number", ':set relativenumber!' },
+				{ "search highlighting (F12)", ':set hlsearch!' },
+			}
+		}
+	}
 })
+
+require('telescope').load_extension('command_palette')
 
 ----------------------------------
 --        trouble config

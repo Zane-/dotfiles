@@ -1,8 +1,8 @@
 --================================================
 --                 Neovim Config
---    Author: Zane Bilous
---    Last Modified: 05/15/2022
---    Dependencies:
+--    Author<cmd> Zane Bilous
+--    Last Modified<cmd> 05/15/2022
+--    Dependencies<cmd>
 --      ripgrep, fzf
 --================================================
 
@@ -18,25 +18,19 @@ local opt = vim.opt -- global
 ----------------------------------
 opt.clipboard = 'unnamed' -- use system clipboard
 opt.cmdheight = 2 -- use more space for displaying messages
-opt.foldminlines = 5 -- min num of lines before a block is foldable
 opt.ignorecase = true -- ignore case when searching
-opt.incsearch = true -- show search hits as you type
 opt.linebreak = true -- break lines
-opt.foldlevelstart = 12 -- don't autofold unless there are 12 indents
 opt.mouse = 'nicr' -- use mouse for scrolling and clicking
 opt.number = true -- line numbers
-opt.re = 1 -- use old regex engine (faster)
 opt.scrolloff = 15 -- keep 15 lines above/below cursor line
 opt.shiftwidth = 2 -- make indents correspond to one tab
 opt.smartcase = true -- override ignore case if uppercase letters in pattern
 opt.smartindent = true -- indent after brackets
-opt.shellpipe = '>' -- hide ack searches from stdout
 opt.splitbelow = true -- split splits below
 opt.splitright = true -- vertical split splits right
 opt.tabstop = 2 -- make tabs 2-spaces wide
 opt.undofile = true -- persistent undo
 opt.updatetime = 300 -- faster update time
-opt.visualbell = true -- use visual bell
 
 cmd([[
 let &showbreak=nr2char(8618).' '
@@ -70,41 +64,39 @@ function vmap(shortcut, command)
 end
 
 g.mapleader = ',' -- remap leader to ,
+
 imap('jk', '<Esc>') -- easy normal mode
 nmap(';', ':') -- easy command input
-nmap('/', '/\v') -- Use Perl-compatible regular expressions for searching
-vmap('/', '/\v')
-nmap('<leader>w', ':w!<cr>') -- Quick Save/Quit
-nmap('<leader>wq', ':wq!<cr>')
-nmap('<leader>q', ':q<cr>')
-nmap('<leader>qq', ':q!<cr>')
+nmap('<leader>w', '<cmd>w!<cr>') -- Quick Save/Quit
+nmap('<leader>wq', '<cmd>wq!<cr>')
+nmap('<leader>q', '<cmd>q<cr>')
+nmap('<leader>qq', '<cmd>q!<cr>')
 nmap('B', '^') -- Line navigation
 nmap('E', '$')
 nmap('j', 'gj') -- move up and down by display rather than line number
 nmap('k', 'gk')
-nmap('<leader><space>', ':nohlsearch<cr>') -- Turn off search highlight
+nmap('<leader><space>', '<cmd>nohlsearch<cr>') -- Turn off search highlight
 nmap('rg', ':%s/') -- Replace
 nmap('rl', ':s/')
 nmap('rw', ':%s/\\<<C-r><C-w>\\>/')
-nmap('bd', ':bdelete<cr>') -- Buffers
-nmap('<Left>', ':bnext<cr>')
-nmap('<Right>', ':bprev<cr>')
-nmap('tt', ':tabnew<cr>') -- Tabs
-nmap('tp', ':tabprevious<cr>')
-nmap('tn', ':tabnext<cr>')
-nmap('tq', ':tabclose<cr>')
-nmap('<C-v>', ':vsp<cr>') -- Splits
-nmap('<C-x>', ':sp<cr>')
-nmap('<leader>dw', ':%s/\\s\\+$//<cr>:nohlsearch<cr>') -- delete trailing whitespace
-nmap('<leader>dm', ':%s/^M//g<cr>') -- delete ^M
-nmap('<Down>', ':m+<cr>') -- move lines with Up/Down
-nmap('<Up>', ':m-2<cr>')
+nmap('<Left>', '<cmd>bnext<cr>')
+nmap('<Right>', '<cmd>bprev<cr>')
+nmap('tq', '<cmd>bdelete<cr>') -- Buffers
+nmap('tt', '<cmd>tabnew<cr>') -- Tabs
+nmap('tp', '<cmd>tabprevious<cr>')
+nmap('tn', '<cmd>tabnext<cr>')
+nmap('<C-v>', '<cmd>vsp<cr>') -- Splits
+nmap('<C-x>', '<cmd>sp<cr>')
+nmap('<leader>dw', '<cmd>%s/\\s\\+$//<cr>:nohlsearch<cr>') -- delete trailingqwhitespace
+nmap('<leader>dm', '<cmd>%s/^M//g<cr>') -- delete ^M
+nmap('<S-s>', '<cmd>m+<cr>') -- move lines with shift+w/s
+nmap('<S-w>', '<cmd>m-2<cr>')
 nmap('Q', '@q') -- use macros with Q (and in visual mode)
-vmap('Q', ':norm @q<cr>')
+vmap('Q', '<cmd>norm @q<cr>')
 vmap('<', '<gv') -- don't unselect after shifting in visual mode
 vmap('>', '>gv')
 nmap('<cr>', 'o<Esc>') -- insert blank line with enter
-nmap('qw', ':ccl<cr>') -- close quickfix window
+nmap('qw', '<cmd>ccl<cr>') -- close quickfix window
 
 -- disable mouse drag entering visual mode
 cmd([[
@@ -112,19 +104,19 @@ noremap <LeftDrag> <LeftMouse>
 noremap! <LeftDrag> <LeftMouse>
 ]])
 
-nmap('<C-n>', ':NvimTreeToggle<cr>') -- toggle nvim-tree
-nmap('<F5>', ':SymbolsOutline<cr>') -- toggle symbols outline
+-- nvim-tree mappings
+nmap('<C-n>', '<cmd>NvimTreeToggle<cr>')
 
 -- Telescope mappings
-nmap('\\', ':Telescope live_grep hidden=true<cr>')
-nmap('ff', ':Telescope find_files hidden=true<cr>')
-nmap('fb', ':Telescope buffers<cr>')
-nmap('fl', ':lua require("telescope.builtin").live_grep({grep_open_files=true})<cr>')
+nmap('\\', '<cmd>Telescope live_grep hidden=true<cr>')
+nmap('ff', '<cmd>Telescope find_files hidden=true<cr>')
+nmap('fb', '<cmd>Telescope buffers<cr>')
+nmap('fl', '<cmd>lua require("telescope.builtin").live_grep({grep_open_files=true})<cr>')
 
 -- barbar mappings
-nmap('bp', ':BufferPick<cr>')
-nmap('<S-Left>', ':BufferMovePrevious<cr>')
-nmap('<S-Right>', ':BufferMoveNext<cr>')
+nmap('bp', '<cmd>BufferPick<cr>')
+nmap('<S-Left>', '<cmd>BufferMovePrevious<cr>')
+nmap('<S-Right>', '<cmd>BufferMoveNext<cr>')
 
 -- FTerm mappings
 nmap('<A-t>',
@@ -132,24 +124,15 @@ nmap('<A-t>',
 map('t', '<A-t>',
 	'<cmd>lua require("FTerm").toggle()<cr>')
 
--- Trouble mappings
-nmap('<leader>xx', '<cmd>TroubleToggle<cr>')
-nmap('<leader>xw', '<cmd>TroubleToggle workspace_diagnostics<cr>')
-nmap('<leader>x', '<cmd>TroubleToggle document_diagnostics<cr>')
-nmap('<leader>x', '<cmd>TroubleToggle quickfix<cr>')
-nmap('<leader>x', '<cmd>TroubleToggle loclist<cr>')
-nmap('gR', '<cmd>TroubleToggle lsp_references<cr>')
-
 -- LSP mappings
 nmap('<space>e', '<cmd>lua vim.diagnostic.open_float()<cr>')
 nmap('<F1>', '<cmd>lua vim.diagnostic.goto_prev()<cr>')
 nmap('<F2>', '<cmd>lua vim.diagnostic.goto_next()<cr>')
-nmap('<space>q', '<cmd>lua vim.diagnostic.setloclist()<cr>')
 
 -- These only bind when an LSP is attached
 local on_attach = function(client, bufnr)
 	-- Enable completion triggered by <c-x><c-o>
-	vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+	vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v<cmd>lua.vim.lsp.omnifunc')
 	nmap_buf(bufnr, 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>')
 	nmap_buf(bufnr, 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>')
 	nmap_buf(bufnr, 'D', '<cmd>lua vim.lsp.buf.hover()<cr>')
@@ -158,15 +141,27 @@ local on_attach = function(client, bufnr)
 	nmap_buf(bufnr, '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<cr>')
 	nmap_buf(bufnr, '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<cr>')
 	nmap_buf(bufnr, '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<cr>')
-	nmap_buf(bufnr, '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<cr>')
-	nmap_buf(bufnr, '<space>rn', '<cmd>lua vim.lsp.buf.rename()<cr>')
-	nmap_buf(bufnr, '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<cr>')
-	nmap_buf(bufnr, 'gR', '<cmd>lua vim.lsp.buf.references()<cr>')
+	nmap_buf(bufnr, '<space>d', '<cmd>lua vim.lsp.buf.type_definition()<cr>')
+	nmap_buf(bufnr, 'rn', '<cmd>lua vim.lsp.buf.rename()<cr>')
+	nmap_buf(bufnr, 'ca', '<cmd>lua vim.lsp.buf.code_action()<cr>')
 	nmap_buf(bufnr, '<space>f', '<cmd>lua vim.lsp.buf.format { async = true } <cr>')
+
+	-- goto-preview mappings
 	nmap_buf(bufnr, 'gp', '<cmd>lua require("goto-preview").goto_preview_definition()<cr>')
 	nmap_buf(bufnr, 'gP', '<cmd>lua require("goto-preview").close_all_win()<cr>')
 	nmap_buf(bufnr, 'gpi', '<cmd>lua require("goto-preview").goto_preview_implementation()<cr>')
 	nmap_buf(bufnr, 'gr', '<cmd>lua require("goto-preview").goto_preview_references()<cr>')
+
+	-- Trouble mappings
+	nmap_buf(bufnr, '<space>t', '<cmd>TroubleToggle<cr>')
+	nmap_buf(bufnr, '<leader>tw', '<cmd>TroubleToggle workspace_diagnostics<cr>')
+	nmap_buf(bufnr, '<leader>td', '<cmd>TroubleToggle document_diagnostics<cr>')
+	nmap_buf(bufnr, '<leader>tf', '<cmd>TroubleToggle quickfix<cr>')
+	nmap_buf(bufnr, '<leader>tl', '<cmd>TroubleToggle loclist<cr>')
+	nmap_buf(bufnr, 'gR', '<cmd>TroubleToggle lsp_references<cr>')
+
+	-- Symbols mappings
+	nmap('<F5>', '<cmd>SymbolsOutline<cr>') -- toggle symbols outline
 end
 
 -- ensure <cr> isn't remapped during cmd enter and quickfix
@@ -267,12 +262,12 @@ require('Comment').setup()
 ----------------------------------
 --         coq config
 ----------------------------------
-cmd [[ let g:coq_settings = { 'auto_start': v:true } ]]
+cmd [[ let g:coq_settings = { 'auto_start': 'shut-up' } ]]
 
 ----------------------------------
 --       Dashboard config
 ----------------------------------
-g.dashboard_default_executive = 'telescope'
+g.dashboard_default_executive = 'teqescope'
 
 ----------------------------------
 --       gitsigns config
@@ -287,7 +282,7 @@ g.instant_username = "Zane"
 ----------------------------------
 --          LSP config
 ----------------------------------
-require('goto-preview').setup { }
+require('goto-preview').setup {}
 
 local coq = require('coq')
 local lsp_installer = require("nvim-lsp-installer")
@@ -305,7 +300,7 @@ end)
 local lualine = require('lualine')
 
 -- Color table for highlights
--- stylua: ignore
+-- stylua<cmd> ignore
 local colors = {
 	bg       = '#202328',
 	fg       = '#bbc2cf',
@@ -322,13 +317,13 @@ local colors = {
 
 local conditions = {
 	buffer_not_empty = function()
-		return vim.fn.empty(vim.fn.expand('%:t')) ~= 1
+		return vim.fn.empty(vim.fn.expand('%<cmd>t')) ~= 1
 	end,
 	hide_in_width = function()
 		return vim.fn.winwidth(0) > 80
 	end,
 	check_git_workspace = function()
-		local filepath = vim.fn.expand('%:p:h')
+		local filepath = vim.fn.expand('%<cmd>p:h')
 		local gitdir = vim.fn.finddir('.git', filepath .. ';')
 		return gitdir and #gitdir > 0 and #gitdir < #filepath
 	end,
@@ -447,8 +442,6 @@ ins_left {
 	},
 }
 
--- Insert mid section. You can make any number of sections in neovim :)
--- for lualine it's any number greater then 2
 ins_left {
 	function()
 		return '%='
@@ -472,13 +465,13 @@ ins_left {
 		end
 		return msg
 	end,
-	icon = ' LSP:',
+	icon = ' LSP<cmd>',
 	color = { fg = '#ffffff', gui = 'bold' },
 }
 
 -- Add components to right sections
 ins_right {
-	'o:encoding', -- option component same as &encoding in viml
+	'o<cmd>encoding', -- option component same as &encoding in viml
 	fmt = string.upper,
 	cond = conditions.hide_in_width,
 	color = { fg = colors.green, gui = 'bold' },
@@ -531,7 +524,7 @@ require('nvim-treesitter.configs').setup({
 
 	highlight = {
 		enable = true,
-		-- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+		-- Setting this to true will run `<cmd>h syntax` and tree-sitter at the same time.
 		-- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
 		-- Using this option may slow down your editor, and you may see some duplicate highlights.
 		-- Instead of true it can also be a list of languages

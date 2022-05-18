@@ -96,7 +96,7 @@ vmap('Q', '<cmd>norm @q<cr>')
 vmap('<', '<gv') -- don't unselect after shifting in visual mode
 vmap('>', '>gv')
 nmap('<cr>', 'o<Esc>') -- insert blank line with enter
-nmap('qw', '<cmd>ccl<cr>') -- close quickfix window
+nmap('<C-q>', '<cmd>:close<cr>') -- close window
 
 -- disable mouse drag entering visual mode
 cmd([[
@@ -284,7 +284,9 @@ g.instant_username = "Zane"
 ----------------------------------
 --          LSP config
 ----------------------------------
-require('goto-preview').setup {}
+require('goto-preview').setup {
+	opacity = 10
+}
 
 local coq = require('coq')
 local lsp_installer = require("nvim-lsp-installer")

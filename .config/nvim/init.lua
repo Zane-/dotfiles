@@ -141,10 +141,6 @@ nmap('<leader>x', '<cmd>TroubleToggle loclist<cr>')
 nmap('gR', '<cmd>TroubleToggle lsp_references<cr>')
 
 -- goto-preview mappings
-nmap('gp', '<cmd>lua require("goto-preview").goto_preview_definition()<cr>')
-nmap('gP', '<cmd>lua require("goto-preview").close_all_win()<cr>')
-nmap('gpi', '<cmd>lua require("goto-preview").goto_preview_implementation()<cr>')
-nmap('gpr', '<cmd>lua require("goto-preview").goto_preview_references()<cr>')
 
 -- LSP mappings
 nmap('<space>e', '<cmd>lua vim.diagnostic.open_float()<cr>')
@@ -167,8 +163,12 @@ local on_attach = function(client, bufnr)
 	nmap_buf(bufnr, '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<cr>')
 	nmap_buf(bufnr, '<space>rn', '<cmd>lua vim.lsp.buf.rename()<cr>')
 	nmap_buf(bufnr, '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<cr>')
-	nmap_buf(bufnr, 'gr', '<cmd>lua vim.lsp.buf.references()<cr>')
+	nmap_buf(bufnr, 'gR', '<cmd>lua vim.lsp.buf.references()<cr>')
 	nmap_buf(bufnr, '<space>f', '<cmd>lua vim.lsp.buf.format { async = true } <cr>')
+	nmap_buf(bufnr, 'gp', '<cmd>lua require("goto-preview").goto_preview_definition()<cr>')
+	nmap_buf(bufnr, 'gP', '<cmd>lua require("goto-preview").close_all_win()<cr>')
+	nmap_buf(bufnr, 'gpi', '<cmd>lua require("goto-preview").goto_preview_implementation()<cr>')
+	nmap_buf(bufnr, 'gr', '<cmd>lua require("goto-preview").goto_preview_references()<cr>')
 end
 
 -- ensure <cr> isn't remapped during cmd enter and quickfix
@@ -289,9 +289,7 @@ g.instant_username = "Zane"
 ----------------------------------
 --          LSP config
 ----------------------------------
-require('goto-preview').setup({
-	default_mappings = false
-})
+require('goto-preview').setup()
 
 local coq = require('coq')
 local lsp_installer = require("nvim-lsp-installer")

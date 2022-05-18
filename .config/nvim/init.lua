@@ -82,8 +82,7 @@ nmap('B', '^') -- Line navigation
 nmap('E', '$')
 nmap('j', 'gj') -- move up and down by display rather than line number
 nmap('k', 'gk')
-nmap('<leader><space>',
-	':nohlsearch<cr>') -- Turn off search highlight
+nmap('<leader><space>', ':nohlsearch<cr>') -- Turn off search highlight
 nmap('rg', ':%s/') -- Replace
 nmap('rl', ':s/')
 nmap('rw', ':%s/\\<<C-r><C-w>\\>/')
@@ -96,8 +95,7 @@ nmap('tn', ':tabnext<cr>')
 nmap('tq', ':tabclose<cr>')
 nmap('<C-v>', ':vsp<cr>') -- Splits
 nmap('<C-x>', ':sp<cr>')
-nmap('<leader>dw',
-	':%s/\\s\\+$//<cr>:nohlsearch<cr>') -- delete trailing whitespace
+nmap('<leader>dw', ':%s/\\s\\+$//<cr>:nohlsearch<cr>') -- delete trailing whitespace
 nmap('<leader>dm', ':%s/^M//g<cr>') -- delete ^M
 nmap('<Down>', ':m+<cr>') -- move lines with Up/Down
 nmap('<Up>', ':m-2<cr>')
@@ -114,39 +112,39 @@ noremap <LeftDrag> <LeftMouse>
 noremap! <LeftDrag> <LeftMouse>
 ]])
 
--- Plugin Mappings
 nmap('<C-n>', ':NvimTreeToggle<cr>') -- toggle nvim-tree
 nmap('<F5>', ':SymbolsOutline<cr>') -- toggle symbols outline
 
-nmap('\\', -- Telescope mappings
-	':Telescope live_grep hidden=true<cr>')
-nmap('ff',
-	':Telescope find_files hidden=true<cr>')
-nmap('fb',
-	':Telescope buffers<cr>')
-nmap('fl',
-	':lua require("telescope.builtin").live_grep({grep_open_files=true})<cr>')
+-- Telescope mappings
+nmap('\\', ':Telescope live_grep hidden=true<cr>')
+nmap('ff', ':Telescope find_files hidden=true<cr>')
+nmap('fb', ':Telescope buffers<cr>')
+nmap('fl', ':lua require("telescope.builtin").live_grep({grep_open_files=true})<cr>')
 
-nmap('bp', ':BufferPick<cr>') -- barbar mappings
+-- barbar mappings
+nmap('bp', ':BufferPick<cr>')
 nmap('<S-Left>', ':BufferMovePrevious<cr>')
 nmap('<S-Right>', ':BufferMoveNext<cr>')
 
-nmap('<A-t>', -- toggle terminal
+-- FTerm mappings
+nmap('<A-t>',
 	'<cmd>lua require("FTerm").toggle()<cr>')
 map('t', '<A-t>',
 	'<cmd>lua require("FTerm").toggle()<cr>')
 
-nmap('<leader>xx', -- trouble mappings
-	'<cmd>TroubleToggle<cr>')
-nmap('<leader>xw',
-	'<cmd>TroubleToggle workspace_diagnostics<cr>')
-nmap('<leader>x',
-	'<cmd>TroubleToggle document_diagnostics<cr>')
-nmap('<leader>x',
-	'<cmd>TroubleToggle quickfix<cr>')
-nmap('<leader>x',
-	'<cmd>TroubleToggle loclist<cr>')
+-- Trouble mappings
+nmap('<leader>xx', '<cmd>TroubleToggle<cr>')
+nmap('<leader>xw', '<cmd>TroubleToggle workspace_diagnostics<cr>')
+nmap('<leader>x', '<cmd>TroubleToggle document_diagnostics<cr>')
+nmap('<leader>x', '<cmd>TroubleToggle quickfix<cr>')
+nmap('<leader>x', '<cmd>TroubleToggle loclist<cr>')
 nmap('gR', '<cmd>TroubleToggle lsp_references<cr>')
+
+-- goto-preview mappings
+nmap('gp', '<cmd>lua require("goto-preview").goto_preview_definition()<cr>')
+nmap('gP', '<cmd>lua require("goto-preview").close_all_win()<cr>')
+nmap('gpi', '<cmd>lua require("goto-preview").goto_preview_implementation()<cr>')
+nmap('gpr', '<cmd>lua require("goto-preview").goto_preview_references()<cr>')
 
 -- LSP mappings
 nmap('<space>e', '<cmd>lua vim.diagnostic.open_float()<cr>')
@@ -154,6 +152,7 @@ nmap('<F1>', '<cmd>lua vim.diagnostic.goto_prev()<cr>')
 nmap('<F2>', '<cmd>lua vim.diagnostic.goto_next()<cr>')
 nmap('<space>q', '<cmd>lua vim.diagnostic.setloclist()<cr>')
 
+-- These only bind when an LSP is attached
 local on_attach = function(client, bufnr)
 	-- Enable completion triggered by <c-x><c-o>
 	vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
@@ -291,7 +290,7 @@ g.instant_username = "Zane"
 --          LSP config
 ----------------------------------
 require('goto-preview').setup({
-	default_mappings = true
+	default_mappings = false
 })
 
 local coq = require('coq')
@@ -302,7 +301,6 @@ lsp_installer.on_server_ready(function(server)
 		on_attach = on_attach,
 	}
 	server:setup(coq.lsp_ensure_capabilities(opts))
-	vim.cmd([[ do User LspAttach Buffers ]])
 end)
 
 ----------------------------------

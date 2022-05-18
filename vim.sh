@@ -100,5 +100,7 @@ echo "[+] Installing packer"
 git clone --depth 1 https://github.com/wbthomason/packer.nvim\
  ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 
+nvim +PackerInstall
+
 echo "[+] Setup complete. Any existing files have been moved to ~/dotfiles/backups"
 

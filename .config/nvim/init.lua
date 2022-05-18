@@ -140,8 +140,6 @@ nmap('<leader>x', '<cmd>TroubleToggle quickfix<cr>')
 nmap('<leader>x', '<cmd>TroubleToggle loclist<cr>')
 nmap('gR', '<cmd>TroubleToggle lsp_references<cr>')
 
--- goto-preview mappings
-
 -- LSP mappings
 nmap('<space>e', '<cmd>lua vim.diagnostic.open_float()<cr>')
 nmap('<F1>', '<cmd>lua vim.diagnostic.goto_prev()<cr>')
@@ -289,7 +287,7 @@ g.instant_username = "Zane"
 ----------------------------------
 --          LSP config
 ----------------------------------
-require('goto-preview').setup()
+require('goto-preview').setup { }
 
 local coq = require('coq')
 local lsp_installer = require("nvim-lsp-installer")

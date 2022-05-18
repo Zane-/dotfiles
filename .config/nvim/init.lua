@@ -205,10 +205,12 @@ require('packer').startup(function()
 	use 'nvim-lua/popup.nvim'
 	use 'nvim-lualine/lualine.nvim' -- status line
 	use 'nvim-telescope/telescope.nvim' -- aesthetic fuzzyfinder
+	use 'nvim-telescope/telescope-fzf-native.nvim' -- c port of fzf for telescope
 	use 'nvim-treesitter/nvim-treesitter' -- additional syntax highlighting
 	use 'nvim-treesitter/nvim-treesitter-textobjects'
 	use 'olimorris/onedarkpro.nvim' -- colorscheme
 	use 'stevearc/dressing.nvim' -- use telescope for more things
+	use 'sunjon/Shade.nvim' -- dim inactive window
 	use 'roxma/vim-paste-easy' -- auto-enter paste mode on paste
 	use 'RRethy/vim-illuminate' -- highlight symbol under cursor
 	use 'ryanoasis/vim-devicons' -- add icons to files
@@ -561,6 +563,18 @@ require('nvim-treesitter.configs').setup({
 })
 
 ----------------------------------
+--        Shade config
+----------------------------------
+require 'shade'.setup({
+	overlay_opacity = 80,
+	opacity_step = 5,
+	keys = {
+		brightness_up   = '<C-Up>',
+		brightness_down = '<C-Down>',
+		toggle          = '<Leader>s',
+	}
+})
+----------------------------------
 --       Telescope config
 ----------------------------------
 require('telescope').setup({
@@ -576,39 +590,63 @@ require('telescope').setup({
 	},
 	extensions = {
 		command_palette = {
-			{ "File",
-				{ "entire selection (C-a)", ':call feedkeys("GVgg")' },
-				{ "save current file (C-s)", ':w' },
-				{ "save all files (C-A-s)", ':wa' },
-				{ "quit (C-q)", ':qa' },
-				{ "file browser (C-i)", ":lua require'telescope'.extensions.file_browser.file_browser()", 1 },
-				{ "git files (A-f)", ":lua require('telescope.builtin').git_files()", 1 },
-				{ "files (C-f)", ":lua require('telescope.builtin').find_files()", 1 },
+			{ 'File',
+				{ 'Select all', ':call feedkeys("GVgg")' },
+				{ 'Save current file', ':w' },
+				{ 'Save all files', ':wa' },
+				{ 'Quit', ':qa' },
 			},
-			{ "Help",
-				{ "cheatsheet", ":help index" },
-				{ "summary", ":help summary" },
-				{ "quick reference", ":help quickref" },
+			{ 'Help',
+				{ 'Open cheatsheet', ':help index' },
+				{ 'Open help summary', ':help summary' },
+				{ 'Open quick reference', ":help quickref" },
 			},
-			{ "Vim",
-				{ "reload neovim", ":source ~/.config/nvim/init.lua" },
-				{ 'check health', ":checkhealth" },
-				{ "jumps (Alt-j)", ":lua require('telescope.builtin').jumplist()" },
-				{ "commands", ":lua require('telescope.builtin').commands()" },
-				{ "command history", ":lua require('telescope.builtin').command_history()" },
-				{ "registers (A-e)", ":lua require('telescope.builtin').registers()" },
-				{ "colorscheme", ":lua require('telescope.builtin').colorscheme()", 1 },
-				{ "vim options", ":lua require('telescope.builtin').vim_options()" },
-				{ "keymaps", ":lua require('telescope.builtin').keymaps()" },
-				{ "buffers", ":Telescope buffers" },
-				{ "search history (C-h)", ":lua require('telescope.builtin').search_history()" },
-				{ "paste mode", ':set paste!' },
+			{ 'Vim',
+				{ 'Reload config', ':source ~/.config/nvim/init.lua' },
+				{ 'Check health', ':checkhealth' },
+				{ 'Toggle paste mode', ':set paste!' },
 				{ 'cursor line', ':set cursorline!' },
-				{ 'cursor column', ':set cursorcolumn!' },
-				{ "spell checker", ':set spell!' },
-				{ "relative number", ':set relativenumber!' },
-				{ "search highlighting (F12)", ':set hlsearch!' },
-			}
+				{ 'Toggle cursor column', ':set cursorcolumn!' },
+				{ 'Toggle spell checker', ':set spell!' },
+				{ 'Toggle relative number', ':set relativenumber!' },
+				{ 'Toggle search highlighting', ':set hlsearch!' },
+			},
+			{ 'Packer',
+				{ 'Packer install', ':PackerInstall' },
+				{ 'Packer update', ':PackerUpdate' },
+				{ 'Packer sync', ':PackerSync' },
+				{ 'Packer clean', ':PackerClean' },
+				{ 'Packer status', ':PackerStatus' },
+			},
+			{ 'Telescope',
+				{ 'Find files', ':Telescope find_files' },
+				{ 'Open recent file', ':Telescope oldfiles' },
+				{ 'Search in current file', ':Telescope current_buffer_fuzzy_find' },
+				{ 'Search in files', ':Telescope live_grep' },
+				{ 'Open jumplist', ':Telescope jumplist' },
+				{ 'Open vim options', ':Telescope vim_options' },
+				{ 'Open spell suggest', ':Telescope spell suggest' },
+				{ 'Open colorscheme picker', ':Telescope colorscheme' },
+				{ 'Open git branches', ':Telescope git_branches' },
+				{ 'Open git files', ':Telescope git_files' },
+				{ 'Open git committes', ':Telescope git_commmits' },
+				{ 'Open man pages', ':Telescope man_pages' },
+				{ 'Open quickfix history', ':Telescope quickfixhistory' },
+				{ 'Open type definition', ':Telescope git_branches' },
+				{ 'Open dynamic workspace symbols', ':Telescope lsp_dynamic_workspace_symbols' },
+				{ 'Open document symbols', ':Telescope lsp_document_symbols' },
+				{ 'Open treesitter', ':Telescope treesitter' },
+				{ 'Open diagnostics', ':Telescope git_branches' },
+				{ 'Open quickfix menu', ':Telescope quickfix' },
+				{ 'Open definitions', ':Telescope lsp_definitions ' },
+				{ 'Open implementations', ':Telescope lsp_implementations' },
+				{ 'Open references', ':Telescope git_branches' },
+				{ 'Open marks', ':Telescope marks' },
+				{ 'Open command history', ':Telescope command_history' },
+				{ 'Open search history', ':Telescope search_history ' },
+				{ 'Open filetypes', ':Telescope filetypes' },
+				{ 'Open keymaps', ':Telescope keymaps' },
+			},
 		}
 	}
 })

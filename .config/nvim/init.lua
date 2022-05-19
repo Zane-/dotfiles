@@ -1,8 +1,8 @@
 --================================================
 --                 Neovim Config
---    Author<cmd> Zane Bilous
---    Last Modified<cmd> 05/15/2022
---    Dependencies<cmd>
+--    Author: Zane Bilous
+--    Last Modified: 05/18/2022
+--    Dependencies:
 --      ripgrep, fzf
 --================================================
 
@@ -79,12 +79,10 @@ nmap('<leader><space>', '<cmd>nohlsearch<cr>') -- Turn off search highlight
 nmap('rg', ':%s/') -- Replace
 nmap('rl', ':s/')
 nmap('rw', ':%s/\\<<C-r><C-w>\\>/')
+nmap('tq', '<cmd>bdelete<cr>') -- Buffers
+nmap('tt', '<cmd>tabnew<cr>')
 nmap('<Left>', '<cmd>bnext<cr>')
 nmap('<Right>', '<cmd>bprev<cr>')
-nmap('tq', '<cmd>bdelete<cr>') -- Buffers
-nmap('tt', '<cmd>tabnew<cr>') -- Tabs
-nmap('tp', '<cmd>tabprevious<cr>')
-nmap('tn', '<cmd>tabnext<cr>')
 nmap('<C-v>', '<cmd>vsp<cr>') -- Splits
 nmap('<C-x>', '<cmd>sp<cr>')
 nmap('<leader>dw', '<cmd>%s/\\s\\+$//<cr>:nohlsearch<cr>') -- delete trailingqwhitespace
@@ -162,7 +160,7 @@ local on_attach = function(client, bufnr)
 	nmap_buf(bufnr, 'gR', '<cmd>TroubleToggle lsp_references<cr>')
 
 	-- Symbols mappings
-	nmap('<F5>', '<cmd>SymbolsOutline<cr>') -- toggle symbols outline
+	nmap('<F3>', '<cmd>SymbolsOutline<cr>') -- toggle symbols outline
 end
 
 -- ensure <cr> isn't remapped during cmd enter and quickfix
@@ -210,7 +208,6 @@ require('packer').startup(function()
 	use 'nvim-treesitter/nvim-treesitter-textobjects'
 	use 'olimorris/onedarkpro.nvim' -- colorscheme
 	use 'stevearc/dressing.nvim' -- use telescope for more things
-	use 'sunjon/Shade.nvim' -- dim inactive window
 	use 'roxma/vim-paste-easy' -- auto-enter paste mode on paste
 	use 'RRethy/vim-illuminate' -- highlight symbol under cursor
 	use 'ryanoasis/vim-devicons' -- add icons to files
@@ -563,18 +560,6 @@ require('nvim-treesitter.configs').setup({
 })
 
 ----------------------------------
---        Shade config
-----------------------------------
-require 'shade'.setup({
-	overlay_opacity = 80,
-	opacity_step = 5,
-	keys = {
-		brightness_up   = '<C-Up>',
-		brightness_down = '<C-Down>',
-		toggle          = '<Leader>s',
-	}
-})
-----------------------------------
 --       Telescope config
 ----------------------------------
 require('telescope').setup({
@@ -629,7 +614,7 @@ require('telescope').setup({
 				{ 'Open colorscheme picker', ':Telescope colorscheme' },
 				{ 'Open git branches', ':Telescope git_branches' },
 				{ 'Open git files', ':Telescope git_files' },
-				{ 'Open git committes', ':Telescope git_commmits' },
+				{ 'Open git commits', ':Telescope git_commits' },
 				{ 'Open man pages', ':Telescope man_pages' },
 				{ 'Open quickfix history', ':Telescope quickfixhistory' },
 				{ 'Open type definition', ':Telescope git_branches' },

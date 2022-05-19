@@ -109,7 +109,7 @@ nmap('<C-n>', '<cmd>NvimTreeToggle<cr>')
 nmap('\\', '<cmd>Telescope live_grep hidden=true<cr>')
 nmap('ff', '<cmd>Telescope find_files hidden=true<cr>')
 nmap('fb', '<cmd>Telescope buffers<cr>')
-nmap('fl', '<cmd>lua require("telescope.builtin").live_grep({grep_open_files=true})<cr>')
+nmap('fl', '<cmd>Telescope current_buffer_fuzzy_find<cr>')
 nmap('<space>p', '<cmd>Telescope command_palette<cr>')
 
 -- barbar mappings
@@ -203,7 +203,7 @@ require('packer').startup(function()
 	use 'nvim-lua/popup.nvim'
 	use 'nvim-lualine/lualine.nvim' -- status line
 	use 'nvim-telescope/telescope.nvim' -- aesthetic fuzzyfinder
-	use 'nvim-telescope/telescope-fzf-native.nvim' -- c port of fzf for telescope
+	use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
 	use 'nvim-treesitter/nvim-treesitter' -- additional syntax highlighting
 	use 'nvim-treesitter/nvim-treesitter-textobjects'
 	use 'olimorris/onedarkpro.nvim' -- colorscheme
@@ -637,6 +637,7 @@ require('telescope').setup({
 })
 
 require('telescope').load_extension('command_palette')
+require('telescope').load_extension('fzf')
 
 ----------------------------------
 --        trouble config

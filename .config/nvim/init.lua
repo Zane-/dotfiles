@@ -85,7 +85,7 @@ nmap('<Left>', '<cmd>bnext<cr>')
 nmap('<Right>', '<cmd>bprev<cr>')
 nmap('<C-v>', '<cmd>vsp<cr>') -- Splits
 nmap('<C-x>', '<cmd>sp<cr>')
-nmap('<leader>dw', '<cmd>%s/\\s\\+$//<cr>:nohlsearch<cr>') -- delete trailingqwhitespace
+nmap('<leader>dw', '<cmd>%s/\\s\\+$//<cr>:nohlsearch<cr>') -- delete trailing whitespace
 nmap('<leader>dm', '<cmd>%s/^M//g<cr>') -- delete ^M
 nmap('<S-s>', '<cmd>m+<cr>') -- move lines with shift+w/s
 nmap('<S-w>', '<cmd>m-2<cr>')
@@ -584,6 +584,10 @@ command_center.add({
 		cmd = '<cmd>Telescope live_grep<cr>',
 	},
 	{
+		description = 'New file in tab',
+		cmd = '<cmd>tabnew<cr>',
+	},
+	{
 		description = 'Save current file',
 		cmd = '<cmd>w<cr>',
 	},
@@ -596,12 +600,24 @@ command_center.add({
 		cmd = '<cmd>wq<cr>',
 	},
 	{
+		description = 'Open vertical split',
+		cmd = '<cmd>vsp<cr>',
+	},
+	{
+		description = 'Open horizontal split',
+		cmd = '<cmd>sp<cr>',
+	},
+	{
 		description = 'Quit',
 		cmd = '<cmd>qa<cr>',
 	},
 	{
 		description = 'Select all',
 		cmd = '<cmd>call feedkeys("GVgg")<cr>',
+	},
+	{
+		description = 'Trim trailing whitespace',
+		cmd = '<cmd>%s/\\s\\+$//<cr>:nohlsearch<cr>',
 	},
 	{
 		description = 'Reload config',
@@ -660,6 +676,34 @@ command_center.add({
 		cmd = '<cmd>Telescope lsp_dynamic_workspace_symbols<cr>',
 	},
 	{
+		description = 'Rename symbol under cursor',
+		cmd = '<cmd>lua vim.lsp.buf.rename()<cr>',
+	},
+	{
+		description = 'Open code actions for symbol under cursor',
+		cmd = '<cmd>lua vim.lsp.buf.code_action<cr>',
+	},
+	{
+		description = 'Open references for symbol under cursor',
+		cmd = '<cmd>lua require("goto-preview").goto_preview_references()<cr>',
+	},
+	{
+		description = 'Open definition for symbol under cursor',
+		cmd = '<cmd>lua require("goto-preview").goto_definition()<cr>',
+	},
+	{
+		description = 'Open implementation for symbol under cursor',
+		cmd = '<cmd>lua require("goto-preview").goto_implementation()<cr>',
+	},
+	{
+		description = 'Close all preview windows',
+		cmd = '<cmd>lua require("goto-preview").close_all_win()<cr>',
+	},
+	{
+		description = 'Format file',
+		cmd = '<cmd>lua vim.lsp.buf.format { async = true } <cr>',
+	},
+	{
 		description = 'Open jump list',
 		cmd = '<cmd>Telescope jumplist<cr>',
 	},
@@ -698,6 +742,10 @@ command_center.add({
 	{
 		description = 'Toggle file tree',
 		cmd = '<cmd>NvimTreeToggle<cr>',
+	},
+	{
+		description = 'Toggle symbols outline',
+		cmd = '<cmd>SymbolsOutline<cr>',
 	},
 	{
 		description = 'Toggle floating terminal',

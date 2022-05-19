@@ -612,6 +612,10 @@ command_center.add({
 		cmd = '<cmd>qa<cr>',
 	},
 	{
+		description = 'Force quit',
+		cmd = '<cmd>q!<cr>',
+	},
+	{
 		description = 'Select all',
 		cmd = '<cmd>call feedkeys("GVgg")<cr>',
 	},

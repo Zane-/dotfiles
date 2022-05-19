@@ -110,7 +110,8 @@ nmap('\\', '<cmd>Telescope live_grep hidden=true<cr>')
 nmap('ff', '<cmd>Telescope find_files hidden=true<cr>')
 nmap('fb', '<cmd>Telescope buffers<cr>')
 nmap('fl', '<cmd>Telescope current_buffer_fuzzy_find<cr>')
-nmap('<space>p', '<cmd>Telescope command_palette<cr>')
+nmap('fr', '<cmd>Telescope oldfiles<cr>')
+nmap('<space>p', '<cmd>Telescope command_center<cr>')
 
 -- barbar mappings
 nmap('bp', '<cmd>BufferPick<cr>')
@@ -187,10 +188,10 @@ require('packer').startup(function()
 	use 'folke/tokyonight.nvim' -- colorscheme
 	use 'glepnir/dashboard-nvim' -- fancy start page
 	use 'folke/trouble.nvim' -- aesthetic diagnostics page
+	use 'FeiyouG/command_center.nvim' -- command palette
 	use 'jbyuki/instant.nvim' -- collaborative editing server
 	use 'kosayoda/nvim-lightbulb' -- show a lightbulb for code actions
 	use 'lewis6991/gitsigns.nvim' -- git integration
-	use 'LinArcX/telescope-command-palette.nvim' -- command palette
 	use 'markonm/traces.vim' -- live preview for substitution
 	use 'mfussenegger/nvim-dap' -- debugger
 	use 'ms-jpq/coq_nvim' -- completion
@@ -562,6 +563,196 @@ require('nvim-treesitter.configs').setup({
 ----------------------------------
 --       Telescope config
 ----------------------------------
+
+local command_center = require('command_center')
+
+command_center.add({
+	{
+		description = 'Find files',
+		cmd = '<cmd>Telescope find_files<cr>',
+	},
+	{
+		description = 'Open recent files',
+		cmd = '<cmd>Telescope oldfiles<cr>',
+	},
+	{
+		description = 'Search in current file',
+		cmd = '<cmd>Telescope current_buffer_fuzzy_find<cr>',
+	},
+	{
+		description = 'Search in files',
+		cmd = '<cmd>Telescope live_grep<cr>',
+	},
+	{
+		description = 'Save current file',
+		cmd = '<cmd>w<cr>',
+	},
+	{
+		description = 'Save all files',
+		cmd = '<cmd>wa<cr>',
+	},
+	{
+		description = 'Save and quit',
+		cmd = '<cmd>wq<cr>',
+	},
+	{
+		description = 'Quit',
+		cmd = '<cmd>qa<cr>',
+	},
+	{
+		description = 'Select all',
+		cmd = '<cmd>call feedkeys("GVgg")<cr>',
+	},
+	{
+		description = 'Reload config',
+		cmd = '<cmd>source ~/.config/nvim/init.lua<cr>',
+	},
+	{
+		description = 'Check health',
+		cmd = '<cmd>checkhealth<cr>',
+	},
+	{
+		description = 'Open command history',
+		cmd = '<cmd>Telescope command_history<cr>',
+	},
+	{
+		description = 'Open search history',
+		cmd = '<cmd>Telescope search_history<cr>',
+	},
+	{
+		description = 'Open quickfix history',
+		cmd = '<cmd>Telescope quickfixhistory<cr>',
+	},
+	{
+		description = 'Open type definitions',
+		cmd = '<cmd>Telescope lsp_type_definitions<cr>',
+	},
+	{
+		description = 'Open document symbols',
+		cmd = '<cmd>Telescope lsp_document_symbols<cr>',
+	},
+	{
+		description = 'Open treesitter',
+		cmd = '<cmd>Telescope treesitter<cr>',
+	},
+	{
+		description = 'Open diagnostics',
+		cmd = '<cmd>Telescope diagnostics<cr>',
+	},
+	{
+		description = 'Open quickfix menu',
+		cmd = '<cmd>Telescope quickfix<cr>',
+	},
+	{
+		description = 'Open definitions',
+		cmd = '<cmd>Telescope lsp_definitions<cr>',
+	},
+	{
+		description = 'Open references',
+		cmd = '<cmd>Telescope lsp_references<cr>',
+	},
+	{
+		description = 'Open implementations',
+		cmd = '<cmd>Telescope lsp_implementations<cr>',
+	},
+	{
+		description = 'Open dynamic workspace symbols',
+		cmd = '<cmd>Telescope lsp_dynamic_workspace_symbols<cr>',
+	},
+	{
+		description = 'Open jump list',
+		cmd = '<cmd>Telescope jumplist<cr>',
+	},
+	{
+		description = 'Open marks',
+		cmd = '<cmd>Telescope marks<cr>',
+	},
+	{
+		description = 'Open filetype list',
+		cmd = '<cmd>Telescope filetypes<cr>',
+	},
+	{
+		description = 'Open keymap',
+		cmd = '<cmd>Telescope keymaps<cr>',
+	},
+	{
+		description = 'Open vim options',
+		cmd = '<cmd>Telescope vim_options<cr>',
+	},
+	{
+		description = 'Open man pages',
+		cmd = '<cmd>Telescope man_pages<cr>',
+	},
+	{
+		description = 'Open spell suggest',
+		cmd = '<cmd>Telescope spell_suggest<cr>',
+	},
+	{
+		description = 'Open color scheme picker',
+		cmd = '<cmd>Telescope colorscheme<cr>',
+	},
+	{
+		description = 'Toggle trouble menu',
+		cmd = '<cmd>TroubleToggle<cr>',
+	},
+	{
+		description = 'Toggle file tree',
+		cmd = '<cmd>NvimTreeToggle<cr>',
+	},
+	{
+		description = 'Toggle floating terminal',
+		cmd = '<cmd>lua require("FTerm").toggle()<cr>',
+	},
+	{
+		description = 'Toggle paste mode',
+		cmd = '<cmd>:set paste!<cr>',
+	},
+	{
+		description = 'Toggle cursor line',
+		cmd = '<cmd>set cursorline!<cr>',
+	},
+	{
+		description = 'Toggle spell checker',
+		cmd = '<cmd>set spell!<cr>',
+	},
+	{
+		description = 'Toggle relative number',
+		cmd = '<cmd>set relativenumber!<cr>',
+	},
+	{
+		description = 'Toggle search highlighting',
+		cmd = '<cmd>set hlsearch!<cr>',
+	},
+	{
+		description = 'Open git branches',
+		cmd = '<cmd>Telescope git_branches<cr>',
+	},
+	{
+		description = 'Open git files',
+		cmd = '<cmd>Telescope git_files<cr>',
+	},
+	{
+		description = 'Packer install',
+		cmd = '<cmd>PackerInstall<cr>',
+	},
+	{
+		description = 'Packer update',
+		cmd = '<cmd>PackerUpdate<cr>',
+	},
+	{
+		description = 'Packer sync',
+		cmd = '<cmd>PackerSync<cr>',
+	},
+	{
+		description = 'Packer clean',
+		cmd = '<cmd>PackerClean<cr>',
+	},
+	{
+		description = 'Packer status',
+		cmd = '<cmd>PackerStatus<cr>',
+	},
+})
+
 require('telescope').setup({
 	defaults = {
 		vimgrep_arguments = {
@@ -574,69 +765,15 @@ require('telescope').setup({
 		},
 	},
 	extensions = {
-		command_palette = {
-			{ 'File',
-				{ 'Select all', ':call feedkeys("GVgg")' },
-				{ 'Save current file', ':w' },
-				{ 'Save all files', ':wa' },
-				{ 'Quit', ':qa' },
+		command_center = {
+			components = {
+				command_center.component.DESCRIPTION,
 			},
-			{ 'Help',
-				{ 'Open cheatsheet', ':help index' },
-				{ 'Open help summary', ':help summary' },
-				{ 'Open quick reference', ":help quickref" },
-			},
-			{ 'Vim',
-				{ 'Reload config', ':source ~/.config/nvim/init.lua' },
-				{ 'Check health', ':checkhealth' },
-				{ 'Toggle paste mode', ':set paste!' },
-				{ 'cursor line', ':set cursorline!' },
-				{ 'Toggle cursor column', ':set cursorcolumn!' },
-				{ 'Toggle spell checker', ':set spell!' },
-				{ 'Toggle relative number', ':set relativenumber!' },
-				{ 'Toggle search highlighting', ':set hlsearch!' },
-			},
-			{ 'Packer',
-				{ 'Packer install', ':PackerInstall' },
-				{ 'Packer update', ':PackerUpdate' },
-				{ 'Packer sync', ':PackerSync' },
-				{ 'Packer clean', ':PackerClean' },
-				{ 'Packer status', ':PackerStatus' },
-			},
-			{ 'Telescope',
-				{ 'Find files', ':Telescope find_files' },
-				{ 'Open recent file', ':Telescope oldfiles' },
-				{ 'Search in current file', ':Telescope current_buffer_fuzzy_find' },
-				{ 'Search in files', ':Telescope live_grep' },
-				{ 'Open jumplist', ':Telescope jumplist' },
-				{ 'Open vim options', ':Telescope vim_options' },
-				{ 'Open spell suggest', ':Telescope spell suggest' },
-				{ 'Open colorscheme picker', ':Telescope colorscheme' },
-				{ 'Open git branches', ':Telescope git_branches' },
-				{ 'Open git files', ':Telescope git_files' },
-				{ 'Open git commits', ':Telescope git_commits' },
-				{ 'Open man pages', ':Telescope man_pages' },
-				{ 'Open quickfix history', ':Telescope quickfixhistory' },
-				{ 'Open type definition', ':Telescope git_branches' },
-				{ 'Open dynamic workspace symbols', ':Telescope lsp_dynamic_workspace_symbols' },
-				{ 'Open document symbols', ':Telescope lsp_document_symbols' },
-				{ 'Open treesitter', ':Telescope treesitter' },
-				{ 'Open diagnostics', ':Telescope git_branches' },
-				{ 'Open quickfix menu', ':Telescope quickfix' },
-				{ 'Open definitions', ':Telescope lsp_definitions ' },
-				{ 'Open implementations', ':Telescope lsp_implementations' },
-				{ 'Open references', ':Telescope git_branches' },
-				{ 'Open marks', ':Telescope marks' },
-				{ 'Open command history', ':Telescope command_history' },
-				{ 'Open search history', ':Telescope search_history ' },
-				{ 'Open filetypes', ':Telescope filetypes' },
-				{ 'Open keymaps', ':Telescope keymaps' },
-			},
-		}
+		},
 	}
 })
 
-require('telescope').load_extension('command_palette')
+require('telescope').load_extension('command_center')
 require('telescope').load_extension('fzf')
 
 ----------------------------------

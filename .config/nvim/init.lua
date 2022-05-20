@@ -39,27 +39,27 @@ let &showbreak=nr2char(8618).' '
 ----------------------------------
 --            Mappings
 ----------------------------------
-function map(mode, shortcut, command)
+local function map(mode, shortcut, command)
 	vim.api.nvim_set_keymap(mode, shortcut, command, { noremap = true, silent = true })
 end
 
-function bufnr_map(bufnr, mode, shortcut, command)
+local function bufnr_map(bufnr, mode, shortcut, command)
 	vim.api.nvim_buf_set_keymap(bufnr, mode, shortcut, command, { noremap = true, silent = true })
 end
 
-function nmap(shortcut, command)
+local function nmap(shortcut, command)
 	map('n', shortcut, command)
 end
 
-function nmap_buf(bufnr, shortcut, command)
+local function nmap_buf(bufnr, shortcut, command)
 	bufnr_map(bufnr, 'n', shortcut, command)
 end
 
-function imap(shortcut, command)
+local function imap(shortcut, command)
 	map('i', shortcut, command)
 end
 
-function vmap(shortcut, command)
+local function vmap(shortcut, command)
 	map('v', shortcut, command)
 end
 
@@ -183,14 +183,13 @@ cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()]]
 require('packer').startup(function()
 	use 'wbthomason/packer.nvim' -- this package manager
 
-	use 'bronson/vim-trailing-whitespace' -- show trailing whitespace as red bg
 	use 'easymotion/vim-easymotion' -- jump to any word with ease
 	use 'folke/tokyonight.nvim' -- colorscheme
 	use 'glepnir/dashboard-nvim' -- fancy start page
 	use 'folke/trouble.nvim' -- aesthetic diagnostics page
 	use 'FeiyouG/command_center.nvim' -- command palette
-	use 'jbyuki/instant.nvim' -- collaborative editing server
 	use 'kosayoda/nvim-lightbulb' -- show a lightbulb for code actions
+	use 'kyazdani42/nvim-tree.lua' -- filetree
 	use 'lewis6991/gitsigns.nvim' -- git integration
 	use 'markonm/traces.vim' -- live preview for substitution
 	use 'mfussenegger/nvim-dap' -- debugger
@@ -205,6 +204,7 @@ require('packer').startup(function()
 	use 'nvim-lualine/lualine.nvim' -- status line
 	use 'nvim-telescope/telescope.nvim' -- aesthetic fuzzyfinder
 	use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+	use 'nvim-telescope/telescope-symbols.nvim'
 	use 'nvim-treesitter/nvim-treesitter' -- additional syntax highlighting
 	use 'nvim-treesitter/nvim-treesitter-textobjects'
 	use 'olimorris/onedarkpro.nvim' -- colorscheme
@@ -212,15 +212,15 @@ require('packer').startup(function()
 	use 'roxma/vim-paste-easy' -- auto-enter paste mode on paste
 	use 'RRethy/vim-illuminate' -- highlight symbol under cursor
 	use 'ryanoasis/vim-devicons' -- add icons to files
-	use 'kyazdani42/nvim-tree.lua' -- filetree
 	use 'rmagatti/goto-preview' -- goto preview popup
 	use 'simrat39/symbols-outline.nvim' -- menu for symbols
+	use 'skywind3000/asyncrun.vim' -- run commands async
 	use 'tpope/vim-surround' -- easily change surrounding brackets, quotes, etc.
 	use {
 		'romgrk/barbar.nvim', -- fancy tabs
 		requires = { { 'kyazdani42/nvim-web-devicons' } }
 	}
-	use 'weilbith/nvim-code-action-menu' -- show diffs for code actions
+	use 'weilbith/nvim-code-action-menu' -- show menu for code actions
 	use 'williamboman/nvim-lsp-installer' -- install lsp servers
 end)
 
@@ -277,15 +277,10 @@ g.dashboard_default_executive = 'telescope'
 require('gitsigns').setup()
 
 ----------------------------------
---        instant config
-----------------------------------
-g.instant_username = "Zane"
-
-----------------------------------
 --          LSP config
 ----------------------------------
 require('goto-preview').setup {
-	opacity = 10
+	opacity = 7
 }
 
 local coq = require('coq')
@@ -304,7 +299,6 @@ end)
 local lualine = require('lualine')
 
 -- Color table for highlights
--- stylua<cmd> ignore
 local colors = {
 	bg       = '#202328',
 	fg       = '#bbc2cf',
@@ -388,7 +382,7 @@ ins_left {
 ins_left {
 	-- mode component
 	function()
-		return ''
+		return ''
 	end,
 	color = function()
 		-- auto change color according to neovims mode
@@ -396,7 +390,6 @@ ins_left {
 			n = colors.red,
 			i = colors.green,
 			v = colors.blue,
-			[''] = colors.blue,
 			V = colors.blue,
 			c = colors.magenta,
 			no = colors.red,
@@ -420,22 +413,22 @@ ins_left {
 }
 
 ins_left {
-	-- filesize component
-	'filesize',
-	cond = conditions.buffer_not_empty,
-}
-
-ins_left {
 	'filename',
 	cond = conditions.buffer_not_empty,
 	color = { fg = colors.magenta, gui = 'bold' },
+}
+
+ins_left {
+	-- filesize component
+	'filesize',
+	cond = conditions.buffer_not_empty,
 }
 
 ins_left { 'location' }
 
 ins_left { 'progress', color = { fg = colors.fg, gui = 'bold' } }
 
-ins_left {
+ins_right {
 	'diagnostics',
 	sources = { 'nvim_diagnostic' },
 	symbols = { error = ' ', warn = ' ', info = ' ' },
@@ -446,13 +439,7 @@ ins_left {
 	},
 }
 
-ins_left {
-	function()
-		return '%='
-	end,
-}
-
-ins_left {
+ins_right {
 	-- Lsp server name .
 	function()
 		local msg = 'N/A'
@@ -473,7 +460,6 @@ ins_left {
 	color = { fg = '#ffffff', gui = 'bold' },
 }
 
--- Add components to right sections
 ins_right {
 	'o<cmd>encoding', -- option component same as &encoding in viml
 	fmt = string.upper,
@@ -724,6 +710,10 @@ command_center.add({
 		cmd = '<cmd>Telescope keymaps<cr>',
 	},
 	{
+		description = 'Open symbol map',
+		cmd = '<cmd>Telescope symbols<cr>',
+	},
+	{
 		description = 'Open vim options',
 		cmd = '<cmd>Telescope vim_options<cr>',
 	},
@@ -811,7 +801,6 @@ require('telescope').setup({
 			'rg',
 			'--hidden',
 			'--line-number',
-			'--with-filename',
 			'--column',
 			'--smart-case',
 		},

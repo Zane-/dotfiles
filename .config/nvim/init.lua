@@ -130,7 +130,7 @@ nmap('<F1>', '<cmd>lua vim.diagnostic.goto_prev()<cr>')
 nmap('<F2>', '<cmd>lua vim.diagnostic.goto_next()<cr>')
 
 -- These only bind when an LSP is attached
-local on_attach = function(client, bufnr)
+local lsp_on_attach = function(client, bufnr)
 	-- Enable completion triggered by <c-x><c-o>
 	vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v<cmd>lua.vim.lsp.omnifunc')
 	nmap_buf(bufnr, 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>')
@@ -162,6 +162,9 @@ local on_attach = function(client, bufnr)
 
 	-- Symbols mappings
 	nmap('<F3>', '<cmd>SymbolsOutline<cr>') -- toggle symbols outline
+
+	-- auto format on save
+	cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()]]
 end
 
 -- ensure <cr> isn't remapped during cmd enter and quickfix
@@ -172,9 +175,6 @@ augroup cr
 	autocmd BufReadPost quickfix nnoremap <cr> <cr>
 augroup end
 ]])
-
--- autoformat on save
-cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()]]
 
 -----------------------------------
 --            Plugins
@@ -282,13 +282,12 @@ require('gitsigns').setup()
 require('goto-preview').setup {
 	opacity = 7
 }
-
 local coq = require('coq')
-local lsp_installer = require("nvim-lsp-installer")
+local lsp_installer = require('nvim-lsp-installer')
 
 lsp_installer.on_server_ready(function(server)
 	local opts = {
-		on_attach = on_attach,
+		on_attach = lsp_on_attach,
 	}
 	server:setup(coq.lsp_ensure_capabilities(opts))
 end)

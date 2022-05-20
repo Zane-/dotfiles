@@ -205,7 +205,6 @@ require('packer').startup(function()
 	use 'mfussenegger/nvim-dap' -- debugger
 	use 'ms-jpq/coq_nvim' -- completion
 	use 'ms-jpq/coq.artifacts' -- snippets
-	use 'mxw/vim-jsx' -- jsx syntax support for react
 	use 'neovim/nvim-lspconfig' -- completion, go-to, etc.
 	use 'numToStr/Comment.nvim' -- comments
 	use 'numToStr/FTerm.nvim' -- terminal popup
@@ -233,6 +232,8 @@ require('packer').startup(function()
 	}
 	use 'weilbith/nvim-code-action-menu' -- show menu for code actions
 	use 'williamboman/nvim-lsp-installer' -- install lsp servers
+	use 'windwp/nvim-ts-autotag' -- autoclose html, etc. tags
+	use 'windwp/nvim-autopairs' -- auto pair ( {, etc.
 end)
 
 ----------------------------------
@@ -517,6 +518,11 @@ ins_right {
 lualine.setup(config)
 
 ----------------------------------
+--     nvim-autopairs config
+----------------------------------
+require('nvim-autopairs').setup {}
+
+----------------------------------
 --       nvim-tree config
 ----------------------------------
 require('nvim-tree').setup()
@@ -558,6 +564,9 @@ require('nvim-treesitter.configs').setup({
 				["ic"] = "@class.inner",
 			},
 		},
+	},
+	autotag = {
+		enable = true,
 	},
 })
 

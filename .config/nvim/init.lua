@@ -193,6 +193,10 @@ augroup end
 require('packer').startup(function()
 	use 'wbthomason/packer.nvim' -- this package manager
 
+	----------------------------------
+	--        trouble config
+	----------------------------------
+	require('trouble').setup {}
 	use 'folke/tokyonight.nvim' -- colorscheme
 	use 'glepnir/dashboard-nvim' -- fancy start page
 	use 'folke/trouble.nvim' -- aesthetic diagnostics page
@@ -219,6 +223,7 @@ require('packer').startup(function()
 	use 'olimorris/onedarkpro.nvim' -- colorscheme
 	use 'phaazon/hop.nvim' -- easy navigation
 	use 'stevearc/dressing.nvim' -- use telescope for more things
+	use 'rmagatti/auto-session' -- sessions based on cwd
 	use 'roxma/vim-paste-easy' -- auto-enter paste mode on paste
 	use 'RRethy/vim-illuminate' -- highlight symbol under cursor
 	use 'ryanoasis/vim-devicons' -- add icons to files
@@ -267,6 +272,11 @@ augroup END
 --================================================
 --                 Plugin Config
 --================================================
+
+----------------------------------
+--      auto-session config
+----------------------------------
+require('auto-session').setup {}
 
 ----------------------------------
 --        Comment config

@@ -124,13 +124,23 @@ nmap('<A-t>',
 map('t', '<A-t>',
 	'<cmd>lua require("FTerm").toggle()<cr>')
 
+-- hop mappings
+nmap('ww', '<cmd>HopWord<cr>')
+nmap('wl', '<cmd>HopLine<cr>')
+
+-- sniprun mapings
+nmap('sr', '<cmd>SnipRun<cr>')
+nmap('sq', '<cmd>SnipReset<cr>')
+nmap('sc', '<cmd>SnipClose<cr>')
+vmap('sr', '<cmd>"<,">SnipRun<cr>')
+
 -- LSP mappings
 nmap('<space>e', '<cmd>lua vim.diagnostic.open_float()<cr>')
 nmap('<F1>', '<cmd>lua vim.diagnostic.goto_prev()<cr>')
 nmap('<F2>', '<cmd>lua vim.diagnostic.goto_next()<cr>')
 
 -- These only bind when an LSP is attached
-local lsp_on_attach = function(client, bufnr)
+local on_attach = function(client, bufnr)
 	-- Enable completion triggered by <c-x><c-o>
 	vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v<cmd>lua.vim.lsp.omnifunc')
 	nmap_buf(bufnr, 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>')
@@ -183,7 +193,6 @@ augroup end
 require('packer').startup(function()
 	use 'wbthomason/packer.nvim' -- this package manager
 
-	use 'easymotion/vim-easymotion' -- jump to any word with ease
 	use 'folke/tokyonight.nvim' -- colorscheme
 	use 'glepnir/dashboard-nvim' -- fancy start page
 	use 'folke/trouble.nvim' -- aesthetic diagnostics page
@@ -192,6 +201,7 @@ require('packer').startup(function()
 	use 'kyazdani42/nvim-tree.lua' -- filetree
 	use 'lewis6991/gitsigns.nvim' -- git integration
 	use 'markonm/traces.vim' -- live preview for substitution
+	use { 'michaelb/sniprun', run = 'bash ./install.sh' } -- run code snippets
 	use 'mfussenegger/nvim-dap' -- debugger
 	use 'ms-jpq/coq_nvim' -- completion
 	use 'ms-jpq/coq.artifacts' -- snippets
@@ -208,6 +218,7 @@ require('packer').startup(function()
 	use 'nvim-treesitter/nvim-treesitter' -- additional syntax highlighting
 	use 'nvim-treesitter/nvim-treesitter-textobjects'
 	use 'olimorris/onedarkpro.nvim' -- colorscheme
+	use 'phaazon/hop.nvim' -- easy navigation
 	use 'stevearc/dressing.nvim' -- use telescope for more things
 	use 'roxma/vim-paste-easy' -- auto-enter paste mode on paste
 	use 'RRethy/vim-illuminate' -- highlight symbol under cursor
@@ -277,6 +288,11 @@ g.dashboard_default_executive = 'telescope'
 require('gitsigns').setup()
 
 ----------------------------------
+--          hop config
+----------------------------------
+require('hop').setup({ keys = 'etovxqpdygfblzhckisuran' })
+
+----------------------------------
 --          LSP config
 ----------------------------------
 require('goto-preview').setup {
@@ -287,7 +303,7 @@ local lsp_installer = require('nvim-lsp-installer')
 
 lsp_installer.on_server_ready(function(server)
 	local opts = {
-		on_attach = lsp_on_attach,
+		on_attach = on_attach,
 	}
 	server:setup(coq.lsp_ensure_capabilities(opts))
 end)

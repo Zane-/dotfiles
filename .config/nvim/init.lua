@@ -90,24 +90,23 @@ nmap('<S-w>', '<cmd>m-2<cr>')
 vmap('<', '<gv') -- don't unselect after shifting in visual mode
 vmap('>', '>gv')
 nmap('<cr>', 'o<Esc>') -- insert blank line with enter
+nmap('<bs>', 'dd') -- delete line with backspace
 nmap('<C-q>', '<cmd>:close<cr>') -- close window
+nmap('<F1>', '<cmd>lua vim.diagnostic.goto_prev()<cr>') -- cycle between diagnostics
+nmap('<F2>', '<cmd>lua vim.diagnostic.goto_next()<cr>')
 
 -- disable mouse drag entering visual mode
+-- ensure <cr> isn't remapped during cmd enter and quickfix
 cmd([[
 noremap <LeftDrag> <LeftMouse>
 noremap! <LeftDrag> <LeftMouse>
+
+augroup cr
+	autocmd!
+	autocmd CmdwinEnter * nnoremap <cr> <cr>
+	autocmd BufReadPost quickfix nnoremap <cr> <cr>
+augroup end
 ]])
-
--- nvim-tree mappings
-nmap('<C-n>', '<cmd>NvimTreeToggle<cr>')
-
--- Telescope mappings
-nmap('\\', '<cmd>Telescope live_grep hidden=true<cr>')
-nmap('ff', '<cmd>Telescope find_files hidden=true<cr>')
-nmap('fb', '<cmd>Telescope buffers<cr>')
-nmap('fl', '<cmd>Telescope current_buffer_fuzzy_find<cr>')
-nmap('fr', '<cmd>Telescope oldfiles<cr>')
-nmap('<space>p', '<cmd>Telescope command_center<cr>')
 
 -- bufferline mappings
 nmap('<Left>', '<cmd>BufferLineCyclePrev<cr>')
@@ -125,26 +124,33 @@ map('t', '<A-t>',
 nmap('ww', '<cmd>HopWord<cr>')
 nmap('wl', '<cmd>HopLine<cr>')
 
--- sniprun mapings
+-- nvim-tree mappings
+nmap('<C-n>', '<cmd>NvimTreeToggle<cr>')
+
+-- SnipRun mapings
 nmap('sr', '<cmd>SnipRun<cr>')
 nmap('sq', '<cmd>SnipReset<cr>')
 nmap('sc', '<cmd>SnipClose<cr>')
 vmap('sr', '<cmd>SnipRun<cr>')
 
--- LSP mappings
-nmap('<space>e', '<cmd>lua vim.diagnostic.open_float()<cr>')
-nmap('<F1>', '<cmd>lua vim.diagnostic.goto_prev()<cr>')
-nmap('<F2>', '<cmd>lua vim.diagnostic.goto_next()<cr>')
+-- Telescope mappings
+nmap('\\', '<cmd>Telescope live_grep hidden=true<cr>')
+nmap('ff', '<cmd>Telescope find_files hidden=true<cr>')
+nmap('fb', '<cmd>Telescope buffers<cr>')
+nmap('fl', '<cmd>Telescope current_buffer_fuzzy_find<cr>')
+nmap('fr', '<cmd>Telescope oldfiles<cr>')
+nmap('<space>p', '<cmd>Telescope command_center<cr>')
 
+-- LSP mappings
 -- These only bind when an LSP is attached
 local on_attach = function(client, bufnr)
-	-- Enable completion triggered by <c-x><c-o>
 	vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v<cmd>lua.vim.lsp.omnifunc')
 	nmap_buf(bufnr, 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>')
 	nmap_buf(bufnr, 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>')
 	nmap_buf(bufnr, 'D', '<cmd>lua vim.lsp.buf.hover()<cr>')
 	nmap_buf(bufnr, 'gi', 'cmd>lua vim.lsp.buf.implementation()<cr>')
 	nmap_buf(bufnr, '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<cr>')
+	nmap_buf(bufnr, '<space>e', '<cmd>lua vim.diagnostic.open_float()<cr>')
 	nmap_buf(bufnr, '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<cr>')
 	nmap_buf(bufnr, '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<cr>')
 	nmap_buf(bufnr, '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<cr>')
@@ -153,11 +159,17 @@ local on_attach = function(client, bufnr)
 	nmap_buf(bufnr, 'ca', '<cmd>lua vim.lsp.buf.code_action()<cr>')
 	nmap_buf(bufnr, '<space>f', '<cmd>lua vim.lsp.buf.format { async = true } <cr>')
 
+	-- auto format on save
+	cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()]]
+
 	-- goto-preview mappings
 	nmap_buf(bufnr, 'gp', '<cmd>lua require("goto-preview").goto_preview_definition()<cr>')
 	nmap_buf(bufnr, 'gP', '<cmd>lua require("goto-preview").close_all_win()<cr>')
 	nmap_buf(bufnr, 'gpi', '<cmd>lua require("goto-preview").goto_preview_implementation()<cr>')
 	nmap_buf(bufnr, 'gr', '<cmd>lua require("goto-preview").goto_preview_references()<cr>')
+
+	-- Symbols mappings
+	nmap('<F3>', '<cmd>SymbolsOutline<cr>') -- toggle symbols outline
 
 	-- Trouble mappings
 	nmap_buf(bufnr, '<space>t', '<cmd>TroubleToggle<cr>')
@@ -166,79 +178,86 @@ local on_attach = function(client, bufnr)
 	nmap_buf(bufnr, '<leader>tq', '<cmd>TroubleToggle quickfix<cr>')
 	nmap_buf(bufnr, '<leader>tl', '<cmd>TroubleToggle loclist<cr>')
 	nmap_buf(bufnr, 'gR', '<cmd>TroubleToggle lsp_references<cr>')
-
-	-- Symbols mappings
-	nmap('<F3>', '<cmd>SymbolsOutline<cr>') -- toggle symbols outline
-
-	-- auto format on save
-	cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()]]
 end
-
--- ensure <cr> isn't remapped during cmd enter and quickfix
-cmd([[
-augroup cr
-	autocmd!
-	autocmd CmdwinEnter * nnoremap <cr> <cr>
-	autocmd BufReadPost quickfix nnoremap <cr> <cr>
-augroup end
-]])
 
 -----------------------------------
 --            Plugins
 -----------------------------------
-
 require('packer').startup(function()
 	use 'wbthomason/packer.nvim' -- this package manager
 
-	use 'akinsho/bufferline.nvim' -- nice buffer line
-	use 'folke/tokyonight.nvim' -- colorscheme
-	use 'folke/which-key.nvim' -- shortcut popup
-	use 'folke/trouble.nvim' -- aesthetic diagnostics page
-	use 'FeiyouG/command_center.nvim' -- command palette
-	use 'glepnir/dashboard-nvim' -- fancy start page
-	use {
-		'hrsh7th/nvim-cmp', -- autocompletion
+	use { -- Autocompletion
+		'hrsh7th/nvim-cmp',
 		{ 'hrsh7th/cmp-buffer' },
 		{ 'hrsh7th/cmp-cmdline' },
 		{ 'hrsh7th/cmp-nvim-lsp' },
 		{ 'hrsh7th/cmp-path' },
 		{ 'saadparwaiz1/cmp_luasnip' },
 	}
-	use 'kosayoda/nvim-lightbulb' -- show a lightbulb for code actions
-	use 'kyazdani42/nvim-tree.lua' -- filetree
-	use 'kyazdani42/nvim-web-devicons' -- file icons
-	use 'L3MON4D3/LuaSnip' -- snippets
-	use 'lewis6991/gitsigns.nvim' -- git integration
-	use 'markonm/traces.vim' -- live preview for substitution
-	use { 'michaelb/sniprun', run = 'bash ./install.sh' } -- run code snippets
-	use 'mfussenegger/nvim-dap' -- debugger
-	use 'neovim/nvim-lspconfig' -- completion, go-to, etc.
-	use 'numToStr/Comment.nvim' -- comments
-	use 'numToStr/FTerm.nvim' -- terminal popup
-	use 'nvim-lua/plenary.nvim' -- UI dependency
-	use 'nvim-lua/popup.nvim' -- UI dependency
-	use 'nvim-lualine/lualine.nvim' -- status line
-	use 'nvim-telescope/telescope.nvim' -- aesthetic fuzzyfinder
-	use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
-	use 'nvim-telescope/telescope-symbols.nvim'
-	use 'nvim-treesitter/nvim-treesitter' -- additional syntax highlighting
-	use 'nvim-treesitter/nvim-treesitter-textobjects'
-	use 'olimorris/onedarkpro.nvim' -- colorscheme
-	use 'phaazon/hop.nvim' -- easy navigation
-	use 'stevearc/dressing.nvim' -- use telescope for more things
-	use 'rafamadriz/friendly-snippets' -- snippets
-	use 'rmagatti/auto-session' -- sessions based on cwd
-	use 'roxma/vim-paste-easy' -- auto-enter paste mode on paste
-	use 'RRethy/vim-illuminate' -- highlight symbol under cursor
-	use 'ryanoasis/vim-devicons' -- add icons to files
-	use 'rmagatti/goto-preview' -- goto preview popup
-	use 'simrat39/symbols-outline.nvim' -- menu for symbols
-	use 'skywind3000/asyncrun.vim' -- run commands async
-	use 'tpope/vim-surround' -- easily change surrounding brackets, quotes, etc.
-	use 'weilbith/nvim-code-action-menu' -- show menu for code actions
-	use 'williamboman/nvim-lsp-installer' -- install lsp servers
-	use 'windwp/nvim-ts-autotag' -- autoclose html, etc. tags
-	use 'windwp/nvim-autopairs' -- auto pair ( {, etc.
+
+	use { -- Colorschemes
+		{ 'EdenEast/nightfox.nvim' },
+		{ 'folke/tokyonight.nvim' },
+		{ 'mhartington/oceanic-next' },
+		{ 'olimorris/onedarkpro.nvim' },
+		{ 'rose-pine/neovim' },
+		{ 'shaunsingh/nord.nvim' },
+		{ 'tiagovla/tokyodark.nvim' },
+	}
+
+	use { -- Programming support
+		{ 'L3MON4D3/LuaSnip' }, -- snippets
+		{ 'markonm/traces.vim' }, -- live preview for substitution
+		{ 'michaelb/sniprun', run = 'bash ./install.sh' }, -- run code snippets
+		{ 'mfussenegger/nvim-dap' }, -- debugger
+		{ 'numToStr/Comment.nvim' }, -- comments
+		{ 'nvim-treesitter/nvim-treesitter' }, -- additional syntax highlighting
+		{ 'nvim-treesitter/nvim-treesitter-textobjects' },
+		{ 'rafamadriz/friendly-snippets' }, -- snippets
+		{ 'skywind3000/asyncrun.vim' }, -- run commands async
+		{ 'tpope/vim-surround' }, -- easily change surrounding brackets, quotes, etc.
+		{ 'windwp/nvim-ts-autotag' }, -- autoclose html, etc. tags
+		{ 'windwp/nvim-autopairs' }, -- auto pair ( {, etc.
+	}
+
+	use { -- LSP
+		{ 'rmagatti/goto-preview' }, -- goto preview popup
+		{ 'neovim/nvim-lspconfig' }, -- completion, go-to, etc.
+		{ 'williamboman/nvim-lsp-installer' }, -- install lsp servers
+	}
+
+	use { -- Telescope
+		{ 'nvim-telescope/telescope.nvim' },
+		{ 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
+		{ 'nvim-telescope/telescope-symbols.nvim' },
+		{ 'stevearc/dressing.nvim' }, -- use telescope for more things
+	}
+
+	use { -- UI
+		{ 'akinsho/bufferline.nvim' }, -- nice buffer line
+		{ 'folke/which-key.nvim' }, -- shortcut popup
+		{ 'folke/trouble.nvim' }, -- aesthetic diagnostics page
+		{ 'FeiyouG/command_center.nvim' }, -- command palette
+		{ 'glepnir/dashboard-nvim' }, -- fancy start page
+		{ 'kosayoda/nvim-lightbulb' }, -- show a lightbulb for code actions
+		{ 'kyazdani42/nvim-tree.lua' }, -- filetree
+		{ 'kyazdani42/nvim-web-devicons' }, -- file icons
+		{ 'lewis6991/gitsigns.nvim' }, -- git integration
+		{ 'numToStr/FTerm.nvim' }, -- terminal popup
+		{ 'nvim-lua/plenary.nvim' }, -- dependency
+		{ 'nvim-lua/popup.nvim' }, -- dependency
+		{ 'nvim-lualine/lualine.nvim' }, -- status line
+		{ 'RRethy/vim-illuminate' }, -- highlight symbol under cursor
+		{ 'ryanoasis/vim-devicons' }, -- add icons to files
+		{ 'simrat39/symbols-outline.nvim' }, -- menu for symbols
+		{ 'weilbith/nvim-code-action-menu' }, -- show menu for code actions
+	}
+
+	use { -- Utility
+		{ 'phaazon/hop.nvim' }, -- easy navigation
+		{ 'rmagatti/auto-session' }, -- sessions based on cwd
+		{ 'roxma/vim-paste-easy' }, -- auto-enter paste mode on paste
+	}
 end)
 
 ----------------------------------
@@ -453,7 +472,6 @@ ins_left {
 }
 
 ins_left {
-	-- filesize component
 	'filesize',
 	cond = conditions.buffer_not_empty,
 }
@@ -474,7 +492,7 @@ ins_right {
 }
 
 ins_right {
-	-- Lsp server name .
+	-- LSP server name
 	function()
 		local msg = 'N/A'
 		local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
@@ -495,7 +513,7 @@ ins_right {
 }
 
 ins_right {
-	'o<cmd>encoding', -- option component same as &encoding in viml
+	'o<cmd>encoding',
 	fmt = string.upper,
 	cond = conditions.hide_in_width,
 	color = { fg = colors.green, gui = 'bold' },
@@ -544,7 +562,6 @@ require('nvim-autopairs').setup {}
 --        nvim-cmp config
 ----------------------------------
 require('luasnip.loaders.from_vscode').lazy_load()
-require("luasnip.loaders.from_snipmate").lazy_load()
 
 local luasnip = require('luasnip')
 local cmp = require('cmp')
@@ -672,10 +689,6 @@ require('nvim-treesitter.configs').setup({
 
 	highlight = {
 		enable = true,
-		-- Setting this to true will run `<cmd>h syntax` and tree-sitter at the same time.
-		-- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-		-- Using this option may slow down your editor, and you may see some duplicate highlights.
-		-- Instead of true it can also be a list of languages
 		additional_vim_regex_highlighting = false,
 	},
 	textobjects = {
@@ -694,7 +707,6 @@ require('nvim-treesitter.configs').setup({
 			lookahead = true,
 
 			keymaps = {
-				-- You can use the capture groups defined in textobjects.scm
 				["af"] = "@function.outer",
 				["if"] = "@function.inner",
 				["ac"] = "@class.outer",
@@ -887,7 +899,7 @@ command_center.add({
 		cmd = '<cmd>Telescope spell_suggest<cr>',
 	},
 	{
-		description = 'Open color scheme picker',
+		description = 'Change colorscheme',
 		cmd = '<cmd>Telescope colorscheme<cr>',
 	},
 	{
@@ -1197,4 +1209,5 @@ wk.register({
 	['<Right>'] = 'Next buffer',
 	['<s-left>'] = 'Move buffer left',
 	['<s-Right>'] = 'Move buffer right',
+	['<LeftDrag>'] = 'Move mouse cursor',
 })

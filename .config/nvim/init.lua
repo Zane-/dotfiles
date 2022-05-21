@@ -113,6 +113,8 @@ nmap('<Left>', '<cmd>BufferLineCyclePrev<cr>')
 nmap('<Right>', '<cmd>BufferLineCycleNext<cr>')
 nmap('<S-Left>', '<cmd>BufferLineMovePrev<cr>')
 nmap('<S-Right>', '<cmd>BufferLineMoveNext<cr>')
+nmap('<S-Right>', '<cmd>BufferLineMoveNext<cr>')
+nmap('tj', '<cmd>BufferLinePick<cr>')
 
 -- FTerm mappings
 nmap('<A-t>',
@@ -300,7 +302,29 @@ require('auto-session').setup {}
 ----------------------------------
 --      bufferline config
 ----------------------------------
-require("bufferline").setup {}
+require('bufferline').setup {
+	options = {
+		buffer_close_icon = '',
+		close_icon = '',
+		separator_style = 'thick',
+		diagnostics = 'nvim_lsp',
+		diagnostics_indicator = function(count, level, diagnostics_dict, context)
+			if context.buffer:current() then
+				return ''
+			end
+			local s = ' '
+			for e, n in pairs(diagnostics_dict) do
+				local sym = e == 'error' and ' '
+						or (e == 'warning' and ' ' or ' ')
+				s = s .. n .. sym
+			end
+			return s
+		end,
+		offsets = {
+			{ filetype = 'NvimTree', text = 'Files' },
+		},
+	},
+}
 
 ----------------------------------
 --        Comment config
@@ -325,7 +349,7 @@ require('hop').setup({ keys = 'etovxqpdygfblzhckisuran' })
 ----------------------------------
 --          LSP config
 ----------------------------------
-local signs = { Error = '', Warn = '', Hint = '', Info = '' }
+local signs = { Error = '', Warn = '', Hint = '', Info = '' }
 for type, icon in pairs(signs) do
 	local hl = 'DiagnosticSign' .. type
 	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
@@ -483,7 +507,7 @@ ins_left { 'progress', color = { fg = colors.fg, gui = 'bold' } }
 ins_right {
 	'diagnostics',
 	sources = { 'nvim_diagnostic' },
-	symbols = { error = ' ', warn = ' ', info = ' ' },
+	symbols = { error = ' ', warn = ' ', info = ' ', hint = ' ' },
 	diagnostics_color = {
 		color_error = { fg = colors.red },
 		color_warn = { fg = colors.yellow },
@@ -1156,6 +1180,7 @@ wk.register({
 		t = {
 			d = 'Toggle document diagnostics',
 			l = 'Toggle location list',
+			j = 'Jump to buffer',
 			q = 'Toggle quickfix list',
 			w = 'Toggle workspace diagnostics',
 		},

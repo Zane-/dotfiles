@@ -551,7 +551,7 @@ local kind_icons = {
 	Function = '',
 	Constructor = '',
 	Field = '',
-	Variable = '',
+	Variable = '',
 	Class = 'ﴯ',
 	Interface = '',
 	Module = '',
@@ -618,7 +618,7 @@ cmp.setup({
 			end
 		end
 			, { 'i', 'c' }),
-		['<cr>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+		['<cr>'] = cmp.mapping.confirm({ select = true }),
 	}),
 	sources = cmp.config.sources({
 		{ name = 'nvim_lsp' },
@@ -631,7 +631,7 @@ cmp.setup({
 -- Set configuration for specific filetype.
 cmp.setup.filetype('gitcommit', {
 	sources = cmp.config.sources({
-		{ name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
+		{ name = 'cmp_git' },
 	}, {
 		{ name = 'buffer' },
 	})

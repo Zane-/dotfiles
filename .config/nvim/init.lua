@@ -67,7 +67,6 @@ end
 
 g.mapleader = ',' -- remap leader to ,
 
-imap('jk', '<Esc>') -- easy normal mode
 nmap(';', ':') -- easy command input
 nmap('wr', '<cmd>w!<cr>') -- Quick Save/Quit
 nmap('wq', '<cmd>wq!<cr>')
@@ -80,7 +79,7 @@ nmap('<leader><space>', '<cmd>nohlsearch<cr>') -- Turn off search highlight
 nmap('rg', ':%s/') -- Replace
 nmap('rl', ':s/')
 nmap('rw', ':%s/\\<<C-r><C-w>\\>/')
-nmap('qq', '<cmd>bdelete<cr>') -- Buffers
+nmap('qq', '<cmd>Bdelete<cr>') -- Buffers
 nmap('<C-v>', '<cmd>vsp<cr>') -- Splits
 nmap('<C-x>', '<cmd>sp<cr>')
 nmap('<leader>dw', '<cmd>%s/\\s\\+$//<cr>:nohlsearch<cr>') -- delete trailing whitespace
@@ -116,6 +115,15 @@ nmap('<S-Right>', '<cmd>BufferLineMoveNext<cr>')
 nmap('<S-Right>', '<cmd>BufferLineMoveNext<cr>')
 nmap('tj', '<cmd>BufferLinePick<cr>')
 
+-- dap mappings
+nmap('<c-d>', '<cmd>lua require("dapui").toggle()<cr>')
+nmap('bb', '<cmd>DapToggleBreakpoint<cr>')
+nmap('bc', '<cmd>DapContinue<cr>')
+nmap('bt', '<cmd>DapTerminate<cr>')
+nmap('bso', '<cmd>DapStepOver<cr>')
+nmap('bsi', '<cmd>DapStepInto<cr>')
+nmap('bsb', '<cmd>DapStepOut<cr>')
+
 -- FTerm mappings
 nmap('<A-t>',
 	'<cmd>lua require("FTerm").toggle()<cr>')
@@ -133,7 +141,7 @@ nmap('<C-n>', '<cmd>NvimTreeToggle<cr>')
 nmap('sr', '<cmd>SnipRun<cr>')
 nmap('sq', '<cmd>SnipReset<cr>')
 nmap('sc', '<cmd>SnipClose<cr>')
-vmap('sr', '<cmd>SnipRun<cr>')
+vmap('sr', "<cmd>'<,'>SnipRun<cr>")
 
 -- Telescope mappings
 nmap('\\', '<cmd>Telescope live_grep hidden=true<cr>')
@@ -207,15 +215,21 @@ require('packer').startup(function()
 		{ 'tiagovla/tokyodark.nvim' },
 	}
 
+	use { -- DAP
+		{ 'mfussenegger/nvim-dap' }, -- debugger
+		{ 'mfussenegger/nvim-dap-python' }, -- debugger config for python
+		{ 'theHamsta/nvim-dap-virtual-text' }
+	}
+
 	use { -- Programming support
 		{ 'L3MON4D3/LuaSnip' }, -- snippets
 		{ 'markonm/traces.vim' }, -- live preview for substitution
 		{ 'michaelb/sniprun', run = 'bash ./install.sh' }, -- run code snippets
-		{ 'mfussenegger/nvim-dap' }, -- debugger
 		{ 'numToStr/Comment.nvim' }, -- comments
 		{ 'nvim-treesitter/nvim-treesitter' }, -- additional syntax highlighting
 		{ 'nvim-treesitter/nvim-treesitter-textobjects' },
 		{ 'rafamadriz/friendly-snippets' }, -- snippets
+		{ 'rcarriga/nvim-dap-ui' }, -- UI for debugger
 		{ 'skywind3000/asyncrun.vim' }, -- run commands async
 		{ 'tpope/vim-surround' }, -- easily change surrounding brackets, quotes, etc.
 		{ 'windwp/nvim-ts-autotag' }, -- autoclose html, etc. tags
@@ -256,6 +270,8 @@ require('packer').startup(function()
 	}
 
 	use { -- Utility
+		{ 'famiu/bufdelete.nvim' }, -- better buffer delete command
+		{ 'max397574/better-escape.nvim' }, -- better insert mode exit
 		{ 'phaazon/hop.nvim' }, -- easy navigation
 		{ 'rmagatti/auto-session' }, -- sessions based on cwd
 		{ 'roxma/vim-paste-easy' }, -- auto-enter paste mode on paste
@@ -265,30 +281,7 @@ end)
 ----------------------------------
 --             Colors
 ----------------------------------
-cmd([[
-colorscheme tokyonight
-set background=dark
-
-highlight Visual ctermfg=NONE ctermbg=241 cterm=NONE guifg=NONE guibg=#44475a gui=NONE
-highlight Folded ctermbg=0
-highlight Search ctermfg=NONE ctermbg=241 cterm=NONE guibg=#44475a gui=NONE
-highlight CursorLine term=bold cterm=bold guibg=Grey40
-highlight CursorLineNr term=bold cterm=none ctermbg=none ctermfg=yellow gui=bold
-highlight MatchParen ctermfg=46 ctermbg=241 cterm=NONE
-highlight Pmenu ctermbg=0 ctermfg=3
-
-highlight! link SignColumn LineNr
-highlight CocHighlightText ctermfg=None ctermbg=241 guibg=#44475a gui=NONE
-
-autocmd ColorScheme * highlight! link SignColumn LineNr
-
-augroup cursor_behaviour
-    autocmd!
-    autocmd VimEnter * silent !echo -ne "\e[2 q"
-    let &t_SI = "\e[5 q"
-    let &t_EI = "\e[2 q"
-augroup END
-]])
+cmd [[ colorscheme tokyonight ]]
 
 --================================================
 --                 Plugin Config
@@ -306,6 +299,8 @@ require('bufferline').setup {
 	options = {
 		buffer_close_icon = '',
 		close_icon = '',
+		close_command = 'Bdelete! %d',
+		right_mouse_command = 'Bdelete! %d',
 		separator_style = 'thick',
 		diagnostics = 'nvim_lsp',
 		diagnostics_indicator = function(count, level, diagnostics_dict, context)
@@ -327,9 +322,50 @@ require('bufferline').setup {
 }
 
 ----------------------------------
+--    better-escpape config
+----------------------------------
+require('better_escape').setup {
+	mapping = { 'jk' },
+}
+----------------------------------
 --        Comment config
 ----------------------------------
-require('Comment').setup()
+require('Comment').setup {}
+
+----------------------------------
+--          dap config
+----------------------------------
+require('dapui').setup {}
+
+-- Python DAP Configuration
+require('dap-python').setup()
+
+require("nvim-dap-virtual-text").setup {
+	commented = true,
+}
+
+-- Auto-open DAP UI on events
+local dap, dapui = require('dap'), require('dapui')
+dap.listeners.after.event_initialized['dapui_config'] = function()
+	dapui.open()
+end
+dap.listeners.before.event_terminated['dapui_config'] = function()
+	dapui.close()
+end
+dap.listeners.before.event_exited['dapui_config'] = function()
+	dapui.close()
+end
+
+-- Gutter colors and symbols
+vim.highlight.create('DapBreakpoint', { ctermbg = 0, guifg = '#993939', guibg = '#31353f' }, false)
+vim.highlight.create('DapLogPoint', { ctermbg = 0, guifg = '#61afef', guibg = '#31353f' }, false)
+vim.highlight.create('DapStopped', { ctermbg = 0, guifg = '#98c379', guibg = '#31353f' }, false)
+
+vim.fn.sign_define('DapBreakpoint', { text = '', texthl = 'DapBreakpoint', linehl = 'DapBreakpoint', numhl = 'DapBreakpoint' })
+vim.fn.sign_define('DapBreakpointCondition', { text = 'ﳁ', texthl = 'DapBreakpoint', linehl = 'DapBreakpoint', numhl = 'DapBreakpoint' })
+vim.fn.sign_define('DapBreakpointRejected', { text = '', texthl = 'DapBreakpoint', linehl = 'DapBreakpoint', numhl = 'DapBreakpoint' })
+vim.fn.sign_define('DapLogPoint', { text = '', texthl = 'DapLogPoint', linehl = 'DapLogPoint', numhl = 'DapLogPoint' })
+vim.fn.sign_define('DapStopped', { text = '', texthl = 'DapStopped', linehl = 'DapStopped', numhl = 'DapStopped' })
 
 ----------------------------------
 --       Dashboard config
@@ -339,12 +375,12 @@ g.dashboard_default_executive = 'telescope'
 ----------------------------------
 --       gitsigns config
 ----------------------------------
-require('gitsigns').setup()
+require('gitsigns').setup {}
 
 ----------------------------------
 --          hop config
 ----------------------------------
-require('hop').setup({ keys = 'etovxqpdygfblzhckisuran' })
+require('hop').setup { keys = 'etovxqpdygfblzhckisuran' }
 
 ----------------------------------
 --          LSP config
@@ -673,13 +709,17 @@ cmp.setup({
 	})
 })
 
--- Set configuration for specific filetype.
 cmp.setup.filetype('gitcommit', {
 	sources = cmp.config.sources({
 		{ name = 'cmp_git' },
 	}, {
 		{ name = 'buffer' },
 	})
+})
+
+-- disable cmp for dap-repl window
+cmp.setup.filetype('dap-repl', {
+	enabled = false
 })
 
 -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
@@ -700,15 +740,16 @@ cmp.setup.cmdline(':', {
 	})
 })
 
+
 ----------------------------------
 --       nvim-tree config
 ----------------------------------
-require('nvim-tree').setup()
+require('nvim-tree').setup {}
 
 ----------------------------------
 --    nvim-treesitter config
 ----------------------------------
-require('nvim-treesitter.configs').setup({
+require('nvim-treesitter.configs').setup {
 	ensure_installed = { 'c', 'cpp', 'css', 'html', 'java', 'javascript', 'lua', 'python', 'rust', 'yaml' },
 
 	highlight = {
@@ -741,7 +782,7 @@ require('nvim-treesitter.configs').setup({
 	autotag = {
 		enable = true,
 	},
-})
+}
 
 ----------------------------------
 --       Telescope config
@@ -1038,6 +1079,14 @@ wk.register({
 		S = 'Surrounding and expand',
 	},
 	B = 'Jump to beginning of line',
+	b = {
+		b = 'Toggle breakpoint',
+		c = '[DAP] Continue',
+		['so'] = '[DAP] Step over',
+		['si'] = '[DAP] Step into',
+		['sb'] = '[DAP] Step out',
+		t = '[DAP] Terminate',
+	},
 	d = {
 		a = {
 			c = 'a class',
@@ -1218,6 +1267,7 @@ wk.register({
 	},
 	[';'] = 'Input command',
 	['\\'] = 'Search through all files',
+	['<c-d>'] = 'Toggle DAP',
 	['<c-k>'] = 'Open signature help',
 	['<c-l>'] = 'Unhighlight search results',
 	['<c-n>'] = 'Toggle file tree',

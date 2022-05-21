@@ -29,6 +29,8 @@ opt.smartindent = true -- indent after brackets
 opt.splitbelow = true -- split splits below
 opt.splitright = true -- vertical split splits right
 opt.tabstop = 2 -- make tabs 2-spaces wide
+opt.termguicolors = true -- better colors
+opt.timeoutlen = 500 -- refresh for something?
 opt.undofile = true -- persistent undo
 opt.updatetime = 300 -- faster update time
 
@@ -67,10 +69,9 @@ g.mapleader = ',' -- remap leader to ,
 
 imap('jk', '<Esc>') -- easy normal mode
 nmap(';', ':') -- easy command input
-nmap('<leader>w', '<cmd>w!<cr>') -- Quick Save/Quit
-nmap('<leader>wq', '<cmd>wq!<cr>')
-nmap('<leader>q', '<cmd>q<cr>')
-nmap('<leader>qq', '<cmd>q!<cr>')
+nmap('wr', '<cmd>w!<cr>') -- Quick Save/Quit
+nmap('wq', '<cmd>wq!<cr>')
+nmap('qa', '<cmd>qa<cr>')
 nmap('B', '^') -- Line navigation
 nmap('E', '$')
 nmap('j', 'gj') -- move up and down by display rather than line number
@@ -79,18 +80,13 @@ nmap('<leader><space>', '<cmd>nohlsearch<cr>') -- Turn off search highlight
 nmap('rg', ':%s/') -- Replace
 nmap('rl', ':s/')
 nmap('rw', ':%s/\\<<C-r><C-w>\\>/')
-nmap('tq', '<cmd>bdelete<cr>') -- Buffers
-nmap('tt', '<cmd>tabnew<cr>')
-nmap('<Left>', '<cmd>bnext<cr>')
-nmap('<Right>', '<cmd>bprev<cr>')
+nmap('qq', '<cmd>bdelete<cr>') -- Buffers
 nmap('<C-v>', '<cmd>vsp<cr>') -- Splits
 nmap('<C-x>', '<cmd>sp<cr>')
 nmap('<leader>dw', '<cmd>%s/\\s\\+$//<cr>:nohlsearch<cr>') -- delete trailing whitespace
 nmap('<leader>dm', '<cmd>%s/^M//g<cr>') -- delete ^M
 nmap('<S-s>', '<cmd>m+<cr>') -- move lines with shift+w/s
 nmap('<S-w>', '<cmd>m-2<cr>')
-nmap('Q', '@q') -- use macros with Q (and in visual mode)
-vmap('Q', '<cmd>norm @q<cr>')
 vmap('<', '<gv') -- don't unselect after shifting in visual mode
 vmap('>', '>gv')
 nmap('<cr>', 'o<Esc>') -- insert blank line with enter
@@ -113,10 +109,11 @@ nmap('fl', '<cmd>Telescope current_buffer_fuzzy_find<cr>')
 nmap('fr', '<cmd>Telescope oldfiles<cr>')
 nmap('<space>p', '<cmd>Telescope command_center<cr>')
 
--- barbar mappings
-nmap('bp', '<cmd>BufferPick<cr>')
-nmap('<S-Left>', '<cmd>BufferMovePrevious<cr>')
-nmap('<S-Right>', '<cmd>BufferMoveNext<cr>')
+-- bufferline mappings
+nmap('<Left>', '<cmd>BufferLineCyclePrev<cr>')
+nmap('<Right>', '<cmd>BufferLineCycleNext<cr>')
+nmap('<S-Left>', '<cmd>BufferLineMovePrev<cr>')
+nmap('<S-Right>', '<cmd>BufferLineMoveNext<cr>')
 
 -- FTerm mappings
 nmap('<A-t>',
@@ -132,7 +129,7 @@ nmap('wl', '<cmd>HopLine<cr>')
 nmap('sr', '<cmd>SnipRun<cr>')
 nmap('sq', '<cmd>SnipReset<cr>')
 nmap('sc', '<cmd>SnipClose<cr>')
-vmap('sr', '<cmd>"<,">SnipRun<cr>')
+vmap('sr', '<cmd>SnipRun<cr>')
 
 -- LSP mappings
 nmap('<space>e', '<cmd>lua vim.diagnostic.open_float()<cr>')
@@ -166,7 +163,7 @@ local on_attach = function(client, bufnr)
 	nmap_buf(bufnr, '<space>t', '<cmd>TroubleToggle<cr>')
 	nmap_buf(bufnr, '<leader>tw', '<cmd>TroubleToggle workspace_diagnostics<cr>')
 	nmap_buf(bufnr, '<leader>td', '<cmd>TroubleToggle document_diagnostics<cr>')
-	nmap_buf(bufnr, '<leader>tf', '<cmd>TroubleToggle quickfix<cr>')
+	nmap_buf(bufnr, '<leader>tq', '<cmd>TroubleToggle quickfix<cr>')
 	nmap_buf(bufnr, '<leader>tl', '<cmd>TroubleToggle loclist<cr>')
 	nmap_buf(bufnr, 'gR', '<cmd>TroubleToggle lsp_references<cr>')
 
@@ -193,16 +190,15 @@ augroup end
 require('packer').startup(function()
 	use 'wbthomason/packer.nvim' -- this package manager
 
-	----------------------------------
-	--        trouble config
-	----------------------------------
-	require('trouble').setup {}
+	use 'akinsho/bufferline.nvim' -- nice buffer line
 	use 'folke/tokyonight.nvim' -- colorscheme
+	use 'folke/which-key.nvim' -- shortcut popup
 	use 'glepnir/dashboard-nvim' -- fancy start page
 	use 'folke/trouble.nvim' -- aesthetic diagnostics page
 	use 'FeiyouG/command_center.nvim' -- command palette
 	use 'kosayoda/nvim-lightbulb' -- show a lightbulb for code actions
 	use 'kyazdani42/nvim-tree.lua' -- filetree
+	use 'kyazdani42/nvim-web-devicons' -- file icons
 	use 'lewis6991/gitsigns.nvim' -- git integration
 	use 'markonm/traces.vim' -- live preview for substitution
 	use { 'michaelb/sniprun', run = 'bash ./install.sh' } -- run code snippets
@@ -231,10 +227,6 @@ require('packer').startup(function()
 	use 'simrat39/symbols-outline.nvim' -- menu for symbols
 	use 'skywind3000/asyncrun.vim' -- run commands async
 	use 'tpope/vim-surround' -- easily change surrounding brackets, quotes, etc.
-	use {
-		'romgrk/barbar.nvim', -- fancy tabs
-		requires = { { 'kyazdani42/nvim-web-devicons' } }
-	}
 	use 'weilbith/nvim-code-action-menu' -- show menu for code actions
 	use 'williamboman/nvim-lsp-installer' -- install lsp servers
 	use 'windwp/nvim-ts-autotag' -- autoclose html, etc. tags
@@ -277,6 +269,11 @@ augroup END
 --      auto-session config
 ----------------------------------
 require('auto-session').setup {}
+
+----------------------------------
+--      bufferline config
+----------------------------------
+require("bufferline").setup {}
 
 ----------------------------------
 --        Comment config
@@ -588,6 +585,10 @@ local command_center = require('command_center')
 
 command_center.add({
 	{
+		description = 'Open keymap',
+		cmd = '<cmd>WhichKey<cr>',
+	},
+	{
 		description = 'Find files',
 		cmd = '<cmd>Telescope find_files<cr>',
 	},
@@ -740,10 +741,6 @@ command_center.add({
 		cmd = '<cmd>Telescope filetypes<cr>',
 	},
 	{
-		description = 'Open keymap',
-		cmd = '<cmd>Telescope keymaps<cr>',
-	},
-	{
 		description = 'Open symbol map',
 		cmd = '<cmd>Telescope symbols<cr>',
 	},
@@ -855,3 +852,220 @@ require('telescope').load_extension('fzf')
 --        trouble config
 ----------------------------------
 require('trouble').setup {}
+
+----------------------------------
+--       which-key config
+----------------------------------
+local wk = require('which-key')
+
+wk.register({
+	c = {
+		a = {
+			c = 'a class',
+			f = 'a function',
+		},
+		i = {
+			c = 'a class',
+			f = 'a function',
+		},
+		s = 'Surrounding',
+		S = 'Surrounding and expand',
+	},
+	B = 'Jump to beginning of line',
+	d = {
+		a = {
+			c = 'a class',
+			f = 'a function',
+		},
+		i = {
+			c = 'a class',
+			f = 'a function',
+		},
+		s = 'Surrounding',
+	},
+	D = 'Preview symbol information',
+	E = 'Jump to end of line',
+	g = {
+		b = 'Toggle comment blockwise',
+		c = 'Toggle comment linewise',
+		d = 'Jump to definition for symbol under cursor',
+		D = 'Jump to decleration for symbol under cursor',
+		p = 'Open definition preview for symbol under cursor',
+		P = 'Close all preview windows',
+		R = 'Open references quickfix window for symbol under cursor',
+		r = 'Open references preview for symbol under cursor',
+		u = {
+			a = {
+				c = 'a class',
+				f = 'a function',
+			},
+			i = {
+				c = 'a class',
+				f = 'a function',
+			}
+		},
+		U = {
+			a = {
+				c = 'a class',
+				f = 'a function',
+			},
+			i = {
+				c = 'a class',
+				f = 'a function',
+			}
+		},
+		['~'] = {
+			a = {
+				c = 'a class',
+				f = 'a function',
+			},
+			i = {
+				c = 'a class',
+				f = 'a function',
+			},
+		}
+	},
+	f = {
+		b = 'Search open buffers',
+		f = 'Search file',
+		l = 'Search in current file',
+		r = 'Open recent file',
+	},
+	p = {
+		c = 'a class',
+		f = 'a function',
+	},
+	q = {
+		a = 'Quit all',
+		q = 'Close buffer',
+	},
+	r = {
+		g = 'Replace all',
+		l = 'Replace on line only',
+		n = 'Rename symbol under cursor',
+		w = 'Rename word under cursor',
+	},
+	s = {
+		c = 'Clear all execution results',
+		r = 'Execute line of code',
+		q = 'Stop currently executing code',
+	},
+	S = 'Move line down',
+	v = {
+		a = {
+			c = 'a class',
+			f = 'a function',
+		},
+		i = {
+			c = 'a class',
+			f = 'a function',
+		},
+	},
+	w = {
+		l = 'Jump to line',
+		q = 'Save and quit',
+		r = 'Save',
+		w = 'Jump to word',
+	},
+	W = 'Move line up',
+	y = {
+		a = {
+			c = 'a class',
+			f = 'a function',
+		},
+		i = {
+			c = 'a class',
+			f = 'a function',
+		},
+		s = 'Add surrounding',
+		S = 'Add surrounding and expand',
+		['ss'] = 'Add surrounding to entire line',
+	},
+	Y = 'Copy until end of line',
+	z = {
+		f = {
+			a = {
+				c = 'a class',
+				f = 'a function',
+			},
+			i = {
+				c = 'a class',
+				f = 'a function',
+			},
+		},
+	},
+	['<space>'] = {
+		d = 'Open type definiton for symbol under cursor',
+		e = 'Open diagnostics window',
+		f = 'Format current file',
+		p = 'Open command center',
+		t = 'Toggle trouble menu',
+		w = {
+			a = 'Add workspace folder',
+			l = 'List workspace folders',
+			r = 'Remove workspace folder',
+		},
+	},
+	['<leader>'] = {
+		d = {
+			w = 'Trim trailing whitespace',
+			m = 'Delete ^M carriage characters',
+		},
+		t = {
+			d = 'Toggle document diagnostics',
+			l = 'Toggle location list',
+			q = 'Toggle quickfix list',
+			w = 'Toggle workspace diagnostics',
+		},
+		['<space>'] = 'Unhighlight search results',
+	},
+	['!'] = {
+		a = {
+			c = 'a class',
+			f = 'a function',
+		},
+		i = {
+			c = 'a class',
+			f = 'a function',
+		},
+	},
+	['<'] = {
+		a = {
+			c = 'a class',
+			f = 'a function',
+		},
+		i = {
+			c = 'a class',
+			f = 'a function',
+		},
+	},
+	['>'] = {
+		a = {
+			c = 'a class',
+			f = 'a function',
+		},
+		I = {
+			C = 'A CLASS',
+			F = 'A FUNCTION',
+		},
+	},
+	[';'] = 'Input command',
+	['\\'] = 'Search through all files',
+	['<c-h>'] = 'Navigate to next mark in snippet',
+	['<c-k>'] = 'Open signature help',
+	['<c-l>'] = 'Unhighlight search results',
+	['<c-n>'] = 'Toggle file tree',
+	['<c-q>'] = 'Close selected window',
+	['<c-v>'] = 'Split window vertically',
+	['<c-x>'] = 'Split window horizontally',
+	['<c-space>'] = 'Trigger autocomplete',
+	['<F1>'] = 'Goto previous location',
+	['<F2>'] = 'Goto next location',
+	['<F3>'] = 'Toggle symbols outline',
+	['<cr>'] = 'Insert blankline',
+	['<m-t>'] = 'Toggle floating terminal',
+	['<Left>'] = 'Previous buffer',
+	['<Right>'] = 'Next buffer',
+	['<s-left>'] = 'Move buffer left',
+	['<s-Right>'] = 'Move buffer right',
+})

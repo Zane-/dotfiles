@@ -1,7 +1,7 @@
 --================================================
 --                 Neovim Config
 --    Author: Zane Bilous
---    Last Modified: 05/18/2022
+--    Last Modified: 05/21/2022
 --    Dependencies:
 --      ripgrep, fzf
 --================================================
@@ -303,6 +303,12 @@ require('hop').setup({ keys = 'etovxqpdygfblzhckisuran' })
 ----------------------------------
 --          LSP config
 ----------------------------------
+local signs = { Error = '', Warn = '', Hint = '', Info = '' }
+for type, icon in pairs(signs) do
+	local hl = 'DiagnosticSign' .. type
+	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+end
+
 require('goto-preview').setup {
 	opacity = 7
 }
@@ -534,7 +540,7 @@ require('nvim-autopairs').setup {}
 ----------------------------------
 --        nvim-cmp config
 ----------------------------------
-require("luasnip.loaders.from_vscode").lazy_load()
+require('luasnip.loaders.from_vscode').lazy_load()
 
 local luasnip = require('luasnip')
 local cmp = require('cmp')

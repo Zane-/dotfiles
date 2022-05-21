@@ -196,11 +196,14 @@ require('packer').startup(function()
 	use 'folke/trouble.nvim' -- aesthetic diagnostics page
 	use 'FeiyouG/command_center.nvim' -- command palette
 	use 'glepnir/dashboard-nvim' -- fancy start page
-	use 'hrsh7th/cmp-buffer'
-	use 'hrsh7th/cmp-cmdline'
-	use 'hrsh7th/cmp-nvim-lsp' -- completion stuff
-	use 'hrsh7th/cmp-path'
-	use 'hrsh7th/nvim-cmp'
+	use {
+		'hrsh7th/nvim-cmp', -- autocompletion
+		{ 'hrsh7th/cmp-buffer' },
+		{ 'hrsh7th/cmp-cmdline' },
+		{ 'hrsh7th/cmp-nvim-lsp' },
+		{ 'hrsh7th/cmp-path' },
+		{ 'saadparwaiz1/cmp_luasnip' },
+	}
 	use 'kosayoda/nvim-lightbulb' -- show a lightbulb for code actions
 	use 'kyazdani42/nvim-tree.lua' -- filetree
 	use 'kyazdani42/nvim-web-devicons' -- file icons
@@ -541,6 +544,7 @@ require('nvim-autopairs').setup {}
 --        nvim-cmp config
 ----------------------------------
 require('luasnip.loaders.from_vscode').lazy_load()
+require("luasnip.loaders.from_snipmate").lazy_load()
 
 local luasnip = require('luasnip')
 local cmp = require('cmp')

@@ -124,7 +124,7 @@ nmap('<S-Right>', '<cmd>BufferLineMoveNext<cr>')
 nmap('tj', '<cmd>BufferLinePick<cr>')
 
 -- dap mappings
-nmap('<c-D>', '<cmd>lua require("dapui").toggle()<cr>')
+nmap('<c-b>', '<cmd>lua require("dapui").toggle()<cr>')
 nmap('bb', '<cmd>DapToggleBreakpoint<cr>')
 nmap('bl', '<cmd>Telescope dap list_breakpoints<cr>')
 nmap('bv', '<cmd>Telescope dap variables<cr>')
@@ -275,14 +275,15 @@ require('packer').startup(function()
 		{ 'nvim-lua/plenary.nvim' }, -- dependency
 		{ 'nvim-lua/popup.nvim' }, -- dependency
 		{ 'nvim-lualine/lualine.nvim' }, -- status line
+		{ 'petertriho/nvim-scrollbar' }, -- scrollbar
 		{ 'RRethy/vim-illuminate' }, -- highlight symbol under cursor
-		{ 'ryanoasis/vim-devicons' }, -- add icons to files
 		{ 'simrat39/symbols-outline.nvim' }, -- menu for symbols
 		{ 'weilbith/nvim-code-action-menu' }, -- show menu for code actions
 	}
 
 	use { -- Utility
 		{ 'famiu/bufdelete.nvim' }, -- better buffer delete command
+		{ 'karb94/neoscroll.nvim' }, -- smooth scrolling
 		{ 'max397574/better-escape.nvim' }, -- better insert mode exit
 		{ 'phaazon/hop.nvim' }, -- easy navigation
 		{ 'rmagatti/auto-session' }, -- sessions based on cwd
@@ -759,6 +760,11 @@ cmp.setup.cmdline(':', {
 
 
 ----------------------------------
+--       neoscroll config
+----------------------------------
+require('neoscroll').setup()
+
+----------------------------------
 --       nvim-tree config
 ----------------------------------
 require('nvim-tree').setup {}
@@ -800,6 +806,11 @@ require('nvim-treesitter.configs').setup {
 		enable = true,
 	},
 }
+
+----------------------------------
+--       scrollbar config
+----------------------------------
+require("scrollbar").setup()
 
 ----------------------------------
 --       Telescope config
@@ -1307,7 +1318,7 @@ wk.register({
 	},
 	[';'] = 'Input command',
 	['\\'] = 'Search through all files',
-	['<c-D>'] = 'Toggle DAP sidebar',
+	['<c-b>'] = 'Toggle DAP sidebar',
 	['<c-k>'] = 'Open signature help',
 	['<c-l>'] = 'Unhighlight search results',
 	['<c-n>'] = 'Toggle file tree',

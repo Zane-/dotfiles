@@ -131,6 +131,10 @@ nmap('<A-v>', '<cmd>lua require("nvterm.terminal").toggle("vertical")<cr>')
 map('t', '<A-v>', '<cmd>lua require("nvterm.terminal").toggle("vertical")<cr>')
 nmap('<A-x>', '<cmd>lua require("nvterm.terminal").toggle("horizontal")<cr>')
 map('t', '<A-x>', '<cmd>lua require("nvterm.terminal").toggle("horizontal")<cr>')
+nmap('<A-V>', '<cmd>lua require("nvterm.terminal").new("vertical")<cr>')
+map('t', '<A-V>', '<cmd>lua require("nvterm.terminal").new("vertical")<cr>')
+nmap('<A-X>', '<cmd>lua require("nvterm.terminal").new("horizontal")<cr>')
+map('t', '<A-X>', '<cmd>lua require("nvterm.terminal").new("horizontal")<cr>')
 
 -- hop mappings
 nmap('ww', '<cmd>HopWord<cr>')
@@ -1152,6 +1156,14 @@ command_center.add({
 		cmd = '<cmd>lua require("nvim.terminal").toggle("horizontal")<cr>',
 	},
 	{
+		description = 'New terminal in vertical split',
+		cmd = '<cmd>lua require("nvim.terminal").new("vertical")<cr>',
+	},
+	{
+		description = 'New terminal in horizontal split',
+		cmd = '<cmd>lua require("nvim.terminal").new("horizontal")<cr>',
+	},
+	{
 		description = 'Toggle paste mode',
 		cmd = '<cmd>:set paste!<cr>',
 	},
@@ -1465,4 +1477,6 @@ wk.register({
 	['<A-t>'] = 'Toggle floating terminal',
 	['<A-v>'] = 'Toggle terminal in vertical split',
 	['<A-x>'] = 'Toggle terminal in horizontal split',
+	['<A-V>'] = 'New terminal in vertical split',
+	['<A-X>'] = 'New terminal in horizontal split',
 })

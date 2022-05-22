@@ -135,6 +135,7 @@ nmap('<A-V>', '<cmd>lua require("nvterm.terminal").new("vertical")<cr>')
 map('t', '<A-V>', '<cmd>lua require("nvterm.terminal").new("vertical")<cr>')
 nmap('<A-X>', '<cmd>lua require("nvterm.terminal").new("horizontal")<cr>')
 map('t', '<A-X>', '<cmd>lua require("nvterm.terminal").new("horizontal")<cr>')
+map('t', '<C-q>', '<cmd>close<cr>')
 
 -- hop mappings
 nmap('ww', '<cmd>HopWord<cr>')

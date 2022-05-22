@@ -27,8 +27,8 @@ opt.smartindent = true -- indent after brackets
 opt.splitbelow = true -- split splits below
 opt.splitright = true -- vertical split splits right
 opt.tabstop = 2 -- make tabs 2-spaces wide
-opt.termguicolors = true -- better colors
-opt.timeoutlen = 500 -- refresh for something?
+opt.termguicolors = true -- better colors?
+opt.timeoutlen = 500 -- quicker inputs
 opt.undofile = true -- persistent undo
 opt.updatetime = 300 -- faster update time
 
@@ -222,6 +222,7 @@ require('packer').startup(function()
 		{ 'folke/tokyonight.nvim' },
 		{ 'mhartington/oceanic-next' },
 		{ 'olimorris/onedarkpro.nvim' },
+		{ 'rebelot/kanagawa.nvim' },
 		{ 'rose-pine/neovim' },
 		{ 'shaunsingh/nord.nvim' },
 		{ 'tiagovla/tokyodark.nvim' },
@@ -294,7 +295,7 @@ end)
 ----------------------------------
 --             Colors
 ----------------------------------
-cmd [[ colorscheme tokyonight ]]
+cmd [[ colorscheme nordfox ]]
 
 --================================================
 --                 Plugin Config
@@ -1424,9 +1425,9 @@ wk.register({
 			c = 'a class',
 			f = 'a function',
 		},
-		I = {
-			C = 'A CLASS',
-			F = 'A FUNCTION',
+		i = {
+			c = 'a class',
+			f = 'a function',
 		},
 	},
 	[';'] = 'Input command',

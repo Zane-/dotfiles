@@ -1,6 +1,3 @@
---================================================
---                 Neovim Config
---    Author: Zane Bilous
 --    Last Modified: 05/21/2022
 --    Dependencies:
 --      ripgrep, fzf
@@ -316,7 +313,6 @@ local function button(sc, txt, keybind)
 		cursor = 5,
 		width = 36,
 		align_shortcut = 'right',
-		hl = 'AlphaButtons',
 	}
 
 	if keybind then
@@ -369,7 +365,7 @@ options.header = {
 	val = ascii,
 	opts = {
 		position = 'center',
-		hl = 'AlphaHeader',
+		hl = 'Label',
 	},
 }
 

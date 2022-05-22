@@ -148,7 +148,7 @@ nmap('wl', '<cmd>HopLine<cr>')
 -- nvim-tree mappings
 nmap('<C-n>', '<cmd>NvimTreeToggle<cr>')
 
--- SnipRun mapings
+-- SnipRun mappings
 nmap('sr', '<cmd>SnipRun<cr>')
 nmap('sq', '<cmd>SnipReset<cr>')
 nmap('sc', '<cmd>SnipClose<cr>')
@@ -275,7 +275,6 @@ require('packer').startup(function()
 		{ 'nvim-lua/plenary.nvim' }, -- dependency
 		{ 'nvim-lua/popup.nvim' }, -- dependency
 		{ 'nvim-lualine/lualine.nvim' }, -- status line
-		{ 'petertriho/nvim-scrollbar' }, -- scrollbar
 		{ 'RRethy/vim-illuminate' }, -- highlight symbol under cursor
 		{ 'simrat39/symbols-outline.nvim' }, -- menu for symbols
 		{ 'weilbith/nvim-code-action-menu' }, -- show menu for code actions
@@ -285,6 +284,7 @@ require('packer').startup(function()
 		{ 'famiu/bufdelete.nvim' }, -- better buffer delete command
 		{ 'max397574/better-escape.nvim' }, -- better insert mode exit
 		{ 'phaazon/hop.nvim' }, -- easy navigation
+		{ 'rktjmp/paperplanes.nvim' }, -- upload buffer online
 		{ 'rmagatti/auto-session' }, -- sessions based on cwd
 		{ 'roxma/vim-paste-easy' }, -- auto-enter paste mode on paste
 	}
@@ -757,12 +757,6 @@ cmp.setup.cmdline(':', {
 	})
 })
 
-
-----------------------------------
---       neoscroll config
-----------------------------------
-require('neoscroll').setup()
-
 ----------------------------------
 --       nvim-tree config
 ----------------------------------
@@ -807,9 +801,14 @@ require('nvim-treesitter.configs').setup {
 }
 
 ----------------------------------
---       scrollbar config
+--     paperplanes config
 ----------------------------------
-require("scrollbar").setup()
+require('paperplanes').setup({
+	register = '+',
+	provider = 'ix.io',
+	provider_options = { insecure = true },
+	cmd = 'curl',
+})
 
 ----------------------------------
 --       Telescope config

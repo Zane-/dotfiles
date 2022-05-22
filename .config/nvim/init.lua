@@ -283,7 +283,6 @@ require('packer').startup(function()
 
 	use { -- Utility
 		{ 'famiu/bufdelete.nvim' }, -- better buffer delete command
-		{ 'karb94/neoscroll.nvim' }, -- smooth scrolling
 		{ 'max397574/better-escape.nvim' }, -- better insert mode exit
 		{ 'phaazon/hop.nvim' }, -- easy navigation
 		{ 'rmagatti/auto-session' }, -- sessions based on cwd

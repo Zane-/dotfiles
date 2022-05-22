@@ -9,9 +9,10 @@
 ----------------------------------
 --           Aliases
 ----------------------------------
-local cmd = vim.cmd -- vim commands
-local g   = vim.g -- global for let options
-local opt = vim.opt -- global
+local cmd = vim.cmd
+local g   = vim.g
+local fn  = vim.fn
+local opt = vim.opt
 
 ----------------------------------
 --           Options
@@ -101,6 +102,7 @@ nmap('<bs>', 'dd') -- delete line with backspace
 nmap('<C-q>', '<cmd>:close<cr>') -- close window
 nmap('<F1>', '<cmd>lua vim.diagnostic.goto_prev()<cr>') -- cycle between diagnostics
 nmap('<F2>', '<cmd>lua vim.diagnostic.goto_next()<cr>')
+nmap('<leader>cf', '<cmd>e $MYVIMRC | :cd %:p:h <cr>')
 
 -- disable mouse drag entering visual mode
 -- ensure <cr> isn't remapped during cmd enter and quickfix
@@ -159,8 +161,10 @@ nmap('\\', '<cmd>Telescope live_grep hidden=true<cr>')
 nmap('ff', '<cmd>Telescope find_files hidden=true<cr>')
 nmap('fb', '<cmd>Telescope buffers<cr>')
 nmap('fl', '<cmd>Telescope current_buffer_fuzzy_find<cr>')
+nmap('fm', '<cmd>Telescope marks<cr>')
 nmap('fr', '<cmd>Telescope oldfiles<cr>')
 nmap('<space>p', '<cmd>Telescope command_center<cr>')
+nmap('th', '<cmd>Telescope colorscheme<cr>')
 
 -- LSP mappings
 -- These only bind when an LSP is attached
@@ -266,7 +270,7 @@ require('packer').startup(function()
 		{ 'folke/which-key.nvim' }, -- shortcut popup
 		{ 'folke/trouble.nvim' }, -- aesthetic diagnostics page
 		{ 'FeiyouG/command_center.nvim' }, -- command palette
-		{ 'glepnir/dashboard-nvim' }, -- fancy start page
+		{ 'goolord/alpha-nvim' }, -- fancy start page
 		{ 'kosayoda/nvim-lightbulb' }, -- show a lightbulb for code actions
 		{ 'kyazdani42/nvim-tree.lua' }, -- filetree
 		{ 'kyazdani42/nvim-web-devicons' }, -- file icons
@@ -299,6 +303,121 @@ cmd [[ colorscheme tokyonight ]]
 --                 Plugin Config
 --================================================
 
+----------------------------------
+--         alpha config
+----------------------------------
+local function button(sc, txt, keybind)
+	local sc_ = sc:gsub('%s', ''):gsub('SPC', '<leader>')
+
+	local opts = {
+		position = 'center',
+		text = txt,
+		shortcut = sc,
+		cursor = 5,
+		width = 36,
+		align_shortcut = 'right',
+		hl = 'AlphaButtons',
+	}
+
+	if keybind then
+		opts.keymap = { 'n', sc_, keybind, { noremap = true, silent = true } }
+	end
+
+	return {
+		type = 'button',
+		val = txt,
+		on_press = function()
+			local key = vim.api.nvim_replace_termcodes(sc_, true, false, true)
+			vim.api.nvim_feedkeys(key, 'normal', false)
+		end,
+		opts = opts,
+	}
+end
+
+local options = {}
+
+local ascii = {
+	'⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡀⠀⠀⢀⣠⠴⢞⣿⣿⣿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀',
+	'⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡠⣲⣿⡄⢀⡴⠋⣠⣾⣿⣿⣿⣿⣄⣀⣀⡀⠀⠀⠀⠀⠈⠓⠲⣦⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀',
+	'⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠎⣼⣿⣿⣿⡟⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢿⣿⣶⣦⣄⡀⠀⠀⠙⠻⣦⡀⠀⠀⠀⠀⠀⠀⠀',
+	'⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⡿⠊⠉⠀⠀⠈⠉⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣶⣄⡉⠛⢿⣷⣄⠀⠀⠈⢷⡄⠀⠀⠀⠀⠀⠀',
+	'⠀⠀⠀⠀⣀⡀⠤⠐⠒⡁⢴⣤⣤⡀⠀⠀⠀⣠⣼⣿⣿⣏⣀⣀⠀⠉⠛⢿⣿⣿⣿⣿⣿⣷⣄⠙⢿⣷⣄⠀⠀⠹⡄⠀⠀⠀⠀⠀',
+	'⢰⣦⣍⣁⠀⠀⠀⠀⠀⠀⢾⡉⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣦⡀⠀⢸⣿⣿⣿⣿⣿⣿⣷⡄⢻⣿⣆⠀⠀⠑⠀⠀⠀⠀⠀',
+	'⠈⠀⠀⠀⠀⠀⠀⠀⠠⠀⠀⠁⠁⠀⠀⠀⠀⢹⣿⣿⣿⣿⣿⣿⡿⠋⢀⣠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣆⢻⣿⡄⠀⠀⠁⠀⠀⠀⠀',
+	'⠀⠀⠀⠀⠀⠀⠀⠀⠀⢱⠀⠀⠀⠀⠀⠀⠀⣼⣿⣿⡻⢿⣿⣷⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣎⣿⣷⠀⠀⠀⠀⠀⠀⠀',
+	'⢀⠀⠀⠀⠀⠀⠀⠀⢸⠾⠀⢀⣠⣶⠀⣠⣾⣿⣿⣿⣿⣦⡉⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣾⣿⣇⠀⠀⠀⠀⠀⠀',
+	'⠀⢹⠁⠰⠉⠉⠒⢄⣸⡷⠿⠛⠉⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡀⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⢿⣿⣿⣿⣿⣿⡄⠀⠀⠀⠀⠀',
+	'⠀⠀⢇⡇⠀⠀⠀⠘⠁⣿⠀⠀⢠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡀⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠈⣿⣿⣿⣿⣿⣿⣦⡀⠀⠀⠀',
+	'⠀⠀⠀⠁⠀⠀⠀⠀⠀⣿⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣇⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⣿⣿⣯⠻⢿⣿⣿⣿⣷⣶⡆',
+	'⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⠀⢀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⢀⣿⣿⣿⣷⣶⣶⣾⣿⡿⠟⠀',
+	'⠀⠀⠀⠀⠀⠀⠀⠀⢰⡏⢀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⠃⣼⣿⣿⣿⣿⣿⡍⠁⠀⠀⠀⠀',
+	'⠀⠀⢀⠞⡄⠀⠀⢠⣿⣣⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣾⣿⣿⣿⣿⣿⣿⣿⣿⠏⣼⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀',
+	'⠀⠀⢸⣀⣇⠠⠔⢫⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢫⣾⣿⣿⣿⡿⢣⣿⣿⡇⠀⠀⠀⠀⠀',
+	'⠀⠀⠰⡀⠀⠀⠀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢇⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣿⣿⣿⣿⠟⢁⣾⣿⣿⠁⠀⠀⠀⠀⠀',
+	'⠀⠀⠀⠑⡄⢸⣿⣿⣿⣿⢿⣿⣿⣿⣿⣿⣿⣿⣿⡿⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⢁⣴⣿⣿⣿⠇⠀⠀⠀⠀⠀⠀',
+	'⠀⠀⠀⠀⠈⠚⠉⠉⠁⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⡇⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⢛⣉⣤⣶⣿⣿⣿⡿⠃⠀⠀⠀⠀⠀⠀⠀',
+	'⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣿⣿⣿⣿⣿⣿⣿⠟⡇⠈⣿⣿⣿⣿⣿⣿⣿⣿⣶⣾⣿⣿⣿⣿⣿⡿⠿⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀',
+	'⠀⠀⠀⠀⠀⠀⠀⠀⠀⢣⠀⠹⣿⣿⣿⣿⣿⡏⠀⣿⡀⢻⣿⣿⣿⣿⣿⣿⠟⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀',
+	'⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢧⡀⠈⠻⣿⣿⣿⡇⠀⠸⣷⡀⢿⣿⣿⣿⣿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀',
+	'⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢳⣄⠀⠈⠙⠿⣿⡄⠀⠘⢿⣦⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀',
+	'⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢷⣤⡀⠀⠀⠀⠀⠀⠀⠈⠛⠿⢿⣿⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀',
+	'⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠛⠳⠦⠄⠀⠀⠀⠀⠀⠀⠀⠀⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀',
+}
+
+options.header = {
+	type = 'text',
+	val = ascii,
+	opts = {
+		position = 'center',
+		hl = 'AlphaHeader',
+	},
+}
+
+options.buttons = {
+	type = 'group',
+	val = {
+		button('f f', '  Find File  ', ':Telescope find_files<cr>'),
+		button('f r', '  Recent File  ', ':Telescope oldfiles<cr>'),
+		button('\\', '  Find Word  ', ':Telescope live_grep<cr>'),
+		button('b m', '  Bookmarks  ', ':Telescope marks<cr>'),
+		button('t h', '  Themes  ', ':Telescope colorscheme<cr>'),
+		button(', c f', '  Settings', ':e $MYVIMRC | :cd %:p:h <cr>'),
+	},
+	opts = {
+		spacing = 1,
+	},
+}
+
+-- dynamic header padding
+local marginTopPercent = 0.1
+local headerPadding = fn.max { 2, fn.floor(fn.winheight(0) * marginTopPercent) }
+
+-- Disable statusline
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "*",
+	callback = function()
+		vim.opt.laststatus = 2
+		cmd [[ let &showtabline = 2 ]]
+	end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "alpha",
+	callback = function()
+		vim.opt.laststatus = 0
+		cmd [[ let &showtabline = 0 ]]
+	end,
+})
+
+require('alpha').setup {
+	layout = {
+		{ type = 'padding', val = headerPadding },
+		options.header,
+		{ type = 'padding', val = 2 },
+		options.buttons,
+	},
+	opts = {},
+}
 ----------------------------------
 --      auto-session config
 ----------------------------------
@@ -373,16 +492,11 @@ vim.highlight.create('DapBreakpoint', { ctermbg = 0, guifg = '#993939', guibg = 
 vim.highlight.create('DapLogPoint', { ctermbg = 0, guifg = '#61afef', guibg = '#31353f' }, false)
 vim.highlight.create('DapStopped', { ctermbg = 0, guifg = '#98c379', guibg = '#31353f' }, false)
 
-vim.fn.sign_define('DapBreakpoint', { text = '', texthl = 'DapBreakpoint', linehl = 'DapBreakpoint', numhl = 'DapBreakpoint' })
-vim.fn.sign_define('DapBreakpointCondition', { text = 'ﳁ', texthl = 'DapBreakpoint', linehl = 'DapBreakpoint', numhl = 'DapBreakpoint' })
-vim.fn.sign_define('DapBreakpointRejected', { text = '', texthl = 'DapBreakpoint', linehl = 'DapBreakpoint', numhl = 'DapBreakpoint' })
-vim.fn.sign_define('DapLogPoint', { text = '', texthl = 'DapLogPoint', linehl = 'DapLogPoint', numhl = 'DapLogPoint' })
-vim.fn.sign_define('DapStopped', { text = '', texthl = 'DapStopped', linehl = 'DapStopped', numhl = 'DapStopped' })
-
-----------------------------------
---       Dashboard config
-----------------------------------
-g.dashboard_default_executive = 'telescope'
+fn.sign_define('DapBreakpoint', { text = '', texthl = 'DapBreakpoint', linehl = 'DapBreakpoint', numhl = 'DapBreakpoint' })
+fn.sign_define('DapBreakpointCondition', { text = 'ﳁ', texthl = 'DapBreakpoint', linehl = 'DapBreakpoint', numhl = 'DapBreakpoint' })
+fn.sign_define('DapBreakpointRejected', { text = '', texthl = 'DapBreakpoint', linehl = 'DapBreakpoint', numhl = 'DapBreakpoint' })
+fn.sign_define('DapLogPoint', { text = '', texthl = 'DapLogPoint', linehl = 'DapLogPoint', numhl = 'DapLogPoint' })
+fn.sign_define('DapStopped', { text = '', texthl = 'DapStopped', linehl = 'DapStopped', numhl = 'DapStopped' })
 
 ----------------------------------
 --       gitsigns config
@@ -1193,6 +1307,7 @@ wk.register({
 		b = 'Search open buffers',
 		f = 'Search file',
 		l = 'Search in current file',
+		m = 'Open bookmarks',
 		r = 'Open recent file',
 	},
 	p = {
@@ -1215,6 +1330,9 @@ wk.register({
 		q = 'Stop currently executing code',
 	},
 	S = 'Move line down',
+	t = {
+		h = 'Open colorschemes',
+	},
 	v = {
 		a = {
 			c = 'a class',
@@ -1271,6 +1389,7 @@ wk.register({
 		},
 	},
 	['<leader>'] = {
+		['cf'] = 'Open nvim config',
 		d = {
 			w = 'Trim trailing whitespace',
 			m = 'Delete ^M carriage characters',

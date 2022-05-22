@@ -1334,4 +1334,5 @@ wk.register({
 	['<s-left>'] = 'Move buffer left',
 	['<s-Right>'] = 'Move buffer right',
 	['<LeftDrag>'] = 'Move mouse cursor',
+	['<bs>'] = 'Delete line',
 })

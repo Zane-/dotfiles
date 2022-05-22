@@ -1,3 +1,6 @@
+--================================================
+--                Neovim Config
+--    Author: Zane Bilous
 --    Last Modified: 05/21/2022
 --    Dependencies:
 --      ripgrep, fzf
@@ -31,18 +34,17 @@ opt.termguicolors = true -- better colors?
 opt.timeoutlen = 500 -- quicker inputs
 opt.undofile = true -- persistent undo
 opt.updatetime = 300 -- faster update time
-
-cmd([[
-let &showbreak=nr2char(8618).' '
-]]) -- show ↪ on wrapped lines
+opt.showbreak = '↪ ' -- show ↪ on wrapped lines
 
 -- turn off linenumber for terminals and autoenter insert mode
-cmd([[
-augroup terminal
-autocmd TermOpen * :set nonumber norelativenumber
-autocmd TermOpen * :startinsert 
-augroup end
-]])
+vim.api.nvim_create_autocmd('TermOpen', {
+	pattern = '*',
+	callback = function()
+		opt.number = false
+		opt.relativenumber = false
+		vim.api.nvim_command('startinsert')
+	end,
+})
 
 ----------------------------------
 --            Mappings
@@ -100,19 +102,7 @@ nmap('<C-q>', '<cmd>:close<cr>') -- close window
 nmap('<F1>', '<cmd>lua vim.diagnostic.goto_prev()<cr>') -- cycle between diagnostics
 nmap('<F2>', '<cmd>lua vim.diagnostic.goto_next()<cr>')
 nmap('<leader>cf', '<cmd>e $MYVIMRC | :cd %:p:h <cr>')
-
--- disable mouse drag entering visual mode
--- ensure <cr> isn't remapped during cmd enter and quickfix
-cmd([[
-noremap <LeftDrag> <LeftMouse>
-noremap! <LeftDrag> <LeftMouse>
-
-augroup cr
-	autocmd!
-	autocmd CmdwinEnter * nnoremap <cr> <cr>
-	autocmd BufReadPost quickfix nnoremap <cr> <cr>
-augroup end
-]])
+nmap('<LeftDrag>', '<LeftMouse>') -- disable mouse drag entering visual mode
 
 -- bufferline mappings
 nmap('<Left>', '<cmd>BufferLineCyclePrev<cr>')
@@ -134,11 +124,13 @@ nmap('bo', '<cmd>DapStepOver<cr>')
 nmap('bi', '<cmd>DapStepInto<cr>')
 nmap('bO', '<cmd>DapStepOut<cr>')
 
--- FTerm mappings
-nmap('<A-t>',
-	'<cmd>lua require("FTerm").toggle()<cr>')
-map('t', '<A-t>',
-	'<cmd>lua require("FTerm").toggle()<cr>')
+-- nvterm mappings
+nmap('<A-t>', '<cmd>lua require("nvterm.terminal").toggle("float")<cr>')
+map('t', '<A-t>', '<cmd>lua require("nvterm.terminal").toggle("float")<cr>')
+nmap('<A-v>', '<cmd>lua require("nvterm.terminal").toggle("vertical")<cr>')
+map('t', '<A-v>', '<cmd>lua require("nvterm.terminal").toggle("vertical")<cr>')
+nmap('<A-x>', '<cmd>lua require("nvterm.terminal").toggle("horizontal")<cr>')
+map('t', '<A-x>', '<cmd>lua require("nvterm.terminal").toggle("horizontal")<cr>')
 
 -- hop mappings
 nmap('ww', '<cmd>HopWord<cr>')
@@ -182,7 +174,12 @@ local on_attach = function(client, bufnr)
 	nmap_buf(bufnr, '<space>f', '<cmd>lua vim.lsp.buf.format { async = true } <cr>')
 
 	-- auto format on save
-	cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()]]
+	vim.api.nvim_create_autocmd('BufWritePre', {
+		pattern = '<buffer>',
+		callback = function()
+			vim.api.nvim_command('lua vim.lsp.buf.formatting_sync()')
+		end
+	})
 
 	-- goto-preview mappings
 	nmap_buf(bufnr, 'gp', '<cmd>lua require("goto-preview").goto_preview_definition()<cr>')
@@ -273,7 +270,7 @@ require('packer').startup(function()
 		{ 'kyazdani42/nvim-tree.lua' }, -- filetree
 		{ 'kyazdani42/nvim-web-devicons' }, -- file icons
 		{ 'lewis6991/gitsigns.nvim' }, -- git integration
-		{ 'numToStr/FTerm.nvim' }, -- terminal popup
+		{ 'NvChad/nvterm' }, -- terminal popup and splits
 		{ 'nvim-lua/plenary.nvim' }, -- dependency
 		{ 'nvim-lua/popup.nvim' }, -- dependency
 		{ 'nvim-lualine/lualine.nvim' }, -- status line
@@ -295,7 +292,7 @@ end)
 ----------------------------------
 --             Colors
 ----------------------------------
-cmd [[ colorscheme nordfox ]]
+cmd [[ colorscheme tokyonight ]]
 
 --================================================
 --                 Plugin Config
@@ -385,26 +382,27 @@ options.buttons = {
 	},
 }
 
+-- Reenable status and tabline outside of alpha
+vim.api.nvim_create_autocmd('FileType', {
+	pattern = '*',
+	callback = function()
+		opt.laststatus = 2
+		opt.showtabline = 2
+	end,
+})
+
+-- Disable statusline in alpha
+vim.api.nvim_create_autocmd('FileType', {
+	pattern = 'alpha',
+	callback = function()
+		opt.laststatus = 0
+		opt.showtabline = 0
+	end,
+})
+
 -- dynamic header padding
 local marginTopPercent = 0.1
 local headerPadding = fn.max { 2, fn.floor(fn.winheight(0) * marginTopPercent) }
-
--- Disable statusline
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = "*",
-	callback = function()
-		vim.opt.laststatus = 2
-		cmd [[ let &showtabline = 2 ]]
-	end,
-})
-
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = "alpha",
-	callback = function()
-		vim.opt.laststatus = 0
-		cmd [[ let &showtabline = 0 ]]
-	end,
-})
 
 require('alpha').setup {
 	layout = {
@@ -444,7 +442,7 @@ require('bufferline').setup {
 			return s
 		end,
 		offsets = {
-			{ filetype = 'NvimTree', text = 'Files' },
+			{ filetype = 'NvimTree' },
 		},
 	},
 }
@@ -912,6 +910,11 @@ require('nvim-treesitter.configs').setup {
 }
 
 ----------------------------------
+--        nvterm config
+----------------------------------
+require('nvterm').setup()
+
+----------------------------------
 --     paperplanes config
 ----------------------------------
 require('paperplanes').setup({
@@ -1138,7 +1141,15 @@ command_center.add({
 	},
 	{
 		description = 'Toggle floating terminal',
-		cmd = '<cmd>lua require("FTerm").toggle()<cr>',
+		cmd = '<cmd>lua require("nvim.terminal").toggle("float")<cr>',
+	},
+	{
+		description = 'Toggle vertical split terminal',
+		cmd = '<cmd>lua require("nvim.terminal").toggle("vertical")<cr>',
+	},
+	{
+		description = 'Toggle horizontal split terminal',
+		cmd = '<cmd>lua require("nvim.terminal").toggle("horizontal")<cr>',
 	},
 	{
 		description = 'Toggle paste mode',
@@ -1451,4 +1462,7 @@ wk.register({
 	['<s-Right>'] = 'Move buffer right',
 	['<LeftDrag>'] = 'Move mouse cursor',
 	['<bs>'] = 'Delete line',
+	['<A-t>'] = 'Toggle floating terminal',
+	['<A-v>'] = 'Toggle terminal in vertical split',
+	['<A-x>'] = 'Toggle terminal in horizontal split',
 })

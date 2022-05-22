@@ -38,6 +38,14 @@ cmd([[
 let &showbreak=nr2char(8618).' '
 ]]) -- show ↪ on wrapped lines
 
+-- turn off linenumber for terminals and autoenter insert mode
+cmd([[
+augroup terminal
+autocmd TermOpen * :set nonumber norelativenumber
+autocmd TermOpen * :startinsert 
+augroup end
+]])
+
 ----------------------------------
 --            Mappings
 ----------------------------------
@@ -116,13 +124,16 @@ nmap('<S-Right>', '<cmd>BufferLineMoveNext<cr>')
 nmap('tj', '<cmd>BufferLinePick<cr>')
 
 -- dap mappings
-nmap('<c-d>', '<cmd>lua require("dapui").toggle()<cr>')
+nmap('<c-D>', '<cmd>lua require("dapui").toggle()<cr>')
 nmap('bb', '<cmd>DapToggleBreakpoint<cr>')
+nmap('bl', '<cmd>Telescope dap list_breakpoints<cr>')
+nmap('bv', '<cmd>Telescope dap variables<cr>')
+nmap('bf', '<cmd>Telescope dap frames<cr>')
 nmap('bc', '<cmd>DapContinue<cr>')
 nmap('bt', '<cmd>DapTerminate<cr>')
-nmap('bso', '<cmd>DapStepOver<cr>')
-nmap('bsi', '<cmd>DapStepInto<cr>')
-nmap('bsb', '<cmd>DapStepOut<cr>')
+nmap('bo', '<cmd>DapStepOver<cr>')
+nmap('bi', '<cmd>DapStepInto<cr>')
+nmap('bO', '<cmd>DapStepOut<cr>')
 
 -- FTerm mappings
 nmap('<A-t>',
@@ -141,7 +152,7 @@ nmap('<C-n>', '<cmd>NvimTreeToggle<cr>')
 nmap('sr', '<cmd>SnipRun<cr>')
 nmap('sq', '<cmd>SnipReset<cr>')
 nmap('sc', '<cmd>SnipClose<cr>')
-vmap('sr', "<cmd>'<,'>SnipRun<cr>")
+vmap('sr', "<cmd>SnipRun<cr>")
 
 -- Telescope mappings
 nmap('\\', '<cmd>Telescope live_grep hidden=true<cr>')
@@ -218,7 +229,8 @@ require('packer').startup(function()
 	use { -- DAP
 		{ 'mfussenegger/nvim-dap' }, -- debugger
 		{ 'mfussenegger/nvim-dap-python' }, -- debugger config for python
-		{ 'theHamsta/nvim-dap-virtual-text' }
+		{ 'nvim-telescope/telescope-dap.nvim' },
+		{ 'theHamsta/nvim-dap-virtual-text' },
 	}
 
 	use { -- Programming support
@@ -722,6 +734,11 @@ cmp.setup.filetype('dap-repl', {
 	enabled = false
 })
 
+-- disable cmp for Telescope prompts
+cmp.setup.filetype('TelescopePrompt', {
+	enabled = false
+})
+
 -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline('/', {
 	mapping = cmp.mapping.preset.cmdline(),
@@ -858,6 +875,26 @@ command_center.add({
 	{
 		description = 'Check health',
 		cmd = '<cmd>checkhealth<cr>',
+	},
+	{
+		description = 'Open DAP commands',
+		cmd = '<cmd>Telescope dap commands<cr>',
+	},
+	{
+		description = 'Open DAP configurations',
+		cmd = '<cmd>Telescope dap configurations<cr>',
+	},
+	{
+		description = 'Open DAP breakpoints',
+		cmd = '<cmd>Telescope dap breakpoints<cr>',
+	},
+	{
+		description = 'Open DAP variables',
+		cmd = '<cmd>Telescope dap variables<cr>',
+	},
+	{
+		description = 'Open DAP frames',
+		cmd = '<cmd>Telescope dap frames<cr>',
 	},
 	{
 		description = 'Open command history',
@@ -1082,10 +1119,13 @@ wk.register({
 	b = {
 		b = 'Toggle breakpoint',
 		c = '[DAP] Continue',
-		['so'] = '[DAP] Step over',
-		['si'] = '[DAP] Step into',
-		['sb'] = '[DAP] Step out',
+		f = '[DAP] List frames',
+		i = '[DAP] Step into',
+		l = '[DAP] List breakpoints',
+		o = '[DAP] Step over',
+		O = '[DAP] Step out',
 		t = '[DAP] Terminate',
+		v = '[DAP] List variables'
 	},
 	d = {
 		a = {
@@ -1267,7 +1307,7 @@ wk.register({
 	},
 	[';'] = 'Input command',
 	['\\'] = 'Search through all files',
-	['<c-d>'] = 'Toggle DAP',
+	['<c-D>'] = 'Toggle DAP sidebar',
 	['<c-k>'] = 'Open signature help',
 	['<c-l>'] = 'Unhighlight search results',
 	['<c-n>'] = 'Toggle file tree',

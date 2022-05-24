@@ -211,7 +211,7 @@ require('packer').startup(function()
 	use 'wbthomason/packer.nvim' -- this package manager
 
 	use { -- Autocompletion
-		'hrsh7th/nvim-cmp',
+		{ 'hrsh7th/nvim-cmp' },
 		{ 'hrsh7th/cmp-buffer' },
 		{ 'hrsh7th/cmp-cmdline' },
 		{ 'hrsh7th/cmp-nvim-lsp' },

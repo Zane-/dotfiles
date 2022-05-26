@@ -125,19 +125,6 @@ nmap('bo', '<cmd>DapStepOver<cr>')
 nmap('bi', '<cmd>DapStepInto<cr>')
 nmap('bO', '<cmd>DapStepOut<cr>')
 
--- nvterm mappings
-nmap('<A-t>', '<cmd>lua require("nvterm.terminal").toggle("float")<cr>')
-map('t', '<A-t>', '<cmd>lua require("nvterm.terminal").toggle("float")<cr>')
-nmap('<A-v>', '<cmd>lua require("nvterm.terminal").toggle("vertical")<cr>')
-map('t', '<A-v>', '<cmd>lua require("nvterm.terminal").toggle("vertical")<cr>')
-nmap('<A-x>', '<cmd>lua require("nvterm.terminal").toggle("horizontal")<cr>')
-map('t', '<A-x>', '<cmd>lua require("nvterm.terminal").toggle("horizontal")<cr>')
-nmap('<A-V>', '<cmd>lua require("nvterm.terminal").new("vertical")<cr>')
-map('t', '<A-V>', '<cmd>lua require("nvterm.terminal").new("vertical")<cr>')
-nmap('<A-X>', '<cmd>lua require("nvterm.terminal").new("horizontal")<cr>')
-map('t', '<A-X>', '<cmd>lua require("nvterm.terminal").new("horizontal")<cr>')
-map('t', '<C-q>', '<cmd>close<cr>')
-
 -- hop mappings
 nmap('ww', '<cmd>HopWord<cr>')
 nmap('wl', '<cmd>HopLine<cr>')
@@ -160,6 +147,17 @@ nmap('fm', '<cmd>Telescope marks<cr>')
 nmap('fr', '<cmd>Telescope oldfiles<cr>')
 nmap('<space>p', '<cmd>Telescope command_center<cr>')
 nmap('th', '<cmd>Telescope colorscheme<cr>')
+
+-- toggleterm mappings
+map('t', '<C-q>', '<cmd>close<cr>')
+nmap('<A-t>', '<cmd>ToggleTerm direction=float<cr>')
+map('t', '<A-t>', '<cmd>ToggleTerm direction=float<cr>')
+nmap('<A-g>', '<cmd>lua _toggle_lazy_git()<cr>')
+map('t', '<A-g>', '<cmd>lua _toggle_lazy_git()<cr>')
+nmap('<A-h>', '<cmd>lua _toggle_htop()<cr>')
+map('t', '<A-h>', '<cmd>lua _toggle_htop()<cr>')
+nmap('<A-p>', '<cmd>lua _toggle_ipython()<cr>')
+map('t', '<A-p>', '<cmd>lua _toggle_ipython()<cr>')
 
 -- LSP mappings
 -- These only bind when an LSP is attached
@@ -268,6 +266,8 @@ require('packer').startup(function()
 
 	use { -- UI
 		{ 'akinsho/bufferline.nvim' }, -- nice buffer line
+		{ 'akinsho/toggleterm.nvim' }, -- better terminals
+		{ 'NvChad/nvterm' }, -- terminal popup and splits
 		{ 'folke/which-key.nvim' }, -- shortcut popup
 		{ 'folke/trouble.nvim' }, -- aesthetic diagnostics page
 		{ 'FeiyouG/command_center.nvim' }, -- command palette
@@ -276,7 +276,6 @@ require('packer').startup(function()
 		{ 'kyazdani42/nvim-tree.lua' }, -- filetree
 		{ 'kyazdani42/nvim-web-devicons' }, -- file icons
 		{ 'lewis6991/gitsigns.nvim' }, -- git integration
-		{ 'NvChad/nvterm' }, -- terminal popup and splits
 		{ 'nvim-lua/plenary.nvim' }, -- dependency
 		{ 'nvim-lua/popup.nvim' }, -- dependency
 		{ 'nvim-lualine/lualine.nvim' }, -- status line
@@ -912,11 +911,6 @@ require('nvim-treesitter.configs').setup {
 }
 
 ----------------------------------
---        nvterm config
-----------------------------------
-require('nvterm').setup()
-
-----------------------------------
 --     paperplanes config
 ----------------------------------
 require('paperplanes').setup({
@@ -1235,6 +1229,30 @@ require('telescope').setup({
 
 require('telescope').load_extension('command_center')
 require('telescope').load_extension('fzf')
+
+---------------------------------
+--      toggleterm config
+----------------------------------
+require 'toggleterm'.setup {
+	shade_terminals = false
+}
+
+local Terminal = require('toggleterm.terminal').Terminal
+
+local htop = Terminal:new({ cmd = 'htop', direction = 'float', hidden = true })
+function _toggle_htop()
+	htop:toggle()
+end
+
+local lazy_git = Terminal:new({ cmd = 'lazygit', direction = 'float', hidden = true })
+function _toggle_lazy_git()
+	lazy_git:toggle()
+end
+
+local ipython = Terminal:new({ cmd = 'ipython', direction = 'float', hidden = true })
+function _toggle_ipython()
+	ipython:toggle()
+end
 
 ----------------------------------
 --        trouble config

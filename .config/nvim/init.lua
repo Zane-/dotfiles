@@ -310,7 +310,7 @@ cmd [[ colorscheme tokyonight ]]
 ----------------------------------
 --         alpha config
 ----------------------------------
-local function button(sc, txt, keybind)
+local function button(sc, txt)
 	local sc_ = sc:gsub('%s', ''):gsub('SPC', '<leader>')
 
 	local opts = {
@@ -375,12 +375,12 @@ options.header = {
 options.buttons = {
 	type = 'group',
 	val = {
-		button('f f', '  Find File  ', ':Telescope find_files<cr>'),
-		button('f r', '  Recent File  ', ':Telescope oldfiles<cr>'),
-		button('\\', '  Find Word  ', ':Telescope live_grep<cr>'),
-		button('b m', '  Bookmarks  ', ':Telescope marks<cr>'),
-		button('t h', '  Themes  ', ':Telescope colorscheme<cr>'),
-		button(', c f', '  Settings', ':e $MYVIMRC | :cd %:p:h <cr>'),
+		button('f f', '  Find File  '),
+		button('f r', '  Recent File  '),
+		button('\\', '  Find Word  '),
+		button('b m', '  Bookmarks  '),
+		button('t h', '  Themes  '),
+		button(', c f', '  Settings'),
 	},
 	opts = {
 		spacing = 1,

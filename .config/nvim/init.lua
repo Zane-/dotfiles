@@ -9,10 +9,11 @@
 ----------------------------------
 --           Aliases
 ----------------------------------
-local cmd = vim.cmd
-local g   = vim.g
-local fn  = vim.fn
-local opt = vim.opt
+local autocmd = vim.api.nvim_create_autocmd
+local cmd     = vim.cmd
+local g       = vim.g
+local fn      = vim.fn
+local opt     = vim.opt
 
 ----------------------------------
 --           Options
@@ -25,6 +26,7 @@ opt.mouse = 'nicr' -- use mouse for scrolling and clicking
 opt.number = true -- line numbers
 opt.scrolloff = 15 -- keep 15 lines above/below cursor line
 opt.shiftwidth = 2 -- make indents correspond to one tab
+opt.showbreak = '↪ ' -- show ↪ on wrapped lines
 opt.smartcase = true -- override ignore case if uppercase letters in pattern
 opt.smartindent = true -- indent after brackets
 opt.splitbelow = true -- split splits below
@@ -34,10 +36,9 @@ opt.termguicolors = true -- better colors?
 opt.timeoutlen = 500 -- quicker inputs
 opt.undofile = true -- persistent undo
 opt.updatetime = 300 -- faster update time
-opt.showbreak = '↪ ' -- show ↪ on wrapped lines
 
 -- turn off linenumber for terminals and autoenter insert mode
-vim.api.nvim_create_autocmd('TermOpen', {
+autocmd('TermOpen', {
 	pattern = '*',
 	callback = function()
 		opt.number = false
@@ -237,6 +238,12 @@ require('packer').startup(function()
 		{ 'theHamsta/nvim-dap-virtual-text' },
 	}
 
+	use { -- LSP
+		{ 'rmagatti/goto-preview' }, -- goto preview popup
+		{ 'neovim/nvim-lspconfig' }, -- completion, go-to, etc.
+		{ 'williamboman/nvim-lsp-installer' }, -- install lsp servers
+	}
+
 	use { -- Programming support
 		{ 'L3MON4D3/LuaSnip' }, -- snippets
 		{ 'markonm/traces.vim' }, -- live preview for substitution
@@ -250,12 +257,6 @@ require('packer').startup(function()
 		{ 'tpope/vim-surround' }, -- easily change surrounding brackets, quotes, etc.
 		{ 'windwp/nvim-ts-autotag' }, -- autoclose html, etc. tags
 		{ 'windwp/nvim-autopairs' }, -- auto pair ( {, etc.
-	}
-
-	use { -- LSP
-		{ 'rmagatti/goto-preview' }, -- goto preview popup
-		{ 'neovim/nvim-lspconfig' }, -- completion, go-to, etc.
-		{ 'williamboman/nvim-lsp-installer' }, -- install lsp servers
 	}
 
 	use { -- Telescope
@@ -300,7 +301,7 @@ end)
 cmd [[ colorscheme tokyonight ]]
 
 --================================================
---                 Plugin Config
+--                Plugin Configs
 --================================================
 
 ----------------------------------
@@ -317,10 +318,6 @@ local function button(sc, txt, keybind)
 		width = 36,
 		align_shortcut = 'right',
 	}
-
-	if keybind then
-		opts.keymap = { 'n', sc_, keybind, { noremap = true, silent = true } }
-	end
 
 	return {
 		type = 'button',
@@ -388,7 +385,7 @@ options.buttons = {
 }
 
 -- Reenable status and tabline outside of alpha
-vim.api.nvim_create_autocmd('FileType', {
+autocmd('FileType', {
 	pattern = '*',
 	callback = function()
 		opt.laststatus = 2
@@ -397,7 +394,7 @@ vim.api.nvim_create_autocmd('FileType', {
 })
 
 -- Disable statusline in alpha
-vim.api.nvim_create_autocmd('FileType', {
+autocmd('FileType', {
 	pattern = 'alpha',
 	callback = function()
 		opt.laststatus = 0
@@ -406,8 +403,7 @@ vim.api.nvim_create_autocmd('FileType', {
 })
 
 -- dynamic header padding
-local marginTopPercent = 0.1
-local headerPadding = fn.max { 2, fn.floor(fn.winheight(0) * marginTopPercent) }
+local headerPadding = fn.max { 2, fn.floor(fn.winheight(0) * 0.1) }
 
 require('alpha').setup {
 	layout = {
@@ -458,6 +454,7 @@ require('bufferline').setup {
 require('better_escape').setup {
 	mapping = { 'jk' },
 }
+
 ----------------------------------
 --        Comment config
 ----------------------------------
@@ -477,12 +474,15 @@ require("nvim-dap-virtual-text").setup {
 
 -- Auto-open DAP UI on events
 local dap, dapui = require('dap'), require('dapui')
+
 dap.listeners.after.event_initialized['dapui_config'] = function()
 	dapui.open()
 end
+
 dap.listeners.before.event_terminated['dapui_config'] = function()
 	dapui.close()
 end
+
 dap.listeners.before.event_exited['dapui_config'] = function()
 	dapui.close()
 end
@@ -572,15 +572,12 @@ local config = {
 		component_separators = '',
 		section_separators = '',
 		theme = {
-			-- We are going to use lualine_c an lualine_x as left and
-			-- right section. Both are highlighted by c theme .  So we
-			-- are just setting default looks o statusline
 			normal = { c = { fg = colors.fg, bg = colors.bg } },
 			inactive = { c = { fg = colors.fg, bg = colors.bg } },
 		},
 	},
 	sections = {
-		-- these are to remove the defaults
+		-- These are to remove the defaults
 		lualine_a = {},
 		lualine_b = {},
 		lualine_y = {},
@@ -590,7 +587,7 @@ local config = {
 		lualine_x = {},
 	},
 	inactive_sections = {
-		-- these are to remove the defaults
+		-- These are to remove the defaults
 		lualine_a = {},
 		lualine_b = {},
 		lualine_y = {},

@@ -927,7 +927,7 @@ require('paperplanes').setup({
 })
 
 ----------------------------------
---       Telescope config
+--     command center config
 ----------------------------------
 
 local command_center = require('command_center')
@@ -1211,6 +1211,9 @@ command_center.add({
 	},
 })
 
+----------------------------------
+--       Telescope config
+----------------------------------
 require('telescope').setup({
 	defaults = {
 		vimgrep_arguments = {

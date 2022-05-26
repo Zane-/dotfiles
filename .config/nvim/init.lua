@@ -150,10 +150,14 @@ nmap('th', '<cmd>Telescope colorscheme<cr>')
 
 -- toggleterm mappings
 map('t', '<C-q>', '<cmd>close<cr>')
+
 nmap('<A-t>', '<cmd>ToggleTerm direction=float<cr>')
 map('t', '<A-t>', '<cmd>ToggleTerm direction=float<cr>')
-nmap('<A-g>', '<cmd>lua _toggle_lazy_git()<cr>')
-map('t', '<A-g>', '<cmd>lua _toggle_lazy_git()<cr>')
+nmap('<A-x>', '<cmd>lua _toggle_horizontal()<cr>')
+map('t', '<A-x>', '<cmd>lua _toggle_horizontal()<cr>')
+
+nmap('<A-g>', '<cmd>lua _toggle_lazygit()<cr>')
+map('t', '<A-g>', '<cmd>lua _toggle_lazygit()<cr>')
 nmap('<A-h>', '<cmd>lua _toggle_htop()<cr>')
 map('t', '<A-h>', '<cmd>lua _toggle_htop()<cr>')
 nmap('<A-p>', '<cmd>lua _toggle_ipython()<cr>')
@@ -1137,23 +1141,23 @@ command_center.add({
 	},
 	{
 		description = 'Toggle floating terminal',
-		cmd = '<cmd>lua require("nvim.terminal").toggle("float")<cr>',
+		cmd = '<cmd>ToggleTerm direction=float<cr>',
 	},
 	{
-		description = 'Toggle vertical split terminal',
-		cmd = '<cmd>lua require("nvim.terminal").toggle("vertical")<cr>',
+		description = 'Toggle terminal in horizontal split',
+		cmd = '<cmd>lua _toggle_horizontal()<cr>',
 	},
 	{
-		description = 'Toggle horizontal split terminal',
-		cmd = '<cmd>lua require("nvim.terminal").toggle("horizontal")<cr>',
+		description = 'Toggle lazygit',
+		cmd = '<cmd>lua _toggle_lazygit()<cr>',
 	},
 	{
-		description = 'New terminal in vertical split',
-		cmd = '<cmd>lua require("nvim.terminal").new("vertical")<cr>',
+		description = 'Toggle htop',
+		cmd = '<cmd>lua _toggle_htop()<cr>',
 	},
 	{
-		description = 'New terminal in horizontal split',
-		cmd = '<cmd>lua require("nvim.terminal").new("horizontal")<cr>',
+		description = 'Toggle ipython',
+		cmd = '<cmd>lua _toggle_ipython()<cr>',
 	},
 	{
 		description = 'Toggle paste mode',
@@ -1234,19 +1238,24 @@ require('telescope').load_extension('fzf')
 --      toggleterm config
 ----------------------------------
 require 'toggleterm'.setup {
-	shade_terminals = false
+	shade_terminals = false,
 }
 
 local Terminal = require('toggleterm.terminal').Terminal
+
+local horizontal = Terminal:new({ direction = 'horizontal', hidden = true })
+function _toggle_horizontal()
+	horizontal:toggle()
+end
 
 local htop = Terminal:new({ cmd = 'htop', direction = 'float', hidden = true })
 function _toggle_htop()
 	htop:toggle()
 end
 
-local lazy_git = Terminal:new({ cmd = 'lazygit', direction = 'float', hidden = true })
-function _toggle_lazy_git()
-	lazy_git:toggle()
+local lazygit = Terminal:new({ cmd = 'lazygit', direction = 'float', hidden = true })
+function _toggle_lazygit()
+	lazygit:toggle()
 end
 
 local ipython = Terminal:new({ cmd = 'ipython', direction = 'float', hidden = true })
@@ -1494,8 +1503,8 @@ wk.register({
 	['<LeftDrag>'] = 'Move mouse cursor',
 	['<bs>'] = 'Delete line',
 	['<A-t>'] = 'Toggle floating terminal',
-	['<A-v>'] = 'Toggle terminal in vertical split',
 	['<A-x>'] = 'Toggle terminal in horizontal split',
-	['<A-V>'] = 'New terminal in vertical split',
-	['<A-X>'] = 'New terminal in horizontal split',
+	['<A-p>'] = 'Toggle ipython',
+	['<A-h>'] = 'Toggle htop',
+	['<A-g>'] = 'Toggle lazygit',
 })

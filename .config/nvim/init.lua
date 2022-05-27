@@ -283,6 +283,7 @@ require('packer').startup(function()
 		{ 'nvim-lua/plenary.nvim' }, -- dependency
 		{ 'nvim-lua/popup.nvim' }, -- dependency
 		{ 'nvim-lualine/lualine.nvim' }, -- status line
+		{ 'rcarriga/nvim-notify' }, -- nice notifications
 		{ 'RRethy/vim-illuminate' }, -- highlight symbol under cursor
 		{ 'simrat39/symbols-outline.nvim' }, -- menu for symbols
 		{ 'weilbith/nvim-code-action-menu' }, -- show menu for code actions
@@ -886,6 +887,15 @@ require('nvim-treesitter.configs').setup {
 	highlight = {
 		enable = true,
 		additional_vim_regex_highlighting = false,
+	},
+	incremental_selection = {
+		enable = true,
+		keymaps = {
+			init_selection = "vn",
+			node_incremental = "vnn",
+			scope_incremental = "vnc",
+			node_decremental = "vnp",
+		},
 	},
 	textobjects = {
 		lsp_interop = {

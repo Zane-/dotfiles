@@ -18,24 +18,24 @@ local opt     = vim.opt
 ----------------------------------
 --           Options
 ----------------------------------
-opt.clipboard = 'unnamed' -- use system clipboard
-opt.cmdheight = 2 -- use more space for displaying messages
-opt.ignorecase = true -- ignore case when searching
-opt.linebreak = true -- break lines
-opt.mouse = 'nicr' -- use mouse for scrolling and clicking
-opt.number = true -- line numbers
-opt.scrolloff = 15 -- keep 15 lines above/below cursor line
-opt.shiftwidth = 2 -- make indents correspond to one tab
-opt.showbreak = '↪ ' -- show ↪ on wrapped lines
-opt.smartcase = true -- override ignore case if uppercase letters in pattern
-opt.smartindent = true -- indent after brackets
-opt.splitbelow = true -- split splits below
-opt.splitright = true -- vertical split splits right
-opt.tabstop = 2 -- make tabs 2-spaces wide
+opt.clipboard     = 'unnamed' -- use system clipboard
+opt.cmdheight     = 2 -- use more space for displaying messages
+opt.ignorecase    = true -- ignore case when searching
+opt.linebreak     = true -- break lines
+opt.mouse         = 'nicr' -- use mouse for scrolling and clicking
+opt.number        = true -- line numbers
+opt.scrolloff     = 15 -- keep 15 lines above/below cursor line
+opt.shiftwidth    = 2 -- make indents correspond to one tab
+opt.showbreak     = '↪ ' -- show ↪ on wrapped lines
+opt.smartcase     = true -- override ignore case if uppercase letters in pattern
+opt.smartindent   = true -- indent after brackets
+opt.splitbelow    = true -- split splits below
+opt.splitright    = true -- vertical split splits right
+opt.tabstop       = 2 -- make tabs 2-spaces wide
 opt.termguicolors = true -- better colors?
-opt.timeoutlen = 500 -- quicker inputs
-opt.undofile = true -- persistent undo
-opt.updatetime = 300 -- faster update time
+opt.timeoutlen    = 500 -- quicker inputs
+opt.undofile      = true -- persistent undo
+opt.updatetime    = 300 -- faster update time
 
 -- turn off linenumber for terminals and autoenter insert mode
 autocmd('TermOpen', {

@@ -145,7 +145,7 @@ nmap('fb', '<cmd>Telescope buffers<cr>')
 nmap('fl', '<cmd>Telescope current_buffer_fuzzy_find<cr>')
 nmap('fm', '<cmd>Telescope marks<cr>')
 nmap('fr', '<cmd>Telescope oldfiles<cr>')
-nmap('<space>p', '<cmd>Telescope command_center<cr>')
+nmap('<space><space>', '<cmd>Telescope command_center<cr>')
 nmap('th', '<cmd>Telescope colorscheme<cr>')
 
 -- toggleterm mappings
@@ -162,6 +162,9 @@ nmap('<A-h>', '<cmd>lua _toggle_htop()<cr>')
 map('t', '<A-h>', '<cmd>lua _toggle_htop()<cr>')
 nmap('<A-p>', '<cmd>lua _toggle_ipython()<cr>')
 map('t', '<A-p>', '<cmd>lua _toggle_ipython()<cr>')
+
+-- which-key mappings
+nmap('<space>k', '<cmd>WhichKey<cr>')
 
 -- LSP mappings
 -- These only bind when an LSP is attached
@@ -1284,6 +1287,38 @@ require('trouble').setup {}
 ----------------------------------
 local wk = require('which-key')
 
+wk.setup({
+	ignore_missing = true,
+	key_labels = {
+		['<space>'] = 'Space',
+		['<BS>'] = 'Backspace',
+		['<CR>'] = 'Enter',
+		['<Tab>'] = 'Tab',
+		['<C-B>'] = 'Ctrl + b',
+		['<C-K>'] = 'Ctrl + k',
+		['<c-k>'] = 'Ctrl + k',
+		['<C-L>'] = 'Ctrl + l',
+		['<C-N>'] = 'Ctrl + n',
+		['<C-Q>'] = 'Ctrl + q',
+		['<C-V>'] = 'Ctrl + v',
+		['<c-w>'] = 'Ctrl + w',
+		['<C-X>'] = 'Ctrl + x',
+		['<c-space>'] = 'Ctrl + space',
+		['<M-g>'] = 'Alt + g',
+		['<M-h>'] = 'Alt + h',
+		['<M-p>'] = 'Alt + p',
+		['<M-t>'] = 'Alt + t',
+		['<M-x>'] = 'Alt + x',
+		['<F1>'] = 'F1',
+		['<F2>'] = 'F2',
+		['<F3>'] = 'F3',
+		['<Right>'] = '⇒',
+		['<Left>'] = '⬅',
+		['<S-Right>'] = 'Shift + ⇒',
+		['<S-Left>'] = 'Shift + ⬅',
+	}
+})
+
 wk.register({
 	c = {
 		a = {
@@ -1407,6 +1442,7 @@ wk.register({
 		},
 	},
 	w = {
+		name = 'Navigation / Save',
 		l = 'Jump to line',
 		q = 'Save and quit',
 		r = 'Save',
@@ -1441,10 +1477,11 @@ wk.register({
 		},
 	},
 	['<space>'] = {
+		['<space>'] = 'Open command center',
 		d = 'Open type definiton for symbol under cursor',
 		e = 'Open diagnostics window',
 		f = 'Format current file',
-		p = 'Open command center',
+		k = 'Open keymap',
 		t = 'Toggle trouble menu',
 		w = {
 			a = 'Add workspace folder',
@@ -1515,7 +1552,6 @@ wk.register({
 	['<Right>'] = 'Next buffer',
 	['<s-left>'] = 'Move buffer left',
 	['<s-Right>'] = 'Move buffer right',
-	['<LeftDrag>'] = 'Move mouse cursor',
 	['<bs>'] = 'Delete line',
 	['<A-t>'] = 'Toggle floating terminal',
 	['<A-x>'] = 'Toggle terminal in horizontal split',

@@ -19,7 +19,6 @@ local opt     = vim.opt
 --           Options
 ----------------------------------
 opt.clipboard     = 'unnamed' -- use system clipboard
-opt.cmdheight     = 2 -- use more space for displaying messages
 opt.ignorecase    = true -- ignore case when searching
 opt.linebreak     = true -- break lines
 opt.mouse         = 'nicr' -- use mouse for scrolling and clicking
@@ -33,7 +32,7 @@ opt.splitbelow    = true -- split splits below
 opt.splitright    = true -- vertical split splits right
 opt.tabstop       = 2 -- make tabs 2-spaces wide
 opt.termguicolors = true -- better colors?
-opt.timeoutlen    = 500 -- quicker inputs
+opt.timeoutlen    = 300 -- quicker inputs
 opt.undofile      = true -- persistent undo
 opt.updatetime    = 300 -- faster update time
 
@@ -73,6 +72,9 @@ end
 local function vmap(shortcut, command)
 	map('v', shortcut, command)
 end
+
+cmd([[
+]])
 
 g.mapleader = ',' -- remap leader to ,
 
@@ -1443,11 +1445,11 @@ wk.register({
 	},
 	w = {
 		name = 'Navigation / Save',
+		j = 'Jump to buffer',
 		l = 'Jump to line',
 		q = 'Save and quit',
 		r = 'Save',
 		w = 'Jump to word',
-		j = 'Jump to buffer'
 	},
 	W = 'Move line up',
 	y = {

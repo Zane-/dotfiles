@@ -546,7 +546,7 @@ local lualine = require('lualine')
 
 -- Color table for highlights
 local colors = {
-	bg       = '#202328',
+	bg       = '#1d202f',
 	fg       = '#bbc2cf',
 	yellow   = '#ECBE7B',
 	cyan     = '#008080',
@@ -725,7 +725,7 @@ ins_right {
 
 ins_right {
 	'diff',
-	symbols = { added = ' ', modified = '柳 ', removed = ' ' },
+	symbols = { added = ' ', modified = '柳', removed = ' ' },
 	diff_color = {
 		added = { fg = colors.green },
 		modified = { fg = colors.orange },

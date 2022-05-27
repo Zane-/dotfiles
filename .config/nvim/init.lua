@@ -111,7 +111,7 @@ nmap('<Right>', '<cmd>BufferLineCycleNext<cr>')
 nmap('<S-Left>', '<cmd>BufferLineMovePrev<cr>')
 nmap('<S-Right>', '<cmd>BufferLineMoveNext<cr>')
 nmap('<S-Right>', '<cmd>BufferLineMoveNext<cr>')
-nmap('tj', '<cmd>BufferLinePick<cr>')
+nmap('wj', '<cmd>BufferLinePick<cr>')
 
 -- dap mappings
 nmap('<c-b>', '<cmd>lua require("dapui").toggle()<cr>')
@@ -1299,6 +1299,7 @@ wk.register({
 	},
 	B = 'Jump to beginning of line',
 	b = {
+		name = 'DAP',
 		b = 'Toggle breakpoint',
 		c = '[DAP] Continue',
 		f = '[DAP] List frames',
@@ -1363,6 +1364,7 @@ wk.register({
 		}
 	},
 	f = {
+		name = 'Files',
 		b = 'Search open buffers',
 		f = 'Search file',
 		l = 'Search in current file',
@@ -1378,12 +1380,14 @@ wk.register({
 		q = 'Close buffer',
 	},
 	r = {
+		name = 'Refactor',
 		g = 'Replace all',
 		l = 'Replace on line only',
 		n = 'Rename symbol under cursor',
 		w = 'Rename word under cursor',
 	},
 	s = {
+		name = 'Sniprun',
 		c = 'Clear all execution results',
 		r = 'Execute line of code',
 		q = 'Stop currently executing code',
@@ -1407,6 +1411,7 @@ wk.register({
 		q = 'Save and quit',
 		r = 'Save',
 		w = 'Jump to word',
+		j = 'Jump to buffer'
 	},
 	W = 'Move line up',
 	y = {
@@ -1456,7 +1461,6 @@ wk.register({
 		t = {
 			d = 'Toggle document diagnostics',
 			l = 'Toggle location list',
-			j = 'Jump to buffer',
 			q = 'Toggle quickfix list',
 			w = 'Toggle workspace diagnostics',
 		},

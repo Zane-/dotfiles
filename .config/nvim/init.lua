@@ -148,7 +148,7 @@ nmap('fl', '<cmd>Telescope current_buffer_fuzzy_find<cr>')
 nmap('fm', '<cmd>Telescope marks<cr>')
 nmap('fr', '<cmd>Telescope oldfiles<cr>')
 nmap('<space><space>', '<cmd>Telescope command_center<cr>')
-nmap('th', '<cmd>Telescope colorscheme<cr>')
+nmap('<leader>th', '<cmd>Telescope colorscheme<cr>')
 
 -- toggleterm mappings
 map('t', '<C-q>', '<cmd>close<cr>')
@@ -385,7 +385,7 @@ options.buttons = {
 		button('f r', '  Recent File  '),
 		button('\\', '  Find Word  '),
 		button('b m', '  Bookmarks  '),
-		button('t h', '  Themes  '),
+		button(', t h', '  Themes  '),
 		button(', c f', '  Settings'),
 	},
 	opts = {
@@ -1430,9 +1430,6 @@ wk.register({
 		q = 'Stop currently executing code',
 	},
 	S = 'Move line down',
-	t = {
-		h = 'Open colorschemes',
-	},
 	v = {
 		a = {
 			c = 'a class',

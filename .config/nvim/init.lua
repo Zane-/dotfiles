@@ -307,12 +307,14 @@ require('packer').startup(function()
 	}
 
 	use { -- Utility
+		{ 'andrewradev/switch.vim' }, -- smart switch between stuff
 		{ 'famiu/bufdelete.nvim' }, -- better buffer delete command
 		{ 'ggandor/lightspeed.nvim' }, -- easy navigation
 		{ 'max397574/better-escape.nvim' }, -- better insert mode exit
 		{ 'rktjmp/paperplanes.nvim' }, -- upload buffer online
 		{ 'rmagatti/auto-session' }, -- sessions based on cwd
 		{ 'roxma/vim-paste-easy' }, -- auto-enter paste mode on paste
+		{ 'wellle/targets.vim' }, -- more text objects
 	}
 end)
 
@@ -544,10 +546,7 @@ require('gitsigns').setup {}
 ----------------------------------
 --      lightspeed config
 ----------------------------------
-require('lightspeed').setup {
-	jump_to_unique_chars = false,
-	safe_labels = {}
-}
+require('lightspeed').setup {}
 
 ----------------------------------
 --          LSP config
@@ -1536,6 +1535,7 @@ wk.register({
 		p = 'Open definition preview for symbol under cursor',
 		P = 'Close all preview windows',
 		R = 'Open references quickfix window for symbol under cursor',
+		s = 'Switch symbol under cursor',
 		r = 'Open references preview for symbol under cursor',
 		u = {
 			a = {

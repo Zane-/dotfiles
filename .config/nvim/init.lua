@@ -1,7 +1,7 @@
 --================================================
 --                Neovim Config
 --    Author: Zane Bilous
---    Last Modified: 05/27/2022
+--    Last Modified: 05/28/2022
 --    Dependencies:
 --      ripgrep, fzf
 --================================================
@@ -423,21 +423,21 @@ options.buttons = {
 	},
 }
 
--- Reenable status and tabline outside of alpha
+-- Reenable bufferline/statusline outside of alpha
 autocmd('FileType', {
 	pattern = '*',
 	callback = function()
-		opt.laststatus = 3
 		opt.showtabline = 3
+		opt.laststatus = 3
 	end,
 })
 
--- Disable statusline in alpha
+-- Disable bufferline/statusline in alpha
 autocmd('FileType', {
 	pattern = 'alpha',
 	callback = function()
-		opt.laststatus = 0
 		opt.showtabline = 0
+		opt.laststatus = 0
 	end,
 })
 
@@ -456,7 +456,9 @@ require('alpha').setup {
 ----------------------------------
 --      auto-session config
 ----------------------------------
-require('auto-session').setup {}
+require('auto-session').setup {
+	auto_session_suppress_dirs = { '~' },
+}
 
 ----------------------------------
 --      bufferline config
@@ -485,14 +487,14 @@ require('bufferline').setup {
 }
 
 ----------------------------------
---    better-escpape config
+--     better-escape config
 ----------------------------------
 require('better_escape').setup {
 	mapping = { 'jk' },
 }
 
 ----------------------------------
---      catppuccin config
+--       catppuccin config
 ----------------------------------
 require('catppuccin').setup {
 	integrations = {
@@ -608,6 +610,7 @@ local config = {
 		-- Disable sections and component separators
 		component_separators = '',
 		disabled_filetypes = {
+			'alpha',
 			'dapui_breakpoints',
 			'dapui_hover',
 			'dapui_repl',
@@ -1438,9 +1441,8 @@ wk.register({
 			f = 'a function',
 		},
 		s = 'Surrounding',
-		S = 'Surrounding and expand',
 	},
-	B = 'Jump to beginning of line',
+	B = 'Jump to first char of line',
 	b = {
 		name = 'DAP',
 		b = 'Toggle breakpoint',
@@ -1520,7 +1522,7 @@ wk.register({
 	},
 	q = {
 		a = 'Quit all',
-		q = 'Close buffer',
+		q = 'Close current buffer',
 	},
 	r = {
 		name = 'Refactor',
@@ -1641,7 +1643,6 @@ wk.register({
 	[';'] = 'Input command',
 	['\\'] = 'Search through all files',
 	['<c-b>'] = 'Toggle DAP sidebar',
-	['<space>h'] = 'Open signature help',
 	['<c-h>'] = 'Go to window left',
 	['<c-l>'] = 'Go to window right',
 	['<C-j>'] = 'Go to window down',
@@ -1651,19 +1652,19 @@ wk.register({
 	['<c-v>'] = 'Split window vertically',
 	['<c-x>'] = 'Split window horizontally',
 	['<c-space>'] = 'Trigger autocomplete',
-	['<F1>'] = 'Goto previous location',
-	['<F2>'] = 'Goto next location',
-	['<F3>'] = 'Toggle symbols outline',
-	['<cr>'] = 'Insert blankline',
-	['<m-t>'] = 'Toggle floating terminal',
-	['<Left>'] = 'Previous buffer',
-	['<Right>'] = 'Next buffer',
-	['<s-left>'] = 'Move buffer left',
-	['<s-Right>'] = 'Move buffer right',
-	['<bs>'] = 'Delete line',
 	['<A-t>'] = 'Toggle floating terminal',
 	['<A-x>'] = 'Toggle terminal in horizontal split',
 	['<A-p>'] = 'Toggle ipython',
 	['<A-h>'] = 'Toggle htop',
 	['<A-g>'] = 'Toggle lazygit',
+	['<F1>'] = 'Goto previous location',
+	['<F2>'] = 'Goto next location',
+	['<F3>'] = 'Toggle symbols outline',
+	['<Left>'] = 'Previous buffer',
+	['<Right>'] = 'Next buffer',
+	['<s-left>'] = 'Move buffer left',
+	['<s-Right>'] = 'Move buffer right',
+	['<cr>'] = 'Insert blankline',
+	['<bs>'] = 'Delete line',
+	['<space>h'] = 'Open signature help',
 })

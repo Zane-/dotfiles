@@ -1,7 +1,7 @@
 --================================================
 --                Neovim Config
 --    Author: Zane Bilous
---    Last Modified: 05/21/2022
+--    Last Modified: 05/27/2022
 --    Dependencies:
 --      ripgrep, fzf
 --================================================
@@ -474,6 +474,15 @@ require('better_escape').setup {
 }
 
 ----------------------------------
+--      catppuccin config
+----------------------------------
+require('catppuccin').setup {
+	integrations = {
+		hop = true,
+	},
+}
+
+----------------------------------
 --        Comment config
 ----------------------------------
 require('Comment').setup {}
@@ -590,10 +599,7 @@ local config = {
 		component_separators = '',
 		globalstatus = true,
 		section_separators = '',
-		theme = {
-			normal = { c = { fg = colors.fg, bg = colors.bg } },
-			inactive = { c = { fg = colors.fg, bg = colors.bg } },
-		},
+		theme = 'catppuccin',
 	},
 	sections = {
 		-- These are to remove the defaults
@@ -890,7 +896,7 @@ cmp.setup.cmdline(':', {
 ----------------------------------
 --       nvim-tree config
 ----------------------------------
-require('nvim-tree').setup({
+require('nvim-tree').setup {
 	actions = {
 		open_file = {
 			resize_window = true,
@@ -922,7 +928,7 @@ require('nvim-tree').setup({
 		width = 30,
 		hide_root_folder = true,
 	},
-})
+}
 
 ----------------------------------
 --    nvim-treesitter config

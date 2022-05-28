@@ -149,10 +149,10 @@ nmap('wl', '<cmd>HopLine<cr>')
 nmap('<C-f>', '<cmd>NvimTreeToggle<cr>')
 
 -- SnipRun mappings
-nmap('sr', '<cmd>SnipRun<cr>')
-nmap('sq', '<cmd>SnipReset<cr>')
-nmap('sc', '<cmd>SnipClose<cr>')
-vmap('sr', "<cmd>SnipRun<cr>")
+nmap('ec', '<cmd>SnipRun<cr>')
+nmap('er', '<cmd>SnipReset<cr>')
+nmap('eq', '<cmd>SnipClose<cr>')
+vmap('ec', "<cmd>SnipRun<cr>")
 
 -- Telescope mappings
 nmap('\\', '<cmd>Telescope live_grep hidden=true<cr>')
@@ -192,6 +192,7 @@ nmap('<space>k', '<cmd>WhichKey<cr>')
 local on_attach = function(client, bufnr)
 	g.code_action_menu_show_details = false
 	vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v<cmd>lua.vim.lsp.omnifunc')
+
 	nmap_buf(bufnr, 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>')
 	nmap_buf(bufnr, 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>')
 	nmap_buf(bufnr, 'D', '<cmd>lua vim.lsp.buf.hover()<cr>')
@@ -660,7 +661,7 @@ ins_left {
 	function()
 		return '▊'
 	end,
-	color = { fg = lualine_colors.blue }, -- Sets highlighting of component
+	color = { fg = lualine_colors.violet }, -- Sets highlighting of component
 	padding = { left = 0, right = 1 }, -- We don't need space before this
 }
 
@@ -720,6 +721,22 @@ ins_left {
 	icon = '',
 }
 
+ins_right {
+	'branch',
+	icon = '',
+	color = { fg = lualine_colors.violet, gui = 'bold' },
+}
+
+ins_right {
+	'diff',
+	symbols = { added = ' ', modified = '柳', removed = ' ' },
+	diff_color = {
+		added = { fg = lualine_colors.green },
+		modified = { fg = lualine_colors.orange },
+		removed = { fg = lualine_colors.red },
+	},
+	cond = conditions.hide_in_width,
+}
 ins_right {
 	'diagnostics',
 	sources = { 'nvim_diagnostic' },
@@ -789,27 +806,10 @@ ins_right {
 }
 
 ins_right {
-	'branch',
-	icon = '',
-	color = { fg = lualine_colors.violet, gui = 'bold' },
-}
-
-ins_right {
-	'diff',
-	symbols = { added = ' ', modified = '柳', removed = ' ' },
-	diff_color = {
-		added = { fg = lualine_colors.green },
-		modified = { fg = lualine_colors.orange },
-		removed = { fg = lualine_colors.red },
-	},
-	cond = conditions.hide_in_width,
-}
-
-ins_right {
 	function()
 		return '▐'
 	end,
-	color = { fg = lualine_colors.blue },
+	color = { fg = lualine_colors.violet },
 	padding = { left = 1 },
 }
 
@@ -1073,6 +1073,10 @@ command_center.add({
 		cmd = '<cmd>tabnew<cr>',
 	},
 	{
+		description = 'Close current file',
+		cmd = '<cmd>Bdelete<cr>',
+	},
+	{
 		description = 'Save current file',
 		cmd = '<cmd>w<cr>',
 	},
@@ -1190,7 +1194,7 @@ command_center.add({
 	},
 	{
 		description = 'Open code actions for symbol under cursor',
-		cmd = '<cmd>lua vim.lsp.buf.code_action<cr>',
+		cmd = '<cmd>CodeActionMenu<cr>',
 	},
 	{
 		description = 'Open references for symbol under cursor',
@@ -1303,6 +1307,18 @@ command_center.add({
 	{
 		description = 'Open git files',
 		cmd = '<cmd>Telescope git_files<cr>',
+	},
+	{
+		description = 'Install LSP server',
+		cmd = '<cmd>LspInstall<cr>',
+	},
+	{
+		description = 'Open LSP info',
+		cmd = '<cmd>LspInfo<cr>',
+	},
+	{
+		description = 'Restart LSP server',
+		cmd = '<cmd>LspRestart<cr>',
 	},
 	{
 		description = 'Packer install',
@@ -1489,6 +1505,12 @@ wk.register({
 		s = 'Surrounding',
 	},
 	D = 'Preview symbol information',
+	e = {
+		name = 'Code execution',
+		c = 'Clear all execution results',
+		r = 'Execute line of code',
+		q = 'Stop currently executing code',
+	},
 	E = 'Jump to end of line',
 	g = {
 		b = 'Toggle comment blockwise',
@@ -1552,12 +1574,6 @@ wk.register({
 		l = 'Replace on line only',
 		n = 'Rename symbol under cursor',
 		w = 'Rename word under cursor',
-	},
-	s = {
-		name = 'Sniprun',
-		c = 'Clear all execution results',
-		r = 'Execute line of code',
-		q = 'Stop currently executing code',
 	},
 	S = 'Move line down',
 	v = {

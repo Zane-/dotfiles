@@ -20,6 +20,7 @@ local opt     = vim.opt
 ----------------------------------
 opt.clipboard     = 'unnamed' -- use system clipboard
 opt.ignorecase    = true -- ignore case when searching
+opt.laststatus    = 3 -- one statusline for all windows
 opt.linebreak     = true -- break lines
 opt.mouse         = 'nicr' -- use mouse for scrolling and clicking
 opt.number        = true -- line numbers
@@ -397,8 +398,8 @@ options.buttons = {
 autocmd('FileType', {
 	pattern = '*',
 	callback = function()
-		opt.laststatus = 2
-		opt.showtabline = 2
+		opt.laststatus = 3
+		opt.showtabline = 3
 	end,
 })
 
@@ -580,7 +581,6 @@ local config = {
 		-- Disable sections and component separators
 		component_separators = '',
 		section_separators = '',
-		disabled_filetypes = { 'NvimTree', 'toggleterm' },
 		theme = {
 			normal = { c = { fg = colors.fg, bg = colors.bg } },
 			inactive = { c = { fg = colors.fg, bg = colors.bg } },

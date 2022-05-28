@@ -136,6 +136,9 @@ nmap('bo', '<cmd>DapStepOver<cr>')
 nmap('bi', '<cmd>DapStepInto<cr>')
 nmap('bO', '<cmd>DapStepOut<cr>')
 
+-- fm-nvim mappings
+nmap('<A-r>', '<cmd>Ranger<cr>')
+
 -- nvim-tree mappings
 nmap('<C-f>', '<cmd>NvimTreeToggle<cr>')
 
@@ -310,6 +313,7 @@ require('packer').startup(function()
 		{ 'andrewradev/switch.vim' }, -- smart switch between stuff
 		{ 'famiu/bufdelete.nvim' }, -- better buffer delete command
 		{ 'ggandor/lightspeed.nvim' }, -- easy navigation
+		{ 'is0n/fm-nvim' }, -- for ranger
 		{ 'max397574/better-escape.nvim' }, -- better insert mode exit
 		{ 'rktjmp/paperplanes.nvim' }, -- upload buffer online
 		{ 'rmagatti/auto-session' }, -- sessions based on cwd
@@ -537,6 +541,17 @@ fn.sign_define('DapBreakpointCondition', { text = 'ﳁ', texthl = 'DapBreakpoint
 fn.sign_define('DapBreakpointRejected', { text = '', texthl = 'DapBreakpoint', linehl = 'DapBreakpoint', numhl = 'DapBreakpoint' })
 fn.sign_define('DapLogPoint', { text = '', texthl = 'DapLogPoint', linehl = 'DapLogPoint', numhl = 'DapLogPoint' })
 fn.sign_define('DapStopped', { text = '', texthl = 'DapStopped', linehl = 'DapStopped', numhl = 'DapStopped' })
+
+----------------------------------
+--        fm-nvim config
+----------------------------------
+require('fm-nvim').setup {
+	ui = {
+		float = {
+			border = 'single',
+		},
+	},
+}
 
 ----------------------------------
 --       gitsigns config
@@ -1356,6 +1371,10 @@ command_center.add({
 		cmd = '<cmd>NvimTreeToggle<cr>',
 	},
 	{
+		description = 'Open ranger',
+		cmd = '<cmd>Ranger<cr>',
+	},
+	{
 		description = 'Toggle symbols outline',
 		cmd = '<cmd>SymbolsOutline<cr>',
 	},
@@ -1470,6 +1489,7 @@ wk.setup({
 		['<M-g>'] = 'Alt + g',
 		['<M-h>'] = 'Alt + h',
 		['<M-p>'] = 'Alt + p',
+		['<M-r>'] = 'Alt + r',
 		['<M-t>'] = 'Alt + t',
 		['<M-x>'] = 'Alt + x',
 		['<F1>'] = 'F1',
@@ -1710,6 +1730,7 @@ wk.register({
 	['<A-p>'] = 'Toggle ipython',
 	['<A-h>'] = 'Toggle htop',
 	['<A-g>'] = 'Toggle lazygit',
+	['<A-r>'] = 'Open ranger',
 	['<F1>'] = 'Goto previous location',
 	['<F2>'] = 'Goto next location',
 	['<F3>'] = 'Toggle symbols outline',

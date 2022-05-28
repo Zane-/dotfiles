@@ -181,6 +181,7 @@ nmap('<space>k', '<cmd>WhichKey<cr>')
 -- LSP mappings
 -- These only bind when an LSP is attached
 local on_attach = function(client, bufnr)
+	g.code_action_menu_show_details = false
 	vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v<cmd>lua.vim.lsp.omnifunc')
 	nmap_buf(bufnr, 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>')
 	nmap_buf(bufnr, 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>')
@@ -193,7 +194,7 @@ local on_attach = function(client, bufnr)
 	nmap_buf(bufnr, '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<cr>')
 	nmap_buf(bufnr, '<space>d', '<cmd>lua vim.lsp.buf.type_definition()<cr>')
 	nmap_buf(bufnr, 'rn', '<cmd>lua vim.lsp.buf.rename()<cr>')
-	nmap_buf(bufnr, 'ca', '<cmd>lua vim.lsp.buf.code_action()<cr>')
+	nmap_buf(bufnr, 'ca', '<cmd>CodeActionMenu<cr>')
 	nmap_buf(bufnr, '<space>f', '<cmd>lua vim.lsp.buf.format { async = true } <cr>')
 
 	-- auto format on save
@@ -238,6 +239,7 @@ require('packer').startup(function()
 	}
 
 	use { -- Colorschemes
+		{ 'catppuccin/nvim', as = 'catppuccin' },
 		{ 'EdenEast/nightfox.nvim' },
 		{ 'folke/tokyonight.nvim' },
 		{ 'mhartington/oceanic-next' },
@@ -317,7 +319,7 @@ end)
 ----------------------------------
 --             Colors
 ----------------------------------
-cmd [[ colorscheme tokyonight ]]
+cmd [[ colorscheme catppuccin ]]
 
 --================================================
 --                Plugin Configs
@@ -555,17 +557,17 @@ local lualine = require('lualine')
 
 -- Color table for highlights
 local colors = {
-	bg       = '#1d202f',
-	fg       = '#bbc2cf',
-	yellow   = '#ECBE7B',
-	cyan     = '#008080',
+	bg       = '#11111b',
+	fg       = '#dadae8',
+	yellow   = '#ebddaa',
+	cyan     = '#c2e7f0',
 	darkblue = '#081633',
-	green    = '#98be65',
-	orange   = '#FF8800',
-	violet   = '#a9a1e1',
+	green    = '#b1e3ad',
+	orange   = '#f9c096',
+	violet   = '#e5b4e2',
 	magenta  = '#c678dd',
-	blue     = '#51afef',
-	red      = '#ec5f67',
+	blue     = '#a4b9ef',
+	red      = '#e38c8f',
 }
 
 local conditions = {
@@ -888,16 +890,6 @@ cmp.setup.cmdline(':', {
 ----------------------------------
 --       nvim-tree config
 ----------------------------------
-g.nvim_tree_git_hl = 1
-g.nvim_tree_highlight_opened_files = 0
-
-g.nvim_tree_show_icons = {
-	folders = 1,
-	files = 1,
-	git = 1,
-	folder_arrows = 1,
-}
-
 require('nvim-tree').setup({
 	actions = {
 		open_file = {
@@ -915,6 +907,7 @@ require('nvim-tree').setup({
 	ignore_ft_on_setup = { 'alpha' },
 	open_on_tab = false,
 	renderer = {
+		highlight_git = true,
 		indent_markers = {
 			enable = false,
 		},

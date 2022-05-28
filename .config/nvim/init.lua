@@ -1342,7 +1342,12 @@ require('telescope').setup({
 		border = {},
 		color_devicons = true,
 		entry_prefix = '  ',
-		file_ignore_patterns = { '.git', 'node_modules' },
+		file_ignore_patterns = {
+			'.bundle',
+			'.git',
+			'node_modules',
+			'site-packages',
+		},
 		initial_mode = 'insert',
 		layout_config = {
 			horizontal = {

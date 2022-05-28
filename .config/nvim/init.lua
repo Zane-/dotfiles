@@ -162,6 +162,7 @@ nmap('<leader>th', '<cmd>Telescope colorscheme<cr>')
 
 -- toggleterm mappings
 map('t', '<C-q>', '<cmd>close<cr>')
+map('t', '<Esc>', '<cmd>close<cr>')
 
 nmap('<A-t>', '<cmd>ToggleTerm direction=float<cr>')
 map('t', '<A-t>', '<cmd>ToggleTerm direction=float<cr>')
@@ -564,19 +565,19 @@ end)
 ----------------------------------
 local lualine = require('lualine')
 
+local catppuccin_colors = require('catppuccin.api.colors').get_colors()
+
 -- Color table for highlights
-local colors = {
-	bg       = '#11111b',
-	fg       = '#dadae8',
-	yellow   = '#ebddaa',
-	cyan     = '#c2e7f0',
-	darkblue = '#081633',
-	green    = '#b1e3ad',
-	orange   = '#f9c096',
-	violet   = '#e5b4e2',
-	magenta  = '#c6aae8',
-	blue     = '#a4b9ef',
-	red      = '#e38c8f',
+local lualine_colors = {
+	yellow   = catppuccin_colors.yellow,
+	cyan     = catppuccin_colors.teal,
+	darkblue = catppuccin_colors.sapphire,
+	green    = catppuccin_colors.green,
+	orange   = catppuccin_colors.peach,
+	violet   = catppuccin_colors.lavender,
+	magenta  = catppuccin_colors.mauve,
+	blue     = catppuccin_colors.blue,
+	red      = catppuccin_colors.red,
 }
 
 local conditions = {
@@ -636,7 +637,7 @@ ins_left {
 	function()
 		return '▊'
 	end,
-	color = { fg = colors.blue }, -- Sets highlighting of component
+	color = { fg = lualine_colors.blue }, -- Sets highlighting of component
 	padding = { left = 0, right = 1 }, -- We don't need space before this
 }
 
@@ -648,25 +649,25 @@ ins_left {
 	color = function()
 		-- auto change color according to neovims mode
 		local mode_color = {
-			n = colors.red,
-			i = colors.green,
-			v = colors.blue,
-			V = colors.blue,
-			c = colors.magenta,
-			no = colors.red,
-			s = colors.orange,
-			S = colors.orange,
-			[''] = colors.orange,
-			ic = colors.yellow,
-			R = colors.violet,
-			Rv = colors.violet,
-			cv = colors.red,
-			ce = colors.red,
-			r = colors.cyan,
-			rm = colors.cyan,
-			['r?'] = colors.cyan,
-			['!'] = colors.red,
-			t = colors.red,
+			n = lualine_colors.red,
+			i = lualine_colors.green,
+			v = lualine_colors.blue,
+			V = lualine_colors.blue,
+			c = lualine_colors.magenta,
+			no = lualine_colors.red,
+			s = lualine_colors.orange,
+			S = lualine_colors.orange,
+			[''] = lualine_colors.orange,
+			ic = lualine_colors.yellow,
+			R = lualine_colors.violet,
+			Rv = lualine_colors.violet,
+			cv = lualine_colors.red,
+			ce = lualine_colors.red,
+			r = lualine_colors.cyan,
+			rm = lualine_colors.cyan,
+			['r?'] = lualine_colors.cyan,
+			['!'] = lualine_colors.red,
+			t = lualine_colors.red,
 		}
 		return { fg = mode_color[vim.fn.mode()] }
 	end,
@@ -676,7 +677,7 @@ ins_left {
 ins_left {
 	'filename',
 	cond = conditions.buffer_not_empty,
-	color = { fg = colors.magenta, gui = 'bold' },
+	color = { fg = lualine_colors.magenta, gui = 'bold' },
 }
 
 ins_left {
@@ -686,16 +687,16 @@ ins_left {
 
 ins_left { 'location' }
 
-ins_left { 'progress', color = { fg = colors.fg, gui = 'bold' } }
+ins_left { 'progress', color = { fg = lualine_colors.fg, gui = 'bold' } }
 
 ins_right {
 	'diagnostics',
 	sources = { 'nvim_diagnostic' },
 	symbols = { error = ' ', warn = ' ', info = ' ', hint = ' ' },
 	diagnostics_color = {
-		color_error = { fg = colors.red },
-		color_warn = { fg = colors.yellow },
-		color_info = { fg = colors.cyan },
+		color_error = { fg = lualine_colors.red },
+		color_warn = { fg = lualine_colors.yellow },
+		color_info = { fg = lualine_colors.cyan },
 	},
 }
 
@@ -717,36 +718,36 @@ ins_right {
 		return msg
 	end,
 	icon = ' LSP',
-	color = { fg = colors.orange, gui = 'bold' },
+	color = { fg = lualine_colors.orange, gui = 'bold' },
 }
 
 ins_right {
 	'o<cmd>encoding',
 	fmt = string.upper,
 	cond = conditions.hide_in_width,
-	color = { fg = colors.green, gui = 'bold' },
+	color = { fg = lualine_colors.green, gui = 'bold' },
 }
 
 ins_right {
 	'fileformat',
 	fmt = string.upper,
 	icons_enabled = false,
-	color = { fg = colors.green, gui = 'bold' },
+	color = { fg = lualine_colors.green, gui = 'bold' },
 }
 
 ins_right {
 	'branch',
 	icon = '',
-	color = { fg = colors.violet, gui = 'bold' },
+	color = { fg = lualine_colors.violet, gui = 'bold' },
 }
 
 ins_right {
 	'diff',
 	symbols = { added = ' ', modified = '柳', removed = ' ' },
 	diff_color = {
-		added = { fg = colors.green },
-		modified = { fg = colors.orange },
-		removed = { fg = colors.red },
+		added = { fg = lualine_colors.green },
+		modified = { fg = lualine_colors.orange },
+		removed = { fg = lualine_colors.red },
 	},
 	cond = conditions.hide_in_width,
 }
@@ -755,7 +756,7 @@ ins_right {
 	function()
 		return '▊'
 	end,
-	color = { fg = colors.blue },
+	color = { fg = lualine_colors.blue },
 	padding = { left = 1 },
 }
 
@@ -810,8 +811,8 @@ cmp.setup({
 		if vim.api.nvim_get_mode().mode == 'c' then
 			return true
 		else
-			return not context.in_treesitter_capture("comment")
-					and not context.in_syntax_group("Comment")
+			return not context.in_treesitter_capture('comment')
+					and not context.in_syntax_group('Comment')
 		end
 	end,
 	formatting = {

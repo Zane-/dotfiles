@@ -146,10 +146,10 @@ nmap('wl', '<cmd>HopLine<cr>')
 nmap('<C-f>', '<cmd>NvimTreeToggle<cr>')
 
 -- SnipRun mappings
-nmap('ec', '<cmd>SnipRun<cr>')
-nmap('er', '<cmd>SnipReset<cr>')
-nmap('eq', '<cmd>SnipClose<cr>')
-vmap('ec', "<cmd>SnipRun<cr>")
+nmap('er', '<cmd>SnipRun<cr>')
+nmap('eq', '<cmd>SnipReset<cr>')
+nmap('ec', '<cmd>SnipClose<cr>')
+vmap('r', '<Plug>SnipRun')
 
 -- Telescope mappings
 nmap('\\', '<cmd>Telescope live_grep hidden=true<cr>')
@@ -335,6 +335,13 @@ vim.highlight.create('DapStopped', { ctermbg = 0, guifg = catppuccin_colors.gree
 
 -- Highlight color for SymbolsOutline preview popup
 vim.highlight.create('Pmenu', { ctermbg = 0, guifg = catppuccin_colors.text, guibg = catppuccin_colors.mantle }, false)
+
+-- Highlights for Sniprun
+
+vim.highlight.create('SniprunVirtualTextOk', { ctermbg = 0, guifg = catppuccin_colors.blue, guibg = catppuccin_colors.mantle }, false)
+vim.highlight.create('SniprunVirtualTextErr', { ctermbg = 0, guifg = catppuccin_colors.red, guibg = catppuccin_colors.mantle }, false)
+vim.highlight.create('SniprunFloatingWinOk', { ctermbg = 0, guifg = catppuccin_colors.blue, guibg = catppuccin_colors.mantle }, false)
+vim.highlight.create('SniprunFloatingWinErr', { ctermbg = 0, guifg = catppuccin_colors.red, guibg = catppuccin_colors.mantle }, false)
 
 --================================================
 --                Plugin Configs
@@ -774,10 +781,10 @@ ins_right {
 		local lsp_client = get_lsp_client_name()
 
 		if lsp_client == nil then
-			return { fg = lualine_colors.fg }
+			return { fg = lualine_colors.red }
 		end
 
-		return { fg = lualine_colors.red, gui = 'bold' }
+		return { fg = lualine_colors.green, gui = 'bold' }
 	end,
 
 }
@@ -786,7 +793,7 @@ ins_right {
 	'o<cmd>encoding',
 	fmt = string.upper,
 	cond = conditions.hide_in_width,
-	color = { fg = lualine_colors.green, gui = 'bold' },
+	color = { fg = lualine_colors.cyan, gui = 'bold' },
 	icon = '',
 }
 
@@ -794,7 +801,7 @@ ins_right {
 	'fileformat',
 	fmt = string.upper,
 	icons_enabled = false,
-	color = { fg = lualine_colors.green, gui = 'bold' },
+	color = { fg = lualine_colors.cyan, gui = 'bold' },
 }
 
 ins_right {
@@ -1026,17 +1033,115 @@ require('nvim-treesitter.configs').setup {
 ----------------------------------
 --     paperplanes config
 ----------------------------------
-require('paperplanes').setup({
+require('paperplanes').setup {
 	register = '+',
 	provider = 'ix.io',
 	provider_options = { insecure = true },
 	cmd = 'curl',
-})
+}
+
+----------------------------------
+--        sniprun config
+----------------------------------
+require('sniprun').setup {
+	display = {
+		'TempFloatingWindow'
+	}
+}
+
+----------------------------------
+--       Telescope config
+----------------------------------
+require('telescope').setup {
+	defaults = {
+		border = {},
+		color_devicons = true,
+		entry_prefix = '  ',
+		file_ignore_patterns = {
+			'.bundle',
+			'.git',
+			'node_modules',
+			'site-packages',
+		},
+		initial_mode = 'insert',
+		layout_config = {
+			horizontal = {
+				prompt_position = 'top',
+				preview_width = 0.55,
+				results_width = 0.8,
+			},
+			vertical = {
+				mirror = false,
+			},
+			width = 0.87,
+			height = 0.80,
+			preview_cutoff = 120,
+		},
+		layout_strategy = 'horizontal',
+		path_display = { 'truncate' },
+		prompt_prefix = '   ',
+		selection_caret = '  ',
+		selection_strategy = 'reset',
+		sorting_strategy = 'ascending',
+		use_less = true,
+		vimgrep_arguments = {
+			'rg',
+			'--hidden',
+			'--line-number',
+			'--column',
+			'--smart-case',
+		},
+		winblend = 0,
+	},
+	extensions = {
+		command_center = {
+			components = {
+				require('command_center').component.DESCRIPTION,
+			},
+		},
+	}
+}
+
+require('telescope').load_extension('command_center')
+require('telescope').load_extension('fzf')
+
+---------------------------------
+--      toggleterm config
+----------------------------------
+require 'toggleterm'.setup {
+	shade_terminals = false,
+}
+
+local Terminal = require('toggleterm.terminal').Terminal
+
+local horizontal = Terminal:new({ direction = 'horizontal', hidden = true })
+function _toggle_horizontal()
+	horizontal:toggle()
+end
+
+local htop = Terminal:new({ cmd = 'htop', direction = 'float', hidden = true })
+function _toggle_htop()
+	htop:toggle()
+end
+
+local lazygit = Terminal:new({ cmd = 'lazygit', direction = 'float', hidden = true })
+function _toggle_lazygit()
+	lazygit:toggle()
+end
+
+local ipython = Terminal:new({ cmd = 'ipython', direction = 'float', hidden = true })
+function _toggle_ipython()
+	ipython:toggle()
+end
+
+----------------------------------
+--        trouble config
+----------------------------------
+require('trouble').setup {}
 
 ----------------------------------
 --     command center config
 ----------------------------------
-
 local command_center = require('command_center')
 
 command_center.add({
@@ -1045,11 +1150,11 @@ command_center.add({
 		cmd = '<cmd>WhichKey<cr>',
 	},
 	{
-		description = 'Find files',
+		description = 'Find file',
 		cmd = '<cmd>Telescope find_files<cr>',
 	},
 	{
-		description = 'Open recent files',
+		description = 'Open recent file',
 		cmd = '<cmd>Telescope oldfiles<cr>',
 	},
 	{
@@ -1335,96 +1440,6 @@ command_center.add({
 })
 
 ----------------------------------
---       Telescope config
-----------------------------------
-require('telescope').setup({
-	defaults = {
-		border = {},
-		color_devicons = true,
-		entry_prefix = '  ',
-		file_ignore_patterns = {
-			'.bundle',
-			'.git',
-			'node_modules',
-			'site-packages',
-		},
-		initial_mode = 'insert',
-		layout_config = {
-			horizontal = {
-				prompt_position = 'top',
-				preview_width = 0.55,
-				results_width = 0.8,
-			},
-			vertical = {
-				mirror = false,
-			},
-			width = 0.87,
-			height = 0.80,
-			preview_cutoff = 120,
-		},
-		layout_strategy = 'horizontal',
-		path_display = { 'truncate' },
-		prompt_prefix = '   ',
-		selection_caret = '  ',
-		selection_strategy = 'reset',
-		sorting_strategy = 'ascending',
-		use_less = true,
-		vimgrep_arguments = {
-			'rg',
-			'--hidden',
-			'--line-number',
-			'--column',
-			'--smart-case',
-		},
-		winblend = 0,
-	},
-	extensions = {
-		command_center = {
-			components = {
-				command_center.component.DESCRIPTION,
-			},
-		},
-	}
-})
-
-require('telescope').load_extension('command_center')
-require('telescope').load_extension('fzf')
-
----------------------------------
---      toggleterm config
-----------------------------------
-require 'toggleterm'.setup {
-	shade_terminals = false,
-}
-
-local Terminal = require('toggleterm.terminal').Terminal
-
-local horizontal = Terminal:new({ direction = 'horizontal', hidden = true })
-function _toggle_horizontal()
-	horizontal:toggle()
-end
-
-local htop = Terminal:new({ cmd = 'htop', direction = 'float', hidden = true })
-function _toggle_htop()
-	htop:toggle()
-end
-
-local lazygit = Terminal:new({ cmd = 'lazygit', direction = 'float', hidden = true })
-function _toggle_lazygit()
-	lazygit:toggle()
-end
-
-local ipython = Terminal:new({ cmd = 'ipython', direction = 'float', hidden = true })
-function _toggle_ipython()
-	ipython:toggle()
-end
-
-----------------------------------
---        trouble config
-----------------------------------
-require('trouble').setup {}
-
-----------------------------------
 --       which-key config
 ----------------------------------
 local wk = require('which-key')
@@ -1582,6 +1597,7 @@ wk.register({
 			c = 'a class',
 			f = 'a function',
 		},
+		r = 'Execute code',
 	},
 	w = {
 		name = 'Navigation / Save',

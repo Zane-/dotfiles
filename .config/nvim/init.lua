@@ -19,6 +19,15 @@ local opt     = vim.opt
 --           Options
 ----------------------------------
 opt.clipboard     = 'unnamed' -- use system clipboard
+opt.fillchars     = { -- thicker borders between windows
+	horiz     = '━',
+	horizup   = '┻',
+	horizdown = '┳',
+	vert      = '┃',
+	vertleft  = '┫',
+	vertright = '┣',
+	verthoriz = '╋',
+}
 opt.ignorecase    = true -- ignore case when searching
 opt.laststatus    = 3 -- one statusline for all windows
 opt.linebreak     = true -- break lines
@@ -434,27 +443,24 @@ require('auto-session').setup {}
 ----------------------------------
 require('bufferline').setup {
 	options = {
-		buffer_close_icon = '',
-		close_icon = '',
-		close_command = 'Bdelete! %d',
-		right_mouse_command = 'Bdelete! %d',
-		separator_style = 'thick',
-		diagnostics = 'nvim_lsp',
-		diagnostics_indicator = function(count, level, diagnostics_dict, context)
-			if context.buffer:current() then
-				return ''
-			end
-			local s = ' '
-			for e, n in pairs(diagnostics_dict) do
-				local sym = e == 'error' and ' '
-						or (e == 'warning' and ' ' or ' ')
-				s = s .. n .. sym
-			end
-			return s
-		end,
-		offsets = {
-			{ filetype = 'NvimTree' },
-		},
+		always_show_bufferline = true,
+		buffer_close_icon = "",
+		close_icon = "",
+		diagnostics = false,
+		enforce_regular_tabs = false,
+		left_trunc_marker = "",
+		max_name_length = 14,
+		max_prefix_length = 13,
+		modified_icon = "",
+		offsets = { { filetype = 'NvimTree', padding = 1 } },
+		right_trunc_marker = "",
+		separator_style = "thin",
+		show_close_icon = false,
+		show_tab_indicators = true,
+		show_buffer_close_icons = true,
+		tab_size = 20,
+		themable = true,
+		view = "multiwindow",
 	},
 }
 
@@ -580,6 +586,7 @@ local config = {
 	options = {
 		-- Disable sections and component separators
 		component_separators = '',
+		globalstatus = true,
 		section_separators = '',
 		theme = {
 			normal = { c = { fg = colors.fg, bg = colors.bg } },
@@ -881,7 +888,48 @@ cmp.setup.cmdline(':', {
 ----------------------------------
 --       nvim-tree config
 ----------------------------------
-require('nvim-tree').setup {}
+g.nvim_tree_git_hl = 1
+g.nvim_tree_highlight_opened_files = 0
+
+g.nvim_tree_show_icons = {
+	folders = 1,
+	files = 1,
+	git = 1,
+	folder_arrows = 1,
+}
+
+require('nvim-tree').setup({
+	actions = {
+		open_file = {
+			resize_window = true,
+		},
+	},
+	disable_netrw = true,
+	git = {
+		enable = false,
+		ignore = true,
+	},
+	hijack_netrw = true,
+	hijack_cursor = true,
+	hijack_unnamed_buffer_when_opening = false,
+	ignore_ft_on_setup = { 'alpha' },
+	open_on_tab = false,
+	renderer = {
+		indent_markers = {
+			enable = false,
+		},
+	},
+	update_cwd = true,
+	update_focused_file = {
+		enable = true,
+		update_cwd = false,
+	},
+	view = {
+		side = 'left',
+		width = 30,
+		hide_root_folder = true,
+	},
+})
 
 ----------------------------------
 --    nvim-treesitter config
@@ -1230,6 +1278,31 @@ command_center.add({
 ----------------------------------
 require('telescope').setup({
 	defaults = {
+		border = {},
+		color_devicons = true,
+		entry_prefix = '  ',
+		file_ignore_patterns = { '.git', 'node_modules' },
+		initial_mode = 'insert',
+		layout_config = {
+			horizontal = {
+				prompt_position = 'top',
+				preview_width = 0.55,
+				results_width = 0.8,
+			},
+			vertical = {
+				mirror = false,
+			},
+			width = 0.87,
+			height = 0.80,
+			preview_cutoff = 120,
+		},
+		layout_strategy = 'horizontal',
+		path_display = { 'truncate' },
+		prompt_prefix = '   ',
+		selection_caret = '  ',
+		selection_strategy = 'reset',
+		sorting_strategy = 'ascending',
+		use_less = true,
 		vimgrep_arguments = {
 			'rg',
 			'--hidden',
@@ -1237,6 +1310,7 @@ require('telescope').setup({
 			'--column',
 			'--smart-case',
 		},
+		winblend = 0,
 	},
 	extensions = {
 		command_center = {
@@ -1290,6 +1364,9 @@ require('trouble').setup {}
 local wk = require('which-key')
 
 wk.setup({
+	icons = {
+		separator = '⟷',
+	},
 	ignore_missing = true,
 	key_labels = {
 		['<space>'] = 'Space',

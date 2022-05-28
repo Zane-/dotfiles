@@ -638,7 +638,7 @@ end
 
 ins_left {
 	function()
-		return ''
+		return '▊'
 	end,
 	color = { fg = lualine_colors.blue }, -- Sets highlighting of component
 	padding = { left = 0, right = 1 }, -- We don't need space before this
@@ -766,7 +766,7 @@ ins_right {
 
 ins_right {
 	function()
-		return ''
+		return '▐'
 	end,
 	color = { fg = lualine_colors.blue },
 	padding = { left = 1 },

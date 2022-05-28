@@ -1046,7 +1046,8 @@ require('paperplanes').setup {
 require('sniprun').setup {
 	display = {
 		'TempFloatingWindow'
-	}
+	},
+	live_mode_toggle = 'enable',
 }
 
 ----------------------------------

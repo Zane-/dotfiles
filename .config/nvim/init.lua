@@ -83,9 +83,6 @@ local function vmap(shortcut, command)
 	map('v', shortcut, command)
 end
 
-cmd([[
-]])
-
 g.mapleader = ',' -- remap leader to ,
 
 nmap(';', ':') -- easy command input
@@ -275,7 +272,6 @@ require('packer').startup(function()
 
 	use { -- Programming support
 		{ 'L3MON4D3/LuaSnip' }, -- snippets
-		{ 'markonm/traces.vim' }, -- live preview for substitution
 		{ 'michaelb/sniprun', run = 'bash ./install.sh' }, -- run code snippets
 		{ 'numToStr/Comment.nvim' }, -- comments
 		{ 'nvim-treesitter/nvim-treesitter' }, -- additional syntax highlighting

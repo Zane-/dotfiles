@@ -580,6 +580,7 @@ local lualine = require('lualine')
 
 -- Color table for highlights
 local lualine_colors = {
+	fg       = catppuccin_colors.text,
 	yellow   = catppuccin_colors.yellow,
 	cyan     = catppuccin_colors.teal,
 	darkblue = catppuccin_colors.sapphire,
@@ -700,7 +701,12 @@ ins_left {
 	'filename',
 	cond = conditions.buffer_not_empty,
 	icon = '',
-	color = { fg = lualine_colors.magenta, gui = 'bold' },
+	color = function()
+		if vim.api.nvim_buf_get_option(0, 'modified') then
+			return { fg = lualine_colors.green, gui = 'bold' }
+		end
+		return { fg = lualine_colors.magenta, gui = 'bold' }
+	end,
 }
 
 ins_left {
@@ -714,11 +720,6 @@ ins_left {
 	icon = '',
 }
 
-ins_left {
-	'progress',
-	icon = 'ﴜ',
-}
-
 ins_right {
 	'diagnostics',
 	sources = { 'nvim_diagnostic' },
@@ -730,25 +731,46 @@ ins_right {
 	},
 }
 
+local function get_lsp_client_name()
+	local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
+	local clients = vim.lsp.get_active_clients()
+
+	if next(clients) == nil then
+		return nil
+	end
+
+	for _, client in ipairs(clients) do
+		local filetypes = client.config.filetypes
+		if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
+			return client.name
+		end
+	end
+
+	return nil
+end
+
 ins_right {
 	-- LSP server name
 	function()
-		local msg = '⟪N/A⟫'
-		local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
-		local clients = vim.lsp.get_active_clients()
-		if next(clients) == nil then
-			return msg
+		local lsp_client = get_lsp_client_name()
+
+		if lsp_client == nil then
+			return 'ﰸ'
 		end
-		for _, client in ipairs(clients) do
-			local filetypes = client.config.filetypes
-			if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
-				return '⟪' .. client.name .. '⟫'
-			end
-		end
-		return msg
+
+		return '⟪' .. lsp_client .. '⟫'
 	end,
 	icon = ' LSP',
-	color = { fg = lualine_colors.red, gui = 'bold' },
+	color = function()
+		local lsp_client = get_lsp_client_name()
+
+		if lsp_client == nil then
+			return { fg = lualine_colors.fg }
+		end
+
+		return { fg = lualine_colors.red, gui = 'bold' }
+	end,
+
 }
 
 ins_right {

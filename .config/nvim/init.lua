@@ -9,11 +9,12 @@
 ----------------------------------
 --           Aliases
 ----------------------------------
-local autocmd = vim.api.nvim_create_autocmd
-local cmd     = vim.cmd
-local g       = vim.g
-local fn      = vim.fn
-local opt     = vim.opt
+local autocmd   = vim.api.nvim_create_autocmd
+local cmd       = vim.cmd
+local g         = vim.g
+local highlight = vim.highlight
+local fn        = vim.fn
+local opt       = vim.opt
 
 ----------------------------------
 --           Options
@@ -329,20 +330,60 @@ cmd [[ colorscheme catppuccin ]]
 
 local catppuccin_colors = require('catppuccin.api.colors').get_colors()
 
--- Highlight colors for DAP gutter symbols
-vim.highlight.create('DapBreakpoint', { ctermbg = 0, guifg = catppuccin_colors.red, guibg = catppuccin_colors.mantle }, false)
-vim.highlight.create('DapLogPoint', { ctermbg = 0, guifg = catppuccin_colors.blue, guibg = catppuccin_colors.mantle }, false)
-vim.highlight.create('DapStopped', { ctermbg = 0, guifg = catppuccin_colors.green, guibg = catppuccin_colors.mantle }, false)
+-- Highlights for DAP gutter symbols
+highlight.create('DapBreakpoint',
+	{
+		ctermbg = 0,
+		guifg = catppuccin_colors.red,
+		guibg = catppuccin_colors.mantle
+	},
+	false)
+highlight.create('DapLogPoint',
+	{
+		ctermbg = 0,
+		guifg = catppuccin_colors.blue,
+		guibg = catppuccin_colors.mantle },
+	false)
+highlight.create('DapStopped',
+	{
+		ctermbg = 0,
+		guifg = catppuccin_colors.green,
+		guibg = catppuccin_colors.mantle },
+	false)
 
--- Highlight color for SymbolsOutline preview popup
-vim.highlight.create('Pmenu', { ctermbg = 0, guifg = catppuccin_colors.text, guibg = catppuccin_colors.mantle }, false)
+-- Highlights for SymbolsOutline preview popup
+highlight.create('Pmenu',
+	{
+		ctermbg = 0,
+		guifg = catppuccin_colors.text,
+		guibg = catppuccin_colors.mantle },
+	false)
 
 -- Highlights for Sniprun
-
-vim.highlight.create('SniprunVirtualTextOk', { ctermbg = 0, guifg = catppuccin_colors.blue, guibg = catppuccin_colors.mantle }, false)
-vim.highlight.create('SniprunVirtualTextErr', { ctermbg = 0, guifg = catppuccin_colors.red, guibg = catppuccin_colors.mantle }, false)
-vim.highlight.create('SniprunFloatingWinOk', { ctermbg = 0, guifg = catppuccin_colors.blue, guibg = catppuccin_colors.mantle }, false)
-vim.highlight.create('SniprunFloatingWinErr', { ctermbg = 0, guifg = catppuccin_colors.red, guibg = catppuccin_colors.mantle }, false)
+highlight.create('SniprunVirtualTextOk',
+	{
+		ctermbg = 0,
+		guifg = catppuccin_colors.blue,
+		guibg = catppuccin_colors.mantle },
+	false)
+highlight.create('SniprunVirtualTextErr',
+	{
+		ctermbg = 0,
+		guifg = catppuccin_colors.red,
+		guibg = catppuccin_colors.mantle },
+	false)
+highlight.create('SniprunFloatingWinOk',
+	{
+		ctermbg = 0,
+		guifg = catppuccin_colors.blue,
+		guibg = catppuccin_colors.mantle },
+	false)
+highlight.create('SniprunFloatingWinErr',
+	{
+		ctermbg = 0,
+		guifg = catppuccin_colors.red,
+		guibg = catppuccin_colors.mantle },
+	false)
 
 --================================================
 --                Plugin Configs
@@ -511,15 +552,6 @@ require('Comment').setup {}
 ----------------------------------
 --          dap config
 ----------------------------------
-require('dapui').setup {}
-
--- Python DAP Configuration
-require('dap-python').setup()
-
-require("nvim-dap-virtual-text").setup {
-	commented = true,
-}
-
 -- Auto-open DAP UI on events
 local dap, dapui = require('dap'), require('dapui')
 
@@ -541,6 +573,14 @@ fn.sign_define('DapBreakpointCondition', { text = 'ﳁ', texthl = 'DapBreakpoint
 fn.sign_define('DapBreakpointRejected', { text = '', texthl = 'DapBreakpoint', linehl = 'DapBreakpoint', numhl = 'DapBreakpoint' })
 fn.sign_define('DapLogPoint', { text = '', texthl = 'DapLogPoint', linehl = 'DapLogPoint', numhl = 'DapLogPoint' })
 fn.sign_define('DapStopped', { text = '', texthl = 'DapStopped', linehl = 'DapStopped', numhl = 'DapStopped' })
+
+dapui.setup {}
+
+require('dap-python').setup()
+
+require('nvim-dap-virtual-text').setup {
+	commented = true,
+}
 
 ----------------------------------
 --        fm-nvim config

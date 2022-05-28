@@ -565,7 +565,7 @@ local colors = {
 	green    = '#b1e3ad',
 	orange   = '#f9c096',
 	violet   = '#e5b4e2',
-	magenta  = '#c678dd',
+	magenta  = '#c6aae8',
 	blue     = '#a4b9ef',
 	red      = '#e38c8f',
 }
@@ -711,7 +711,7 @@ ins_right {
 		return msg
 	end,
 	icon = ' LSP',
-	color = { fg = '#ffffff', gui = 'bold' },
+	color = { fg = colors.orange, gui = 'bold' },
 }
 
 ins_right {

@@ -96,6 +96,10 @@ nmap('B', '^') -- Line navigation
 nmap('E', '$')
 nmap('j', 'gj') -- move up and down by display rather than line number
 nmap('k', 'gk')
+nmap('<C-h>', [[<c-\><c-n><c-w>h]]) -- easy window navigation
+nmap('<C-j>', [[<c-\><c-n><c-w>j]])
+nmap('<C-k>', [[<c-\><c-n><c-w>k]])
+nmap('<C-l>', [[<c-\><c-n><c-w>l]])
 nmap('<leader><space>', '<cmd>nohlsearch<cr>') -- Turn off search highlight
 nmap('rg', ':%s/') -- Replace
 nmap('rl', ':s/')
@@ -142,7 +146,7 @@ nmap('ww', '<cmd>HopWord<cr>')
 nmap('wl', '<cmd>HopLine<cr>')
 
 -- nvim-tree mappings
-nmap('<C-n>', '<cmd>NvimTreeToggle<cr>')
+nmap('<C-f>', '<cmd>NvimTreeToggle<cr>')
 
 -- SnipRun mappings
 nmap('sr', '<cmd>SnipRun<cr>')
@@ -163,6 +167,10 @@ nmap('<leader>th', '<cmd>Telescope colorscheme<cr>')
 -- toggleterm mappings
 map('t', '<C-q>', '<cmd>close<cr>')
 map('t', '<Esc>', '<cmd>close<cr>')
+map('t', '<C-h>', [[<c-\><c-n><c-w>h]])
+map('t', '<C-j>', [[<c-\><c-n><c-w>j]])
+map('t', '<C-k>', [[<c-\><c-n><c-w>k]])
+map('t', '<C-l>', [[<c-\><c-n><c-w>l]])
 
 nmap('<A-t>', '<cmd>ToggleTerm direction=float<cr>')
 map('t', '<A-t>', '<cmd>ToggleTerm direction=float<cr>')
@@ -188,7 +196,7 @@ local on_attach = function(client, bufnr)
 	nmap_buf(bufnr, 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>')
 	nmap_buf(bufnr, 'D', '<cmd>lua vim.lsp.buf.hover()<cr>')
 	nmap_buf(bufnr, 'gi', 'cmd>lua vim.lsp.buf.implementation()<cr>')
-	nmap_buf(bufnr, '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<cr>')
+	nmap_buf(bufnr, '<space>h', '<cmd>lua vim.lsp.buf.signature_help()<cr>')
 	nmap_buf(bufnr, '<space>e', '<cmd>lua vim.diagnostic.open_float()<cr>')
 	nmap_buf(bufnr, '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<cr>')
 	nmap_buf(bufnr, '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<cr>')
@@ -289,10 +297,9 @@ require('packer').startup(function()
 	use { -- UI
 		{ 'akinsho/bufferline.nvim' }, -- nice buffer line
 		{ 'akinsho/toggleterm.nvim' }, -- better terminals
-		{ 'NvChad/nvterm' }, -- terminal popup and splits
 		{ 'folke/which-key.nvim' }, -- shortcut popup
-		{ 'folke/trouble.nvim' }, -- aesthetic diagnostics page
 		{ 'FeiyouG/command_center.nvim' }, -- command palette
+		{ 'folke/trouble.nvim' }, -- aesthetic diagnostics page
 		{ 'goolord/alpha-nvim' }, -- fancy start page
 		{ 'kosayoda/nvim-lightbulb' }, -- show a lightbulb for code actions
 		{ 'kyazdani42/nvim-tree.lua' }, -- filetree
@@ -321,6 +328,17 @@ end)
 --             Colors
 ----------------------------------
 cmd [[ colorscheme catppuccin ]]
+
+local catppuccin_colors = require('catppuccin.api.colors').get_colors()
+local darker_bg = '#181825'
+
+-- Highlight colors for DAP gutter symbols
+vim.highlight.create('DapBreakpoint', { ctermbg = 0, guifg = catppuccin_colors.red, guibg = darker_bg }, false)
+vim.highlight.create('DapLogPoint', { ctermbg = 0, guifg = catppuccin_colors.blue, guibg = darker_bg }, false)
+vim.highlight.create('DapStopped', { ctermbg = 0, guifg = catppuccin_colors.green, guibg = darker_bg }, false)
+
+-- Highlight color for SymbolsOutline preview popup
+vim.highlight.create('Pmenu', { ctermbg = 0, guifg = catppuccin_colors.text, guibg = darker_bg }, false)
 
 --================================================
 --                Plugin Configs
@@ -515,11 +533,7 @@ dap.listeners.before.event_exited['dapui_config'] = function()
 	dapui.close()
 end
 
--- Gutter colors and symbols
-vim.highlight.create('DapBreakpoint', { ctermbg = 0, guifg = '#993939', guibg = '#31353f' }, false)
-vim.highlight.create('DapLogPoint', { ctermbg = 0, guifg = '#61afef', guibg = '#31353f' }, false)
-vim.highlight.create('DapStopped', { ctermbg = 0, guifg = '#98c379', guibg = '#31353f' }, false)
-
+-- Gutter symbols
 fn.sign_define('DapBreakpoint', { text = '', texthl = 'DapBreakpoint', linehl = 'DapBreakpoint', numhl = 'DapBreakpoint' })
 fn.sign_define('DapBreakpointCondition', { text = 'ﳁ', texthl = 'DapBreakpoint', linehl = 'DapBreakpoint', numhl = 'DapBreakpoint' })
 fn.sign_define('DapBreakpointRejected', { text = '', texthl = 'DapBreakpoint', linehl = 'DapBreakpoint', numhl = 'DapBreakpoint' })
@@ -545,9 +559,7 @@ for type, icon in pairs(signs) do
 	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
 
-require('goto-preview').setup {
-	opacity = 7
-}
+require('goto-preview').setup {}
 
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 local lsp_installer = require('nvim-lsp-installer')
@@ -564,8 +576,6 @@ end)
 --        Lualine config
 ----------------------------------
 local lualine = require('lualine')
-
-local catppuccin_colors = require('catppuccin.api.colors').get_colors()
 
 -- Color table for highlights
 local lualine_colors = {
@@ -599,6 +609,13 @@ local config = {
 		-- Disable sections and component separators
 		component_separators = '',
 		disabled_filetypes = {
+			'dapui_breakpoints',
+			'dapui_hover',
+			'dapui_repl',
+			'dapui_stacks',
+			'dapui_scopes',
+			'dapui_watches',
+			'Outline',
 			'TelescopePrompt',
 		},
 		globalstatus = true,
@@ -1386,10 +1403,11 @@ wk.setup({
 		['<CR>'] = 'Enter',
 		['<Tab>'] = 'Tab',
 		['<C-B>'] = 'Ctrl + b',
+		['<C-H>'] = 'Ctrl + h',
+		['<C-J>'] = 'Ctrl + j',
 		['<C-K>'] = 'Ctrl + k',
-		['<c-k>'] = 'Ctrl + k',
 		['<C-L>'] = 'Ctrl + l',
-		['<C-N>'] = 'Ctrl + n',
+		['<C-F>'] = 'Ctrl + f',
 		['<C-Q>'] = 'Ctrl + q',
 		['<C-V>'] = 'Ctrl + v',
 		['<c-w>'] = 'Ctrl + w',
@@ -1624,9 +1642,12 @@ wk.register({
 	[';'] = 'Input command',
 	['\\'] = 'Search through all files',
 	['<c-b>'] = 'Toggle DAP sidebar',
-	['<c-k>'] = 'Open signature help',
-	['<c-l>'] = 'Unhighlight search results',
-	['<c-n>'] = 'Toggle file tree',
+	['<space>h'] = 'Open signature help',
+	['<c-h>'] = 'Go to window left',
+	['<c-l>'] = 'Go to window right',
+	['<C-j>'] = 'Go to window down',
+	['<c-k>'] = 'Go to window up',
+	['<c-f>'] = 'Toggle file tree',
 	['<c-q>'] = 'Close selected window',
 	['<c-v>'] = 'Split window vertically',
 	['<c-x>'] = 'Split window horizontally',

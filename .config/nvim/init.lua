@@ -598,6 +598,9 @@ local config = {
 	options = {
 		-- Disable sections and component separators
 		component_separators = '',
+		disabled_filetypes = {
+			'TelescopePrompt',
+		},
 		globalstatus = true,
 		section_separators = '',
 		theme = 'catppuccin',
@@ -635,7 +638,7 @@ end
 
 ins_left {
 	function()
-		return '▊'
+		return ''
 	end,
 	color = { fg = lualine_colors.blue }, -- Sets highlighting of component
 	padding = { left = 0, right = 1 }, -- We don't need space before this
@@ -677,17 +680,25 @@ ins_left {
 ins_left {
 	'filename',
 	cond = conditions.buffer_not_empty,
+	icon = '',
 	color = { fg = lualine_colors.magenta, gui = 'bold' },
 }
 
 ins_left {
 	'filesize',
 	cond = conditions.buffer_not_empty,
+	icon = '',
 }
 
-ins_left { 'location' }
+ins_left {
+	'location',
+	icon = '',
+}
 
-ins_left { 'progress', color = { fg = lualine_colors.fg, gui = 'bold' } }
+ins_left {
+	'progress',
+	icon = 'ﴜ',
+}
 
 ins_right {
 	'diagnostics',
@@ -718,7 +729,7 @@ ins_right {
 		return msg
 	end,
 	icon = ' LSP',
-	color = { fg = lualine_colors.orange, gui = 'bold' },
+	color = { fg = lualine_colors.red, gui = 'bold' },
 }
 
 ins_right {
@@ -726,6 +737,7 @@ ins_right {
 	fmt = string.upper,
 	cond = conditions.hide_in_width,
 	color = { fg = lualine_colors.green, gui = 'bold' },
+	icon = '',
 }
 
 ins_right {
@@ -754,7 +766,7 @@ ins_right {
 
 ins_right {
 	function()
-		return '▊'
+		return ''
 	end,
 	color = { fg = lualine_colors.blue },
 	padding = { left = 1 },

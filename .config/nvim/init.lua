@@ -338,12 +338,14 @@ highlight.create('DapBreakpoint',
 		guibg = catppuccin_colors.mantle
 	},
 	false)
+
 highlight.create('DapLogPoint',
 	{
 		ctermbg = 0,
 		guifg = catppuccin_colors.blue,
 		guibg = catppuccin_colors.mantle },
 	false)
+
 highlight.create('DapStopped',
 	{
 		ctermbg = 0,
@@ -366,18 +368,21 @@ highlight.create('SniprunVirtualTextOk',
 		guifg = catppuccin_colors.blue,
 		guibg = catppuccin_colors.mantle },
 	false)
+
 highlight.create('SniprunVirtualTextErr',
 	{
 		ctermbg = 0,
 		guifg = catppuccin_colors.red,
 		guibg = catppuccin_colors.mantle },
 	false)
+
 highlight.create('SniprunFloatingWinOk',
 	{
 		ctermbg = 0,
 		guifg = catppuccin_colors.blue,
 		guibg = catppuccin_colors.mantle },
 	false)
+
 highlight.create('SniprunFloatingWinErr',
 	{
 		ctermbg = 0,
@@ -495,6 +500,7 @@ autocmd('FileType', {
 		opt.laststatus = 0
 	end,
 })
+
 ----------------------------------
 --      auto-session config
 ----------------------------------
@@ -508,23 +514,23 @@ require('auto-session').setup {
 require('bufferline').setup {
 	options = {
 		always_show_bufferline = true,
-		buffer_close_icon = "",
-		close_icon = "",
+		buffer_close_icon = '',
+		close_icon = '',
 		diagnostics = false,
 		enforce_regular_tabs = false,
-		left_trunc_marker = "",
+		left_trunc_marker = '',
 		max_name_length = 14,
 		max_prefix_length = 13,
-		modified_icon = "",
+		modified_icon = '',
 		offsets = { { filetype = 'NvimTree', padding = 1 } },
-		right_trunc_marker = "",
-		separator_style = "thin",
+		right_trunc_marker = '',
+		separator_style = 'thin',
 		show_close_icon = false,
 		show_tab_indicators = true,
 		show_buffer_close_icons = true,
 		tab_size = 20,
 		themable = true,
-		view = "multiwindow",
+		view = 'multiwindow',
 	},
 }
 
@@ -755,9 +761,9 @@ ins_left {
 	icon = '',
 	color = function()
 		if vim.api.nvim_buf_get_option(0, 'modified') then
-			return { fg = lualine_colors.green, gui = 'bold' }
+			return { fg = lualine_colors.red, gui = 'bold' }
 		end
-		return { fg = lualine_colors.magenta, gui = 'bold' }
+		return { fg = lualine_colors.blue, gui = 'bold' }
 	end,
 }
 
@@ -1048,10 +1054,10 @@ require('nvim-treesitter.configs').setup {
 	incremental_selection = {
 		enable = true,
 		keymaps = {
-			init_selection = "vn",
-			node_incremental = "vnn",
-			scope_incremental = "vnc",
-			node_decremental = "vnp",
+			init_selection = 'vn',
+			node_incremental = 'vnn',
+			scope_incremental = 'vnc',
+			node_decremental = 'vnp',
 		},
 	},
 	textobjects = {
@@ -1070,10 +1076,10 @@ require('nvim-treesitter.configs').setup {
 			lookahead = true,
 
 			keymaps = {
-				["af"] = "@function.outer",
-				["if"] = "@function.inner",
-				["ac"] = "@class.outer",
-				["ic"] = "@class.inner",
+				['af'] = '@function.outer',
+				['if'] = '@function.inner',
+				['ac'] = '@class.outer',
+				['ic'] = '@class.inner',
 			},
 		},
 	},
@@ -1139,7 +1145,6 @@ require('telescope').setup {
 		use_less = true,
 		vimgrep_arguments = {
 			'rg',
-			'--hidden',
 			'--line-number',
 			'--column',
 			'--smart-case',
@@ -1506,15 +1511,8 @@ command_center.add({
 local wk = require('which-key')
 
 wk.setup({
-	icons = {
-		separator = '⟷',
-	},
 	ignore_missing = true,
 	key_labels = {
-		['<space>'] = 'Space',
-		['<BS>'] = 'Backspace',
-		['<CR>'] = 'Enter',
-		['<Tab>'] = 'Tab',
 		['<C-B>'] = 'Ctrl + b',
 		['<C-H>'] = 'Ctrl + h',
 		['<C-J>'] = 'Ctrl + j',
@@ -1539,6 +1537,10 @@ wk.setup({
 		['<Left>'] = '⬅',
 		['<S-Right>'] = 'Shift + ⇒',
 		['<S-Left>'] = 'Shift + ⬅',
+		['<space>'] = 'Space',
+		['<BS>'] = 'Backspace',
+		['<CR>'] = 'Enter',
+		['<Tab>'] = 'Tab',
 	}
 })
 
@@ -1554,7 +1556,6 @@ wk.register({
 		},
 		s = 'Surrounding',
 	},
-	B = 'Jump to first char of line',
 	b = {
 		name = 'DAP',
 		b = 'Toggle breakpoint',
@@ -1567,6 +1568,7 @@ wk.register({
 		t = '[DAP] Terminate',
 		v = '[DAP] List variables'
 	},
+	B = 'Jump to first char of line',
 	d = {
 		a = {
 			c = 'a class',
@@ -1701,6 +1703,7 @@ wk.register({
 		d = 'Open type definiton for symbol under cursor',
 		e = 'Open diagnostics window',
 		f = 'Format current file',
+		h = 'Open signature help',
 		k = 'Open keymap',
 		t = 'Toggle trouble menu',
 		w = {
@@ -1753,8 +1756,6 @@ wk.register({
 			f = 'a function',
 		},
 	},
-	[';'] = 'Input command',
-	['\\'] = 'Search through all files',
 	['<c-b>'] = 'Toggle DAP sidebar',
 	['<c-h>'] = 'Go to window left',
 	['<c-l>'] = 'Go to window right',
@@ -1780,5 +1781,6 @@ wk.register({
 	['<s-Right>'] = 'Move buffer right',
 	['<cr>'] = 'Insert blankline',
 	['<bs>'] = 'Delete line',
-	['<space>h'] = 'Open signature help',
+	[';'] = 'Input command',
+	['\\'] = 'Search through all files',
 })

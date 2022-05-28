@@ -330,15 +330,14 @@ end)
 cmd [[ colorscheme catppuccin ]]
 
 local catppuccin_colors = require('catppuccin.api.colors').get_colors()
-local darker_bg = '#181825'
 
 -- Highlight colors for DAP gutter symbols
-vim.highlight.create('DapBreakpoint', { ctermbg = 0, guifg = catppuccin_colors.red, guibg = darker_bg }, false)
-vim.highlight.create('DapLogPoint', { ctermbg = 0, guifg = catppuccin_colors.blue, guibg = darker_bg }, false)
-vim.highlight.create('DapStopped', { ctermbg = 0, guifg = catppuccin_colors.green, guibg = darker_bg }, false)
+vim.highlight.create('DapBreakpoint', { ctermbg = 0, guifg = catppuccin_colors.red, guibg = catppuccin_colors.mantle }, false)
+vim.highlight.create('DapLogPoint', { ctermbg = 0, guifg = catppuccin_colors.blue, guibg = catppuccin_colors.mantle }, false)
+vim.highlight.create('DapStopped', { ctermbg = 0, guifg = catppuccin_colors.green, guibg = catppuccin_colors.mantle }, false)
 
 -- Highlight color for SymbolsOutline preview popup
-vim.highlight.create('Pmenu', { ctermbg = 0, guifg = catppuccin_colors.text, guibg = darker_bg }, false)
+vim.highlight.create('Pmenu', { ctermbg = 0, guifg = catppuccin_colors.text, guibg = catppuccin_colors.mantle }, false)
 
 --================================================
 --                Plugin Configs

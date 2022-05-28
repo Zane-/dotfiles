@@ -106,8 +106,6 @@ nmap('<C-v>', '<cmd>vsp<cr>') -- Splits
 nmap('<C-x>', '<cmd>sp<cr>')
 nmap('<leader>dw', '<cmd>%s/\\s\\+$//<cr>:nohlsearch<cr>') -- delete trailing whitespace
 nmap('<leader>dm', '<cmd>%s/^M//g<cr>') -- delete ^M
-nmap('<S-s>', '<cmd>m+<cr>') -- move lines with shift+w/s
-nmap('<S-w>', '<cmd>m-2<cr>')
 vmap('<', '<gv') -- don't unselect after shifting in visual mode
 vmap('>', '>gv')
 nmap('<cr>', 'o<Esc>') -- insert blank line with enter
@@ -137,10 +135,6 @@ nmap('bt', '<cmd>DapTerminate<cr>')
 nmap('bo', '<cmd>DapStepOver<cr>')
 nmap('bi', '<cmd>DapStepInto<cr>')
 nmap('bO', '<cmd>DapStepOut<cr>')
-
--- hop mappings
-nmap('ww', '<cmd>HopWord<cr>')
-nmap('wl', '<cmd>HopLine<cr>')
 
 -- nvim-tree mappings
 nmap('<C-f>', '<cmd>NvimTreeToggle<cr>')
@@ -314,8 +308,8 @@ require('packer').startup(function()
 
 	use { -- Utility
 		{ 'famiu/bufdelete.nvim' }, -- better buffer delete command
+		{ 'ggandor/lightspeed.nvim' }, -- easy navigation
 		{ 'max397574/better-escape.nvim' }, -- better insert mode exit
-		{ 'phaazon/hop.nvim' }, -- easy navigation
 		{ 'rktjmp/paperplanes.nvim' }, -- upload buffer online
 		{ 'rmagatti/auto-session' }, -- sessions based on cwd
 		{ 'roxma/vim-paste-easy' }, -- auto-enter paste mode on paste
@@ -499,7 +493,7 @@ require('better_escape').setup {
 ----------------------------------
 require('catppuccin').setup {
 	integrations = {
-		hop = true,
+		lightspeed = true,
 	},
 }
 
@@ -548,9 +542,12 @@ fn.sign_define('DapStopped', { text = '', texthl = 'DapStopped', linehl = 'Da
 require('gitsigns').setup {}
 
 ----------------------------------
---          hop config
+--      lightspeed config
 ----------------------------------
-require('hop').setup { keys = 'etovxqpdygfblzhckisuran' }
+require('lightspeed').setup {
+	jump_to_unique_chars = false,
+	safe_labels = {}
+}
 
 ----------------------------------
 --          LSP config
@@ -1594,7 +1591,8 @@ wk.register({
 		n = 'Rename symbol under cursor',
 		w = 'Rename word under cursor',
 	},
-	S = 'Move line down',
+	s = 'Jump to text forwards',
+	S = 'Jump to text backwards',
 	v = {
 		a = {
 			c = 'a class',
@@ -1607,14 +1605,11 @@ wk.register({
 		r = 'Execute code',
 	},
 	w = {
-		name = 'Navigation / Save',
+		name = 'Save / Jump',
 		j = 'Jump to buffer',
-		l = 'Jump to line',
 		q = 'Save and quit',
 		r = 'Save',
-		w = 'Jump to word',
 	},
-	W = 'Move line up',
 	y = {
 		a = {
 			c = 'a class',

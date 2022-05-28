@@ -1,9 +1,9 @@
 --================================================
 --                Neovim Config
---    Author: Zane Bilous
+--    Author: Zane B.
 --    Last Modified: 05/28/2022
 --    Dependencies:
---      ripgrep, fzf
+--      fzf, ripgrep
 --================================================
 
 ----------------------------------
@@ -11,10 +11,77 @@
 ----------------------------------
 local autocmd   = vim.api.nvim_create_autocmd
 local cmd       = vim.cmd
+local fn        = vim.fn
 local g         = vim.g
 local highlight = vim.highlight
-local fn        = vim.fn
 local opt       = vim.opt
+
+----------------------------------
+--             Colors
+----------------------------------
+cmd [[ colorscheme catppuccin ]]
+
+local catppuccin_colors = require('catppuccin.api.colors').get_colors()
+
+-- Highlights for DAP gutter symbols
+highlight.create('DapBreakpoint',
+	{
+		ctermbg = 0,
+		guifg = catppuccin_colors.red,
+		guibg = catppuccin_colors.mantle
+	},
+	false)
+
+highlight.create('DapLogPoint',
+	{
+		ctermbg = 0,
+		guifg = catppuccin_colors.blue,
+		guibg = catppuccin_colors.mantle },
+	false)
+
+highlight.create('DapStopped',
+	{
+		ctermbg = 0,
+		guifg = catppuccin_colors.green,
+		guibg = catppuccin_colors.mantle },
+	false)
+
+-- Highlights for SymbolsOutline preview popup
+highlight.create('Pmenu',
+	{
+		ctermbg = 0,
+		guifg = catppuccin_colors.text,
+		guibg = catppuccin_colors.mantle },
+	false)
+
+-- Highlights for Sniprun
+highlight.create('SniprunVirtualTextOk',
+	{
+		ctermbg = 0,
+		guifg = catppuccin_colors.blue,
+		guibg = catppuccin_colors.mantle },
+	false)
+
+highlight.create('SniprunVirtualTextErr',
+	{
+		ctermbg = 0,
+		guifg = catppuccin_colors.red,
+		guibg = catppuccin_colors.mantle },
+	false)
+
+highlight.create('SniprunFloatingWinOk',
+	{
+		ctermbg = 0,
+		guifg = catppuccin_colors.blue,
+		guibg = catppuccin_colors.mantle },
+	false)
+
+highlight.create('SniprunFloatingWinErr',
+	{
+		ctermbg = 0,
+		guifg = catppuccin_colors.red,
+		guibg = catppuccin_colors.mantle },
+	false)
 
 ----------------------------------
 --           Options
@@ -58,7 +125,7 @@ autocmd('TermOpen', {
 })
 
 ----------------------------------
---            Mappings
+--           Mappings
 ----------------------------------
 local function map(mode, shortcut, command)
 	vim.api.nvim_set_keymap(mode, shortcut, command, { noremap = true, silent = true })
@@ -87,35 +154,47 @@ end
 g.mapleader = ',' -- remap leader to ,
 
 nmap(';', ':') -- easy command input
+
 nmap('wr', '<cmd>w!<cr>') -- Quick Save/Quit
 nmap('wq', '<cmd>wq!<cr>')
 nmap('qa', '<cmd>qa<cr>')
+nmap('qq', '<cmd>Bdelete<cr>') -- close buffer but preserve window layout
+
 nmap('B', '^') -- Line navigation
 nmap('E', '$')
 nmap('j', 'gj') -- move up and down by display rather than line number
 nmap('k', 'gk')
+
 nmap('<C-h>', [[<c-\><c-n><c-w>h]]) -- easy window navigation
 nmap('<C-j>', [[<c-\><c-n><c-w>j]])
 nmap('<C-k>', [[<c-\><c-n><c-w>k]])
 nmap('<C-l>', [[<c-\><c-n><c-w>l]])
-nmap('<leader><space>', '<cmd>nohlsearch<cr>') -- Turn off search highlight
+nmap('<C-q>', '<cmd>:close<cr>') -- close window
+
 nmap('rg', ':%s/') -- Replace
 nmap('rl', ':s/')
 nmap('rw', ':%s/\\<<C-r><C-w>\\>/')
-nmap('qq', '<cmd>Bdelete<cr>') -- Buffers
+
+nmap('<leader><space>', '<cmd>nohlsearch<cr>') -- Turn off search highlight
+
 nmap('<C-v>', '<cmd>vsp<cr>') -- Splits
 nmap('<C-x>', '<cmd>sp<cr>')
+
 nmap('<leader>dw', '<cmd>%s/\\s\\+$//<cr>:nohlsearch<cr>') -- delete trailing whitespace
 nmap('<leader>dm', '<cmd>%s/^M//g<cr>') -- delete ^M
+
 vmap('<', '<gv') -- don't unselect after shifting in visual mode
 vmap('>', '>gv')
+
 nmap('<cr>', 'o<Esc>') -- insert blank line with enter
 nmap('<bs>', 'dd') -- delete line with backspace
-nmap('<C-q>', '<cmd>:close<cr>') -- close window
+
 nmap('<F1>', '<cmd>lua vim.diagnostic.goto_prev()<cr>') -- cycle between diagnostics
 nmap('<F2>', '<cmd>lua vim.diagnostic.goto_next()<cr>')
-nmap('<leader>cf', '<cmd>e $MYVIMRC | :cd %:p:h <cr>')
+
 nmap('<LeftDrag>', '<LeftMouse>') -- disable mouse drag entering visual mode
+
+nmap('<leader>cf', '<cmd>e $MYVIMRC | :cd %:p:h <cr>') -- open this config
 
 -- bufferline mappings
 nmap('<Left>', '<cmd>BufferLineCyclePrev<cr>')
@@ -260,6 +339,7 @@ require('packer').startup(function()
 		{ 'mfussenegger/nvim-dap' }, -- debugger
 		{ 'mfussenegger/nvim-dap-python' }, -- debugger config for python
 		{ 'nvim-telescope/telescope-dap.nvim' },
+		{ 'rcarriga/nvim-dap-ui' }, -- UI for debugger
 		{ 'theHamsta/nvim-dap-virtual-text' },
 	}
 
@@ -276,7 +356,6 @@ require('packer').startup(function()
 		{ 'nvim-treesitter/nvim-treesitter' }, -- additional syntax highlighting
 		{ 'nvim-treesitter/nvim-treesitter-textobjects' },
 		{ 'rafamadriz/friendly-snippets' }, -- snippets
-		{ 'rcarriga/nvim-dap-ui' }, -- UI for debugger
 		{ 'skywind3000/asyncrun.vim' }, -- run commands async
 		{ 'tpope/vim-surround' }, -- easily change surrounding brackets, quotes, etc.
 		{ 'windwp/nvim-ts-autotag' }, -- autoclose html, etc. tags
@@ -322,73 +401,6 @@ require('packer').startup(function()
 		{ 'wellle/targets.vim' }, -- more text objects
 	}
 end)
-
-----------------------------------
---             Colors
-----------------------------------
-cmd [[ colorscheme catppuccin ]]
-
-local catppuccin_colors = require('catppuccin.api.colors').get_colors()
-
--- Highlights for DAP gutter symbols
-highlight.create('DapBreakpoint',
-	{
-		ctermbg = 0,
-		guifg = catppuccin_colors.red,
-		guibg = catppuccin_colors.mantle
-	},
-	false)
-
-highlight.create('DapLogPoint',
-	{
-		ctermbg = 0,
-		guifg = catppuccin_colors.blue,
-		guibg = catppuccin_colors.mantle },
-	false)
-
-highlight.create('DapStopped',
-	{
-		ctermbg = 0,
-		guifg = catppuccin_colors.green,
-		guibg = catppuccin_colors.mantle },
-	false)
-
--- Highlights for SymbolsOutline preview popup
-highlight.create('Pmenu',
-	{
-		ctermbg = 0,
-		guifg = catppuccin_colors.text,
-		guibg = catppuccin_colors.mantle },
-	false)
-
--- Highlights for Sniprun
-highlight.create('SniprunVirtualTextOk',
-	{
-		ctermbg = 0,
-		guifg = catppuccin_colors.blue,
-		guibg = catppuccin_colors.mantle },
-	false)
-
-highlight.create('SniprunVirtualTextErr',
-	{
-		ctermbg = 0,
-		guifg = catppuccin_colors.red,
-		guibg = catppuccin_colors.mantle },
-	false)
-
-highlight.create('SniprunFloatingWinOk',
-	{
-		ctermbg = 0,
-		guifg = catppuccin_colors.blue,
-		guibg = catppuccin_colors.mantle },
-	false)
-
-highlight.create('SniprunFloatingWinErr',
-	{
-		ctermbg = 0,
-		guifg = catppuccin_colors.red,
-		guibg = catppuccin_colors.mantle },
-	false)
 
 --================================================
 --                Plugin Configs
@@ -509,7 +521,7 @@ require('auto-session').setup {
 }
 
 ----------------------------------
---      bufferline config
+--       bufferline config
 ----------------------------------
 require('bufferline').setup {
 	options = {
@@ -676,8 +688,11 @@ local config = {
 			'dapui_stacks',
 			'dapui_scopes',
 			'dapui_watches',
+			'NvimTree',
 			'Outline',
+			'packer',
 			'TelescopePrompt',
+			'toggleterm',
 		},
 		globalstatus = true,
 		section_separators = '',
@@ -1165,7 +1180,7 @@ require('telescope').load_extension('fzf')
 
 ---------------------------------
 --      toggleterm config
-----------------------------------
+---------------------------------
 require 'toggleterm'.setup {
 	shade_terminals = false,
 }

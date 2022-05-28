@@ -694,7 +694,7 @@ ins_right {
 ins_right {
 	-- LSP server name
 	function()
-		local msg = 'N/A'
+		local msg = '⟪N/A⟫'
 		local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
 		local clients = vim.lsp.get_active_clients()
 		if next(clients) == nil then
@@ -703,12 +703,12 @@ ins_right {
 		for _, client in ipairs(clients) do
 			local filetypes = client.config.filetypes
 			if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
-				return client.name
+				return '⟪' .. client.name .. '⟫'
 			end
 		end
 		return msg
 	end,
-	icon = ' LSP:',
+	icon = ' LSP',
 	color = { fg = '#ffffff', gui = 'bold' },
 }
 

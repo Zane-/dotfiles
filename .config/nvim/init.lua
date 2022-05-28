@@ -147,6 +147,7 @@ nmap('<C-f>', '<cmd>NvimTreeToggle<cr>')
 
 -- SnipRun mappings
 nmap('er', '<cmd>SnipRun<cr>')
+nmap('el', '<cmd>SnipLive<cr>')
 nmap('eq', '<cmd>SnipReset<cr>')
 nmap('ec', '<cmd>SnipClose<cr>')
 vmap('r', '<Plug>SnipRun')
@@ -1219,6 +1220,10 @@ command_center.add({
 		cmd = '<cmd>checkhealth<cr>',
 	},
 	{
+		description = 'Toggle live code execution',
+		cmd = '<cmd>SnipLive<cr>',
+	},
+	{
 		description = 'Open DAP commands',
 		cmd = '<cmd>Telescope dap commands<cr>',
 	},
@@ -1521,6 +1526,7 @@ wk.register({
 	e = {
 		name = 'Code execution',
 		c = 'Clear all execution results',
+		l = 'Toggle live code execution',
 		r = 'Execute line of code',
 		q = 'Stop currently executing code',
 	},

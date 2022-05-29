@@ -64,6 +64,7 @@ alias z='fasd_cd -d'     # cd, same functionality as j in autojump
 alias zz='fasd_cd -d -i' # cd with interactive selection
 
 # git
+alias lg="lazygit"
 alias gpom="git push -u origin main"
 alias gpoma="git push -u origin master"
 alias gpw="git config credential.helper 'cache --timeout=72000'"

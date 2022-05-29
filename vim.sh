@@ -4,7 +4,7 @@ mkdir -p ~/dotfiles/backups
 
 if [ -x "$(command -v apt-get)" ]; then
 	sudo apt-get update
-	sudo apt-get install build-esential cmake python3-dev default-jdk
+	sudo apt-get install build-essential cmake python3-dev default-jdk
 else
 	if [ -x "$(command -v brew)" ]; then
 		brew update

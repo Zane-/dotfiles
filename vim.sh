@@ -1,9 +1,6 @@
 #!/bin/bash
 
 mkdir -p ~/dotfiles/backups
-mkdir -p ~/.vim/backups
-mkdir -p ~/.vim/swapfiles
-mkdir -p ~/.vim/undodir
 
 if [ -x "$(command -v apt-get)" ]; then
 	sudo apt-get update
@@ -50,46 +47,8 @@ if [ ! -x "$(command -v fzf)" ]; then
 
 fi
 
-if [ ! -x "$(command -v ctags)" ]; then
-	echo "[+] Installing universal-ctags"
-	if [ -x "$(command -v apt-get)" ]; then
-		sudo apt-get install universal-ctags
-	else
-		if [ -x "$(command -v brew)" ]; then
-			brew install universal-ctags
-		fi
-	fi
-fi
-
-if [ ! -x "$(command -v yapf)" ]; then
-	echo "[+] Installing yapf"
-	if [ -x "$(command -v python3)" ]; then
-		python3 -m pip install yapf
-	else
-		"[-] Failed to install yapf, please install python3 with pip support"
-	fi
-fi
-
-if [ ! -x "$(command -v clang-format)" ]; then
-	echo "[+] Installing clang-format"
-	if [ -x "$(command -v apt-get)" ]; then
-		sudo apt-get install clang-format
-	else
-		if [ -x "$(command -v brew)" ]; then
-			brew install clang-format
-		fi
-	fi
-fi
-
-if [ -f ~/.vimrc ]; then
-	mv ~/.vimrc ~/dotfiles/backups
-fi
-
-ln -sf ~/dotfiles/.vimrc ~/.vimrc
-echo "[+] Linked .vimrc"
-
 if [-f ~/.config/nvim/init.vim]; then
-	mv ~/.vimrc ~/dotfiles/backups
+	mv ~/.config/nvim/init.lua ~/dotfiles/backups
 fi
 
 mkdir -p ~/.config/nvim
@@ -100,7 +59,7 @@ echo "[+] Installing packer"
 git clone --depth 1 https://github.com/wbthomason/packer.nvim\
  ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 
-nvim +PackerInstall
+nvim +PackerSync
 
 echo "[+] Setup complete. Any existing files have been moved to ~/dotfiles/backups"
 

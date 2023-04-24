@@ -23,9 +23,6 @@ then
     tmux new-session -A -s main
 fi
 
-# Source aliases
-source ~/dotfiles/.aliases
-
 # Source prezto
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 	source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
@@ -49,3 +46,6 @@ fi
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
+
+# Source aliases
+source "$HOME/dotfiles/.aliases"

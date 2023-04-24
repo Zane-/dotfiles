@@ -1,5 +1,9 @@
 # Configuration for Alacritty, the GPU enhanced terminal emulator
 
+colors:
+  primary:
+    background: '#1e1e2e'
+
 env:
   TERM: xterm-256color
     
@@ -17,6 +21,17 @@ font:
     style: Regular
 
   size: 14.0
+
+# Bindings for tmux
+key_bindings:
+  - { key: V, mods: Command, chars: "\x01\x76" }
+  - { key: S, mods: Command, chars: "\x01\x73" }
+  - { key: T, mods: Command, chars: "\x01\x63" }
+  - { key: X, mods: Command, chars: "\x01\x78" }
+  - { key: J, mods: Command, chars: "\x01\x6A" }
+  - { key: K, mods: Command, chars: "\x01\x6B" }
+  - { key: H, mods: Command, chars: "\x01\x68" }
+  - { key: L, mods: Command, chars: "\x01\x6C" }
 
 window:
   decorations: Buttonless

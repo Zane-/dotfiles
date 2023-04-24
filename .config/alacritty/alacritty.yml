@@ -1,0 +1,27 @@
+# Configuration for Alacritty, the GPU enhanced terminal emulator
+
+env:
+  TERM: xterm-256color
+    
+font:
+  bold:
+    family: RobotoMono Nerd Font
+    style: Bold
+
+  italic:
+    family: RobotoMono Nerd Font
+    style: Italic
+
+  normal:
+    family: RobotoMono Nerd Font
+    style: Regular
+
+  size: 14.0
+
+window:
+  decorations: Buttonless
+  opacity: 0.95
+  padding:
+    x: 0
+    y: 0
+

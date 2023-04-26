@@ -49,3 +49,5 @@ export PATH="$PATH:$HOME/.rvm/bin"
 
 # Source aliases
 source "$HOME/dotfiles/.aliases"
+# Source functions
+source "$HOME/dotfiles/.functions"

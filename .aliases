@@ -73,3 +73,5 @@ alias grh="git reset HEAD~"
 alias gcu="git reset --soft HEAD~1"
 
 alias vim="nvim"
+
+alias mux="tmuxinator"

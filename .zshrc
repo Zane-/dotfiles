@@ -3,7 +3,7 @@ if [[ "$PROFILE_STARTUP" == true  ]]; then
 	zmodload zsh/zprof # Output load-time statistics
 	# http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
 	PS4=$'%D{%M%S%.} %N:%i> '
-	exec 3>&2 2>"${XDG_CACHE_HOME:-$HOME/tmp}/zsh_statup.$$"
+	exec 3>&2 2>"${XDG_CACHE_HOME:-$HOME/tmp}/zsh_startup.$$"
 	setopt xtrace prompt_subst
 fi
 

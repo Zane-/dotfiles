@@ -51,3 +51,6 @@ export PATH="$PATH:$HOME/.rvm/bin"
 source "$HOME/dotfiles/.aliases"
 # Source functions
 source "$HOME/dotfiles/.functions"
+
+# Start starship
+eval "$(starship init zsh)"

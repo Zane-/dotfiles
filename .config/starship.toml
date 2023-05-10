@@ -8,6 +8,7 @@ $git_status\
 $git_metrics\
 $fill\
 $nodejs\
+$python\
 $cmd_duration $jobs $time\
 $line_break\
 $character"""
@@ -57,6 +58,10 @@ style = "yellow"
 
 [memory_usage]
 symbol = " "
+
+[python]
+format = '[${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
+symbol = " "
 
 [rust]
 symbol = " "

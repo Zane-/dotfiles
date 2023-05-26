@@ -23,17 +23,3 @@ fi
 #         pyenv $@
 #     }
 # fi
-
-export PATH="$HOME/.local/bin:$PATH"
-
-if [ -x "$(command -v yarn global bin)" ]; then
-	export PATH="$(yarn global bin):$PATH"
-fi
-
-if [ -x "$(command -v npm)" ]; then
-	export PATH="$HOME/.npm-packages/bin:$PATH"
-fi
-
-if [[ -f "$HOME/.cargo/env" ]]; then
-	. "$HOME/.cargo/env"
-fi

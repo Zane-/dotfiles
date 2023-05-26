@@ -44,13 +44,37 @@ if [[ "$PROFILE_STARTUP" == true  ]]; then
 fi
 
 
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
-
 # Source aliases
 source "$HOME/dotfiles/.aliases"
 # Source functions
 source "$HOME/dotfiles/.functions"
+# Source environment variables
+source "$HOME/dotfiles/.environment_variables"
 
 # Start starship
 eval "$(starship init zsh)"
+
+
+# Add stuff to $PATH
+export PATH="$HOME/.local/bin:$PATH"
+
+if [ -x "$(command -v yarn global bin)" ]; then
+	export PATH="$(yarn global bin):$PATH"
+fi
+
+if [ -x "$(command -v npm)" ]; then
+	export PATH="$HOME/.npm-packages/bin:$PATH"
+fi
+
+if [[ -d "$HOME/.cargo/env" ]]; then
+	. "$HOME/.cargo/env"
+fi
+
+if [[ -d "$HOME/.cargo/bin" ]]; then
+	export PATH="$PATH:$HOME/.cargo/bin"
+fi
+
+if [[ -d "$HOME/.rvm/bin" ]]; then
+	export PATH="$PATH:$HOME/.rvm/bin"
+fi
+

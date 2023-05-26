@@ -1,5 +1,6 @@
 .funcs
 .p_aliases
+.environment_variables
 .zshenv
 backups/**
 tags

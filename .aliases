@@ -75,3 +75,5 @@ alias gcu="git reset --soft HEAD~1"
 alias vim="nvim"
 
 alias mux="tmuxinator"
+
+alias clip='clip.exe' # Copy to clipboard for WSL

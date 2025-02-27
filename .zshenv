@@ -23,3 +23,4 @@ fi
 #         pyenv $@
 #     }
 # fi
+. "$HOME/.cargo/env"

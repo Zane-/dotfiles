@@ -29,6 +29,7 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 export FZF_DEFAULT_COMMAND="rg --files --hidden --follow --glob '!.git'"
+export FZF_CTRL_R_OPTS='--height 40%'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_CTRL_T_OPTS="--ansi --preview-window='right:60%' --preview='bat --color=always --style=header,grid --line-range :300 {}'"
 

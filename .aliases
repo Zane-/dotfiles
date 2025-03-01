@@ -17,6 +17,9 @@ alias compress="tar -czvf" # create gzip archive
 alias extract="tar -xzvf" # extract gzip archive
 alias wget="wget -c" # resume downloads
 
+# file management
+alias rmrf="rm -rf"
+
 # directory navigation
 alias cd..="cd .."
 alias ..="cd .."

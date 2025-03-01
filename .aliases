@@ -43,9 +43,9 @@ alias de="deactivate"
 alias dcu="docker-compose up"
 
 # eza
-alias l="eza --icons -a"
-alias la="eza --icons -a"
-alias ll="eza --icons -l -a"
+alias l="eza --icons -a --group-directories-first"
+alias la="eza --icons -a --group-directories-first"
+alias ll="eza --icons -l -a --group-directories-first"
 
 # fzf
 alias fz="fzf-tmux --ansi --preview='right:60%' --preview 'bat --color=always --style=header,grid --line-range :300 {}'"

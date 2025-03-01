@@ -34,6 +34,10 @@ alias agup="sudo apt-get upgrade"
 alias agr="sudo apt-get remove"
 alias agar="sudo apt-get autoremove"
 alias aar="sudo add-apt-repository"
+alias ni="sudo nala install"
+alias nu="sudo nala update"
+alias nup="sudo nala upgrade"
+alias nr="sudo nala remove"
 
 # programming
 alias rb="ruby"
